@@ -1,0 +1,12 @@
+min number
+__________
+begin
+min = 2^31-1 // najveca vrednost int-a
+input a
+if a != 0
+    if a < min
+        min = a
+    goto input a // treca linija koda
+else
+    print min
+    end

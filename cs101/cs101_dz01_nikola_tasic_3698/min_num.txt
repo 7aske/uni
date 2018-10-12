@@ -1,0 +1,8 @@
+eur to rsd converter
+____________________
+begin
+input k //trenutni kurs
+input e
+d = k * e
+print d
+end

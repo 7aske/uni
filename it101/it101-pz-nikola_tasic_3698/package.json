@@ -1,0 +1,14 @@
+{
+  "name": "it101-pz-nikola_tasic_3698",
+  "version": "1.0.0",
+  "description": "Projektni zadatak IT101",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nikola Tasic 3698",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.1.3"
+  }
+}

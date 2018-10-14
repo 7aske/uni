@@ -38,7 +38,7 @@ public class Zadatak18 {
 	    final float execTime = (System.nanoTime() - startTime) / 1000000;
 
 	    String out = String.format("Your income for the month of %s is %.2fRSD\n"
-		    + "Execution time of the program is %.2f milliseconds\n", getMonth(m), income, execTime);
+		    + "Execution time of the program was %.2f milliseconds\n", getMonth(m), income, execTime);
 	    JOptionPane.showMessageDialog(output, out);
 	    output.setVisible(true);
 	    System.exit(0);

@@ -4,7 +4,7 @@ public class Zadatak18 {
     public static void main(String[] args){
         new Zadatak18();
     }
-    public Zadatak18(){
+    private Zadatak18(){
         int a,b,c,o;
         a = safeInput();
         b = safeInput();
@@ -18,10 +18,9 @@ public class Zadatak18 {
             o = b;
         else
             o = c;
-
         System.out.printf("Najveci broj je: %d",o);
     }
-    int safeInput(){
+    private int safeInput(){
         Scanner input = new Scanner(System.in);
         System.out.print("Unesite ceo broj: ");
         while(!input.hasNextInt()){

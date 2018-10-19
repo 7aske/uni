@@ -60,7 +60,7 @@ public class Zadatak2 {
 	final float execTime = (endTime - startTime) / 1000000;	 // Execution time in miliseconds
 
 	System.out.printf("Average of numbers %.2f %.2f %.2f is %.2f\n"
-		+ "Execution time of the program was %.2f milliseconds\n", a, b, c, r, execTime);
+		+ "Execution time of the program is %.2f miliseconds\n", a, b, c, r, execTime);
     }
 
 }

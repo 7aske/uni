@@ -19,10 +19,8 @@ public class Zadatak8 {
                 System.out.printf("%d is \"%c\" in ascii table.", a, c);
             }
         } catch (InputMismatchException e){
+            System.out.print("Number has to be between 0 and 127\n");
             System.exit(1);
         }
-
-
-
     }
 }

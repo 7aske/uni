@@ -18,6 +18,8 @@ public class Shop {
 
 	}
 
+	public double getRevenue(){ return revenue; }
+
 	public String getName() {
 		return name;
 	}

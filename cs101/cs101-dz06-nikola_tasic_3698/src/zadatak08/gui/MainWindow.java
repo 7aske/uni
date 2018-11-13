@@ -119,6 +119,7 @@ class BuyButton extends JButton {
 		this.addActionListener(e->{
 			w.buy();
 		});
+
 	}
 
 }

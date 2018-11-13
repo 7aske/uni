@@ -18,7 +18,7 @@ public class Customer {
 		this.email = email;
 		this.phone = phone;
 		this.member = member;
-		this.uid = UUID.randomUUID().toString();
+		this.uid = UUID.randomUUID().toString().split("-")[0];
 	}
 
 	public Customer(String firstName, String lastName, String address, String email, String phone) {
@@ -28,7 +28,7 @@ public class Customer {
 		this.email = email;
 		this.phone = phone;
 		this.member = false;
-		this.uid = UUID.randomUUID().toString();
+		this.uid = UUID.randomUUID().toString().split("-")[0];
 	}
 
 	public String getFirstName() {
@@ -77,5 +77,9 @@ public class Customer {
 
 	public void setMember(boolean member) {
 		this.member = member;
+	}
+
+	public String getUid() {
+		return uid;
 	}
 }

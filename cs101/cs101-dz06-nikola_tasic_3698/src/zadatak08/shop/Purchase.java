@@ -24,6 +24,10 @@ public class Purchase {
 		return v;
 	}
 
+	public double getValue() {
+		return value;
+	}
+
 	public void addProduct(Product p) {
 		this.purchesed_products.add(p);
 		this.value = this.calculateValue();

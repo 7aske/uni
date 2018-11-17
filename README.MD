@@ -1,4 +1,9 @@
-# Personal university lectures/curriculum/projects repository
+# Metropolitan University - Software Engineering - 1
+## Personal university lectures/curriculum/projects repository
 
-1. IT101
-	* [IT101-PZ](https://7aske.github.io/uni/it101/it101-pz-nikola_tasic_3698)
+1. [IT101](https://github.com/7aske/uni/tree/master/it101)
+	* [IT101-PZ(WIP)](https://7aske.github.io/uni/it101/it101-pz-nikola_tasic_3698)
+2. [CS101](https://github.com/7aske/uni/tree/master/cs101)
+	* > CS101-PZ
+3. [NT11](https://github.com/7aske/uni/tree/master/nt111)
+	* > NT111-HRA

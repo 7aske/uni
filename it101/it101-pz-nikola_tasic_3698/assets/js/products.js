@@ -5,7 +5,7 @@ buttons.forEach(b => {
 	});
 });
 function toggleLearnMore(e) {
-	const content = e.target.parentElement.parentElement.children[1];
+	const content = e.target.parentElement.parentElement.children[2];
 	content.classList.toggle('fade');
 }
 
@@ -21,7 +21,9 @@ class ScrollHandler {
 			this.keyDown(e.keyCode);
 		});
 		document.querySelector('main').addEventListener('mousewheel', e => {
-			e.preventDefault();
+			if (e.keyCode >= 36 && event.keyCode <= 40) {
+				e.preventDefault();
+			}
 			this.scroll(e.deltaY);
 		});
 		setInterval(() => {
@@ -51,6 +53,14 @@ class ScrollHandler {
 	move() {
 		if (this.canMove) {
 			this.sections[this.currentIndex].scrollIntoView({ behavior: 'smooth', block: 'end' });
+			this.sections[this.currentIndex].children[0].classList.add('animated');
+			this.sections[this.currentIndex].children[0].classList.add('slideInRight');
+			for (let i = 0; i < this.sections.length; i++) {
+				if (i != this.currentIndex) {
+					this.sections[i].children[0].classList.remove('animated');
+					this.sections[i].children[0].classList.remove('slideInRight');
+				}
+			}
 			this.canMove = false;
 		}
 	}

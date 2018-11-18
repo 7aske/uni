@@ -29,74 +29,15 @@ main {
 	background-size: 100%;
 	background-position: center;
 	background-repeat: no-repeat;
-	#ts {
-		background-image: url('../img/ts-default.jpg');
-	}
-	#tx {
-		background-image: url('../img/tx-default.jpg');
-	}
-	#t3 {
-		background-image: url('../img/t3-default.jpg');
-	}
-	#tr {
-		background-image: url('../img/tr-default.jpg');
-	}
+
 	#main-logo {
 		background-image: url('../img/main-default.png');
-	}
-	section {
 		height: 93vh;
-		width: 100%;
-		border-bottom: 2px solid rgba(255, 255, 255, 0.8);
-		background-size: auto 100%;
-		background-repeat: no-repeat;
+		width: 100vw;
+		margin-top: 6vh;
+		background-size: 100%;
 		background-position: center;
-		.section-more {
-			position: relative;
-			display: flex;
-			justify-content: space-around;
-			flex-direction: row;
-			margin: 0px auto;
-			top: 25%;
-			button {
-				border-radius: 30px;
-				font-size: 22px;
-				// background-color: rgba(255, 255, 255, 0.3);
-				border: 4px solid black;
-				font-family: 'Gotham';
-				font-weight: 700;
-				color: white;
-				width: 200px;
-				display: inline-block;
-				background-color: rgb(226, 29, 29);
-			}
-			.learnMore {
-				background-color: rgba(255, 255, 255, 0.3);
-				color: black;
-			}
-		}
-		.fade {
-			opacity: 0;
-		}
-		.content {
-			transition: 500ms;
-			position: relative;
-			top: 40%;
-			background-color: rgba(0, 0, 0, 0.35);
-			height: 400px;
-			width: 100vw;
-			li {
-				font-family: 'Gotham';
-				font-weight: 700;
-				display: flex;
-				flex-direction: row;
-				justify-content: space-between;
-				span {
-					width: 100px;
-					text-align: right;
-				}
-			}
-		}
+		background-repeat: no-repeat;
 	}
 }
 ::-webkit-scrollbar {
@@ -112,9 +53,4 @@ main {
 	background-color: white;
 	outline: 1px solid white;
 	border-radius: 7px;
-}
-@media screen and (min-width: 1500px) {
-	section {
-		background-size: 100% !important;
-	}
 }

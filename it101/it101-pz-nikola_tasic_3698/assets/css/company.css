@@ -1,0 +1,29 @@
+main #company-about {
+  background-image: url(../img/main-default.png);
+}
+
+main section {
+  padding-top: 2%;
+  min-height: 93vh;
+  width: 100%;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+main section p,
+main section h3,
+main section h2 {
+  margin-bottom: 30px;
+  border-radius: 7px;
+  text-align: justify;
+  padding: 15px;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.2);
+  font-family: 'Gotham';
+}
+
+main section h3 {
+  text-align: center;
+}

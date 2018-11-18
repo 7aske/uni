@@ -25,6 +25,11 @@ header div {
   padding-top: 2px;
 }
 
+header .active {
+  background-color: red;
+  border-radius: 10px;
+}
+
 main {
   height: 93vh;
   width: 100vw;

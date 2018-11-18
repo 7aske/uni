@@ -1,0 +1,9 @@
+main section {
+  padding-top: 20px;
+}
+
+main section .card {
+  padding: 15px;
+  background-color: #343434;
+  color: white;
+}

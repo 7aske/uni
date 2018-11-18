@@ -21,6 +21,10 @@ header {
 		height: 60px;
 		padding-top: 2px;
 	}
+	.active {
+		background-color: red;
+		border-radius: 10px;
+	}
 }
 main {
 	height: 93vh;

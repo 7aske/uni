@@ -11,7 +11,7 @@ body {
 
 header {
   width: 100vw;
-  font-size: 20px;
+  font-size: 16px;
   font-family: Gotham;
   height: 6vh;
   border-bottom: 2px solid rgba(255, 255, 255, 0.8);
@@ -86,4 +86,10 @@ footer .col-8 div {
   background-color: white;
   outline: 1px solid white;
   border-radius: 7px;
+}
+
+@media screen and (max-width: 835px) {
+  header {
+    height: 12vh !important;
+  }
 }

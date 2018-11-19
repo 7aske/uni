@@ -1,9 +1,14 @@
-main #company-careers .container {
+main #company-careers {
   background-image: url("../img/main-default.png");
   height: 93vh;
-  background-size: 100%;
+  background-size: auto 100%;
   margin-top: 12vh;
   background-position: center;
+  background-repeat: no-repeat;
+}
+
+main #company-careers .container {
+  margin-top: 12vh;
 }
 
 main #company-careers #file-upload {

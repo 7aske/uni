@@ -1,11 +1,15 @@
 main {
+	.section {
+	}
 	#company-careers {
+		background-image: url('../img/main-default.png');
+		height: 93vh;
+		background-size: auto 100%;
+		margin-top: 12vh;
+		background-position: center;
+		background-repeat: no-repeat;
 		.container {
-			background-image: url('../img/main-default.png');
-			height: 93vh;
-			background-size: 100%;
 			margin-top: 12vh;
-			background-position: center;
 		}
 		#file-upload {
 			form {

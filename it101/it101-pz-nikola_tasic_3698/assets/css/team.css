@@ -6,4 +6,5 @@ main section .card {
   padding: 15px;
   background-color: #343434;
   color: white;
+  cursor: pointer;
 }

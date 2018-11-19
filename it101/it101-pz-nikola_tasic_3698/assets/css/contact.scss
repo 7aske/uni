@@ -1,0 +1,28 @@
+main {
+	section {
+		height: 93vh;
+		width: 100%;
+		border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+		background-size: auto 100%;
+		background-repeat: no-repeat;
+		background-position: center;
+		background-image: url('../img/main-default.png');
+		.alert-danger {
+			background-color: rgb(219, 45, 45);
+			border-color: black;
+			color: black;
+			font-weight: 700;
+			font-family: 'Gotham';
+		}
+		#contact-form {
+			color: white;
+			font-family: 'Gotham';
+			input,
+			textarea {
+				background-color: rgba(55, 55, 55, 0.8);
+				color: white;
+				border-color: #232323;
+			}
+		}
+	}
+}

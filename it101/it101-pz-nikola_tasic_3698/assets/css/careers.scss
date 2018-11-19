@@ -1,0 +1,18 @@
+main {
+	#company-careers {
+		.container {
+			background-image: url('../img/main-default.png');
+			height: 93vh;
+			background-size: 100%;
+			margin-top: 12vh;
+			background-position: center;
+		}
+		#file-upload {
+			form {
+				margin-top: 1vh;
+			}
+			color: white;
+			font-family: 'Gotham';
+		}
+	}
+}

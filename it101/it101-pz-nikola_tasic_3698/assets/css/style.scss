@@ -6,7 +6,7 @@ $main-bg: #232323;
 html,
 body {
 	background-color: $main-bg;
-	overflow-x: hidden;
+	overflow: hidden;
 }
 header {
 	width: 100vw;
@@ -17,6 +17,9 @@ header {
 	background-color: $main-bg;
 	position: relative;
 	z-index: 100;
+	img {
+		height: 3vh;
+	}
 	div {
 		height: 60px;
 		padding-top: 2px;
@@ -27,21 +30,38 @@ header {
 	}
 }
 main {
-	height: 93vh;
+	height: 91vh;
 	width: 100vw;
 	margin-top: 6vh;
 	background-size: 100%;
 	background-position: center;
 	background-repeat: no-repeat;
-
+	overflow-x: hidden;
 	#main-logo {
 		background-image: url('../img/main-default.png');
-		height: 93vh;
 		width: 100vw;
-		margin-top: 6vh;
+		height: 100%;
+		//margin-top: 6vh;
 		background-size: 100%;
 		background-position: center;
 		background-repeat: no-repeat;
+	}
+}
+footer {
+	font-family: 'Gotham';
+	position: absolute;
+	bottom: 0px;
+	height: 3vh;
+	width: 100vw;
+	background-color: rgba(55, 55, 55, 0.8);
+	color: grey;
+	padding: 0 15px;
+	.col-8 {
+		text-align: center;
+		div {
+			margin-top: -5px;
+			display: inline-block;
+		}
 	}
 }
 ::-webkit-scrollbar {

@@ -6,7 +6,7 @@
 html,
 body {
   background-color: #232323;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 header {
@@ -20,6 +20,10 @@ header {
   z-index: 100;
 }
 
+header img {
+  height: 3vh;
+}
+
 header div {
   height: 60px;
   padding-top: 2px;
@@ -31,22 +35,42 @@ header .active {
 }
 
 main {
-  height: 93vh;
+  height: 91vh;
   width: 100vw;
   margin-top: 6vh;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+}
+
+main #main-logo {
+  background-image: url("../img/main-default.png");
+  width: 100vw;
+  height: 100%;
   background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-main #main-logo {
-  background-image: url("../img/main-default.png");
-  height: 93vh;
+footer {
+  font-family: 'Gotham';
+  position: absolute;
+  bottom: 0px;
+  height: 3vh;
   width: 100vw;
-  margin-top: 6vh;
-  background-size: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-color: rgba(55, 55, 55, 0.8);
+  color: grey;
+  padding: 0 15px;
+}
+
+footer .col-8 {
+  text-align: center;
+}
+
+footer .col-8 div {
+  margin-top: -5px;
+  display: inline-block;
 }
 
 ::-webkit-scrollbar {

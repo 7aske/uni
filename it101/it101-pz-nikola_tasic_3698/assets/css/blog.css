@@ -1,0 +1,31 @@
+main section {
+  height: 93vh;
+  width: 100%;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+main section #blog-container {
+  padding-top: 6vh;
+}
+
+main section #blog-container .card {
+  margin-bottom: 2em;
+  color: white;
+  background-color: rgba(55, 55, 55, 0.7);
+}
+
+main #company-blog {
+  background-image: url("../img/main-default.png");
+}
+
+main #company-blog .card img {
+  float: left;
+  height: 180x;
+  width: 180px;
+  border-radius: 4px;
+  border: 2px solid grey;
+  margin-right: 10px;
+}

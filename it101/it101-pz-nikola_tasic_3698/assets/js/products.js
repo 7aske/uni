@@ -12,25 +12,21 @@ function toggleLearnMore(e) {
 class ScrollHandler {
 	constructor() {
 		this.sections = document.querySelectorAll('main section');
-		this.viewportHeight = window.innerHeight;
-		this.scrollValue = 0;
 		this.currentIndex = 0;
 		this.canMove = false;
 		document.addEventListener('keydown', e => {
 			e.preventDefault();
-			this.keyDown(e.keyCode);
+			this.key(e.keyCode);
 		});
 		document.querySelector('main').addEventListener('mousewheel', e => {
-			if (e.keyCode >= 36 && event.keyCode <= 40) {
-				e.preventDefault();
-			}
+			e.preventDefault();
 			this.scroll(e.deltaY);
 		});
 		setInterval(() => {
 			this.canMove = true;
-		}, 500);
+		}, 700);
 	}
-	keyDown(code) {
+	key(code) {
 		if (code == 38) {
 			if (this.currentIndex > 0) this.currentIndex--;
 			this.move();
@@ -52,6 +48,7 @@ class ScrollHandler {
 	}
 	move() {
 		if (this.canMove) {
+			this.canMove = false;
 			this.sections[this.currentIndex].scrollIntoView({ behavior: 'smooth', block: 'end' });
 			this.sections[this.currentIndex].children[0].classList.add('animated');
 			this.sections[this.currentIndex].children[0].classList.add('slideInRight');
@@ -61,7 +58,6 @@ class ScrollHandler {
 					this.sections[i].children[0].classList.remove('slideInRight');
 				}
 			}
-			this.canMove = false;
 		}
 	}
 }

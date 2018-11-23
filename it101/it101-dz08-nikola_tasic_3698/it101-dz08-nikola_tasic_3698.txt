@@ -1,0 +1,23 @@
+1)
+    let brIndeksa = 3698;
+
+    for (var i = 1; i < brIndeksa; i++){
+    }
+    // petlja ce se izvrsiti 3697 puta i vrednost brojaca bice 3698
+
+    while(true) {
+    }
+    // ovde dalje izvrsenje programa prelazi u beskonacnu petlju tako da se sledeca for petlja nece izvrsiti
+
+    for(var i = brIndeksa; i >= 1;i--){
+    }
+    // u slucaju da nema while petlje iznad
+    // petlja bi se izvrsila 3698 puta a vrednost brojaca bi bila 1 na kraju petlje
+
+2)
+    let brIndeksa = 3698;
+
+    for(i = 1; i < brIndeksa; i += 5)
+    {
+    }
+    // vrednost brojaca posle trece iteracije je 16 a vrednost brojaca posle poslednje iteracije je 3701

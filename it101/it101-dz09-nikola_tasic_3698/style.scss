@@ -1,0 +1,47 @@
+* {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+.container {
+    width: 768px;
+    margin: auto;
+
+    display: flex;
+
+    h3 {
+        text-align: center;
+    }
+
+    .attendance {
+        width: 33%;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+
+        label {
+            width: 80%;
+            text-align: center;
+            height: 25px;
+            line-height: 25px;
+            padding-top: 2px;
+            font-size: 20px;
+        }
+
+        input {
+            text-align: center;
+            width: 20%;
+            height: 25px;
+        }
+    }
+
+    .test {
+        width: 33%;
+    }
+
+    .homework {
+        width: 33%;
+    }
+}

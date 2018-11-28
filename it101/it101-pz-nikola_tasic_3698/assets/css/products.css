@@ -14,6 +14,10 @@ main #tr {
   background-image: url("../img/tr-default.jpg");
 }
 
+main #yu {
+  background-image: url("../img/yugo.jpg");
+}
+
 main section {
   height: 93vh;
   width: 100%;
@@ -24,7 +28,7 @@ main section {
 }
 
 main section h2 {
-  font-family: 'Gotham';
+  font-family: "Gotham";
   font-weight: bold;
   text-align: center;
   position: relative;
@@ -52,7 +56,7 @@ main section .section-more button {
   border-radius: 30px;
   font-size: 22px;
   border: 4px solid black;
-  font-family: 'Gotham';
+  font-family: "Gotham";
   font-weight: 700;
   color: white;
   width: 200px;
@@ -80,7 +84,7 @@ main section .content {
 }
 
 main section .content li {
-  font-family: 'Gotham';
+  font-family: "Gotham";
   font-weight: 700;
   display: -webkit-box;
   display: -ms-flexbox;

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link rel="stylesheet" href="style.css" />
+		<title>Document</title>
+	</head>
+	<body>
+		<h1 style="text-align:center;">Pregled</h1>
+		<h3 style="text-align:center;">IT101 - Nikola Tasic</h3>
+		<div class="container">
+			<div class="attendance">
+				<h3>Attendance</h3>
+				<div class="row"><label for="">Week 01</label> <input type="checkbox" name="attendance" /></div>
+				<div class="row"><label for="">Week 02</label> <input type="checkbox" name="attendance" /></div>
+				<div class="row"><label for="">Week 03</label> <input type="checkbox" name="attendance" /></div>
+				<div class="row"><label for="">Week 04</label> <input type="checkbox" name="attendance" /></div>
+				<div class="row"><label for="">Week 05</label> <input type="checkbox" name="attendance" /></div>
+				<div class="row"><label for="">Week 06</label> <input type="checkbox" name="attendance" /></div>
+				<div class="row"><label for="">Week 07</label> <input type="checkbox" name="attendance" /></div>
+				<div class="row"><label for="">Week 08</label> <input type="checkbox" name="attendance" /></div>
+				<div class="row"><label for="">Week 09</label> <input type="checkbox" name="attendance" /></div>
+				<div class="row"><label for="">Week 10</label> <input type="checkbox" name="attendance" /></div>
+				<div class="row"><label for="">Week 11</label> <input type="checkbox" name="attendance" /></div>
+				<div class="row"><label for="">Week 12</label> <input type="checkbox" name="attendance" /></div>
+				<div class="row"><label for="">Week 13</label> <input type="checkbox" name="attendance" /></div>
+				<div class="row"><label for="">Week 14</label> <input type="checkbox" name="attendance" /></div>
+				<div class="row"><label for="">Week 15</label> <input type="checkbox" name="attendance" /></div>
+				<div class="row">
+					<label for="">Total</label>
+					<input type="text" id="attendanceTotal" name="attendanceTotal" value="0" readonly />
+				</div>
+			</div>
+			<div class="test">
+				<h3>Test</h3>
+				<div class="row"><label for="">Week 01</label> <input type="text" name="test" value="0" /></div>
+				<div class="row"><label for="">Week 02</label> <input type="text" name="test" value="0" /></div>
+				<div class="row"><label for="">Week 03</label> <input type="text" name="test" value="0" /></div>
+				<div class="row"><label for="">Week 04</label> <input type="text" name="test" value="0" /></div>
+				<div class="row"><label for="">Week 05</label> <input type="text" name="test" value="0" /></div>
+				<div class="row">
+					<label for="">Total</label> <input type="text" id="testTotal" name="testTotal" value="0" readonly />
+				</div>
+			</div>
+			<div class="homework">
+				<h3>Homework</h3>
+				<div class="row"><label for="">Week 01</label> <input type="text" name="homework" value="0" /></div>
+				<div class="row"><label for="">Week 02</label> <input type="text" name="homework" value="0" /></div>
+				<div class="row"><label for="">Week 03</label> <input type="text" name="homework" value="0" /></div>
+				<div class="row"><label for="">Week 04</label> <input type="text" name="homework" value="0" /></div>
+				<div class="row"><label for="">Week 05</label> <input type="text" name="homework" value="0" /></div>
+				<div class="row"><label for="">Week 06</label> <input type="text" name="homework" value="0" /></div>
+				<div class="row"><label for="">Week 07</label> <input type="text" name="homework" value="0" /></div>
+				<div class="row"><label for="">Week 08</label> <input type="text" name="homework" value="0" /></div>
+				<div class="row"><label for="">Week 09</label> <input type="text" name="homework" value="0" /></div>
+				<div class="row"><label for="">Week 10</label> <input type="text" name="homework" value="0" /></div>
+				<div class="row"><label for="">Week 11</label> <input type="text" name="homework" value="0" /></div>
+				<div class="row"><label for="">Week 12</label> <input type="text" name="homework" value="0" /></div>
+				<div class="row"><label for="">Week 13</label> <input type="text" name="homework" value="0" /></div>
+				<div class="row"><label for="">Week 14</label> <input type="text" name="homework" value="0" /></div>
+				<div class="row"><label for="">Week 15</label> <input type="text" name="homework" value="0" /></div>
+				<div class="row">
+					<label for="">Total</label>
+					<input type="text" id="homeworkTotal" name="homeworkTotal" value="0" readonly />
+				</div>
+			</div>
+		</div>
+		<div class="project">
+			<div class="row">
+				<label for="">Project - </label> <input id="projectTotal" type="text" name="project" value="0" />
+			</div>
+		</div>
+		<div>
+			<p style="text-align: center">Nikola Tasic - <b id="output"></b></p>
+		</div>
+		<div>
+			<p style="text-align: center">Ocena - <b id="outputg"></b></p>
+		</div>
+		<div style="width:100%; text-align: center;">
+			<a style="padding:5px 10px; margin: 10px;" href="unos.html">Nazad</a>
+		</div>
+	</body>
+	<script src="pregled.js"></script>
+	<script src="preracun.js"></script>
+</html>

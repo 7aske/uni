@@ -1,0 +1,67 @@
+* {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+.container {
+  width: 768px;
+  margin: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.container h3 {
+  text-align: center;
+}
+
+.container .attendance {
+  width: 33%;
+}
+
+.container .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+
+.container .row label {
+  width: 80%;
+  text-align: center;
+  height: 25px;
+  line-height: 25px;
+  padding-top: 2px;
+  font-size: 20px;
+}
+
+.container .row input {
+  text-align: center;
+  width: 20%;
+  height: 25px;
+}
+
+.container .test {
+  width: 33%;
+}
+
+.container .homework {
+  width: 33%;
+}
+
+.project {
+  text-align: center;
+  margin: 10px;
+  width: 100%;
+}
+
+.project input {
+  padding: 5px;
+  width: 25px;
+  text-align: center;
+}

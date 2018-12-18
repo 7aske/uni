@@ -26,6 +26,14 @@ function execute() {
 	if (fields == undefined) return false;
 	let numbers = [...fields.map(f => parseFloat(f.value))];
 	let result;
+	if (
+		numbers.forEach(n => {
+			if (n == 0 && operation.value == "divide") {
+				alert("Cannot divide by zero");
+				return;
+			}
+		})
+	);
 	switch (operation.value) {
 		case "add":
 			result = numbers.reduce((a, c) => a + c);

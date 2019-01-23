@@ -43,7 +43,7 @@ public class Main {
 		List<String> newArgs = new ArrayList<>(Arrays.asList(args));
 		if (newArgs.contains("--cors")) server.setCORS(true);
 		if (newArgs.contains("--silent")) server.setSILENT(true);
-		if (newArgs.contains("--silent")) server.setAUTOINDEX(false);
+		if (newArgs.contains("--noindex")) server.setAUTOINDEX(false);
 
 
 	}

@@ -2,7 +2,6 @@
 *.zip
 node_modules
 .idea
-/cs101/cs101-dz02-nikola_tasic_3698/cs101-dz02-02/nbproject/private/
-/cs101/cs101-dz02-nikola_tasic_3698/cs101-dz02-02/build/
-/cs101/cs101-dz02-nikola_tasic_3698/cs101-dz02-18/nbproject/private/
-/cs101/cs101-dz02-nikola_tasic_3698/cs101-dz02-18/build/
+out
+cmake-build-debug
+CMakeLists.txt

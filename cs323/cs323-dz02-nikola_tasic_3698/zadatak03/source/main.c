@@ -5,7 +5,7 @@ float get_stats(int);
 void prompt_inp();
 
 int a, e, i, o, u, tot;
-char inp;
+char inp[1024];
 
 int main()
 {
@@ -16,6 +16,8 @@ int main()
 
 void prompt_inp()
 {
+    //verzija sa karakterima
+    /*
     if (inp != 10)
         printf("> ");
     inp = getchar();
@@ -23,7 +25,24 @@ void prompt_inp()
         check_char(inp);
     if (inp != 36) {
         prompt_inp();
+    }*/
+
+    int cont = 1;
+    printf("> ");
+    scanf("%s", &inp);
+    int i = 0;
+    int len = sizeof(inp) / sizeof(char);
+    while (i < len && inp[i] != '\0') {
+        // ako je nadjen karakter "$" sprecava se ponovni unos
+        if (inp[i] == 36) {
+            cont = 0;
+            break;
+        }
+        check_char(inp[i]);
+        i++;
     }
+    if (cont)
+        prompt_inp();
 }
 
 void check_char(char c)
@@ -64,9 +83,8 @@ void check_char(char c)
 }
 float get_stats(int x)
 {
-    float out;
     if (tot > 0) {
-        out = ((float)x / (float)tot) * 100;
+        return ((float)x / (float)tot) * 100;
     }
-    return out;
+    return 0;
 }

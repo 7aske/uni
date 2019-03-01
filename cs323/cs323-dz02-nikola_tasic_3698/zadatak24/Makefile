@@ -1,5 +1,5 @@
 CC=gcc
-FILENAME=cs323
+FILENAME=cs323_dz02
 SRC=source/
 OUT=build/
 build: $(SRC)main.c

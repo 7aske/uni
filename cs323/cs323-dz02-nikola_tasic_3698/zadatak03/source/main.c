@@ -1,31 +1,34 @@
 #include <stdio.h>
 
-void check_char(char*);
+void check_char(char);
 float get_stats(int);
+void prompt_inp();
 
 int a, e, i, o, u, tot;
+char inp;
 
 int main()
 {
-    char inp;
-    do {
-        if (inp != 10) {
-            printf(">");
-            inp = getchar();
-            tot++;
-            check_char(&inp);
-        } else {
-            inp = 0;
-        }
-    } while (inp != 36);
-    printf("%.2f\n", get_stats(a));
+    prompt_inp();
+    printf("%5.2f%% A\n%5.2f%% E\n%5.2f%% I\n%5.2f%% O\n%5.2f%% U\n", get_stats(a), get_stats(e), get_stats(i), get_stats(o), get_stats(u));
     return 0;
 }
 
-void check_char(char* c)
+void prompt_inp()
 {
-    // printf("%d\n", *c);
-    switch (*c) {
+    if (inp != 10)
+        printf("> ");
+    inp = getchar();
+    if (inp != 10 && inp != 36)
+        check_char(inp);
+    if (inp != 36) {
+        prompt_inp();
+    }
+}
+
+void check_char(char c)
+{
+    switch (c) {
     case 'A':
         a++;
         break;
@@ -56,17 +59,14 @@ void check_char(char* c)
     case 'u':
         u++;
         break;
-    case '$':
-        return;
     }
+    tot++;
 }
-
 float get_stats(int x)
 {
     float out;
     if (tot > 0) {
-        printf("%d %d\n", x, tot);
-        out = (x / tot) * 100;
+        out = ((float)x / (float)tot) * 100;
     }
     return out;
 }

@@ -3,6 +3,7 @@
 *.tar*
 node_modules
 .idea
+.vscode
 out
 build
 cmake-build-debug

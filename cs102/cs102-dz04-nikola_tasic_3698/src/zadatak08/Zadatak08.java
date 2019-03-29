@@ -17,6 +17,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Path;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Zadatak08 extends Application {
 	private double x = 0;
 	private double y = 0;
@@ -57,7 +60,7 @@ public class Zadatak08 extends Application {
 			gc.setLineWidth(lineWidth.getValue());
 			gc.stroke();
 		});
-
+		List<Number> numbers = new ArrayList<Integer>();
 		// meni stvarno treba objasnjenje zasto promenljive u lambda izrazu moraju da budu final
 		// toliko toga se komplikuje zbog gluposti koja je onda poenta lambda izraza vise ufff
 		canvas.setOnMousePressed(e -> canvas.requestFocus());

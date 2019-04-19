@@ -1,0 +1,7 @@
+# podrzava komentare
+# comma delimited
+# ime,razl,pts
+Genericki tim 1,+2,30
+Genericki tim 2,-11,10
+Genericki tim 3,0,30
+Genericki tim 4,5,24

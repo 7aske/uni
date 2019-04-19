@@ -1,0 +1,6 @@
+[P][Team                            ][Diff][Pts]
+---------------------------------------------
+01.|Genericki tim 1                 ||   2|| 30|
+02.|Genericki tim 3                 ||   0|| 30|
+03.|Genericki tim 4                 ||   5|| 24|
+04.|Genericki tim 2                 || -11|| 10|

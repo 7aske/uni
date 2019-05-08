@@ -1,16 +1,13 @@
-//
-// Created by nik on 5/7/19.
-//
+#pragma once
 
-#ifndef CS323_P10_CYLINDER_H
-#define CS323_P10_CYLINDER_H
-
-
+#include "Circle.h"
 
 class Cylinder {
+	Circle base;
+	double height;
+public:
+	explicit Cylinder(double r, double h)
+			: base(r), height(h) {}
 
+	double volume() { return base.area() * height; }
 };
-
-
-
-#endif //CS323_P10_CYLINDER_H

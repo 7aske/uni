@@ -34,7 +34,12 @@ public:
 
 	inline virtual void resize() {
 		this->capacity = this->capacity * 2 + 1;
-		this->data = (T*) reallocarray(this->data, this->capacity, sizeof(T));
+		T* newdata = new T[this->capacity];
+		for (int i = 0; i < this->size(); ++i) {
+			newdata[i] = this->data[i];
+		}
+		delete[] this->data;
+		this->data = newdata;
 	};
 
 	virtual T get(uint) = 0;

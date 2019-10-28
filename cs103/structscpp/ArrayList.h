@@ -27,13 +27,15 @@ public:
 
 	inline explicit ArrayList(uint capacity) {
 		this->capacity = capacity;
-		this->data = (T*) calloc(this->capacity, sizeof(T));
+		this->data = new T[this->capacity];
 	}
 
 	inline explicit ArrayList(T* arr, uint length) {
 		this->capacity = length * 2;
-		this->data = (T*) calloc(this->capacity, sizeof(T));
-		memcpy(this->data, arr, length * sizeof(T));
+		this->data = new T[this->capacity];
+		for (uint i = 0; i < length; ++i) {
+			this->data[i] = arr[i];
+		}
 	}
 
 	T get(uint) override;
@@ -121,6 +123,9 @@ template<typename T>
 void ArrayList<T>::set(T elem, uint index) {
 	if (index < this->size()) {
 		this->data[index] = elem;
+	} else {
+		throw IndexOutOfBounds();
+
 	}
 }
 

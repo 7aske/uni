@@ -106,7 +106,7 @@ extern int32_t alist_isempty(alist_t* list) {
 }
 
 extern void alist_rm_idx(alist_t* list, uint index) {
-	if (index == list->len - 1) {
+	if (index == list->len - 1 && index >= 0) {
 		list->len--;
 	} else if (index < list->len) {
 		memmove(list->data + index * list->size, list->data + (index + 1) * list->size,

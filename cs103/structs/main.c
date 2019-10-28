@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "quicksort.h"
 #include "arraylist.h"
+#include "linkedlist.h"
 
 int cmpfunc(void* a, void* b, uint size) {
 	return *(int*) a > *(int*) b;
@@ -44,5 +45,18 @@ int main() {
 	}
 
 	alist_destroy(intlist);
+
+	llist_t* charlist = llist_new(sizeof(char));
+	char ca = 32, cb = 33, cd = 34, ce = 55;
+	llist_add_front(charlist, &ca);
+	llist_add_front(charlist, &cb);
+	llist_add_front(charlist, &cd);
+	llist_add_back(charlist, &ce);
+	// printf("%d\n", *(char*) charlist->head->data);
+	// printf("%d\n", *(char*) charlist->head->next->data);
+	// printf("%d\n", *(char*) charlist->head->next->next->data);
+	// printf("%d\n", *(char*) charlist->head->next->prev->data);
+	print_front(charlist);
+	print_back(charlist);
 	return 0;
 }

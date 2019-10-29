@@ -27,4 +27,4 @@
 2. Pronaći sve zemlje koje su posedovale borbene brodove (bb) i borbene kruzere (bc)
 ---
 1. &pi; <sub>name</sub> (&sigma; <sub>displacement>35000</sub> (Ships &#10781; Class))
-2. &pi; <sub>country</sub> (&sigma; <sub>type=bc</sub> (Ships &#10781; Class)) &cap; (&pi; <sub>country</sub> (&sigma; <sub>type=cc</sub> (Ships &#10781; Class)))
+2. &pi; (&pi; <sub>country</sub> (&sigma; <sub>type=bc</sub> (Ships &#10781; Class))) &cap; (&pi; <sub>country</sub> (&sigma; <sub>type=cc</sub> (Ships &#10781; Class)))

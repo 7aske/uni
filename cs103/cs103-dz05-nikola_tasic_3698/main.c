@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include "../structs/linkedlist.h"
 
+// 3. Napisati funkciju:
+// 		a. kojom se od neprazne jednostruko povezane liste L formira kružna lista
+// 		b. kojom se ispisuje sadržaj neprazne kružne liste L.
+
 
 // llist_t je implementacija duple linked liste ali za potrebe ovog zadatka
 // ignorisacemo da postoji tail pointer i node->prev pointer

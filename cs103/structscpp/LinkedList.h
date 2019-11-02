@@ -116,7 +116,7 @@ bool LinkedList<T>::isEmpty() {
 
 /**
  * @brief Searches for the element in the array head to tail.
- * @param index - Index of the element in the list
+ * @param index - Index of the element in the list.
  * @return Returns the element of the list at position index or throws.
  */
 template<typename T>
@@ -180,7 +180,7 @@ template<typename T>
 bool LinkedList<T>::contains(T elem) {
 	Node* current = this->head;
 	while (current != nullptr) {
-		if (current->data == t) {
+		if (current->data == elem) {
 			return true;
 		}
 		current = current->next;

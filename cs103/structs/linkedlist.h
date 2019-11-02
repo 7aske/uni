@@ -83,6 +83,23 @@ extern void llist_add_front(llist_t* list, void* data) {
 	}
 }
 
+
+extern void llist_add_at(llist_t* list, void* data, uint index) {
+	uint _index = 0;
+	node_t* current = list->head;
+	while (current != NULL && _index <= index) {
+		if (_index == index) {
+			node_t* newnode = _newnode(data, list->size);
+			newnode->next =
+			break;
+		}
+		current = current->next;
+		_index++;
+	}
+}
+
+
+
 extern void llist_add_back(llist_t* list, void* data) {
 	node_t* newnode = _newnode(data, list->size);
 	if (list->head == NULL || list->tail == NULL) {

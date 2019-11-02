@@ -1,5 +1,6 @@
 #include <iostream>
 #include "ArrayList.h"
+#include "LinkedList.h"
 
 
 int main() {
@@ -10,5 +11,16 @@ int main() {
 	for (int j = 0; j < arrayList.size(); ++j) {
 		std::cout << arrayList.get(j) << std::endl;
 	}
+
+	LinkedList<int> linkedList;
+	linkedList.add(10);
+	linkedList.add(20);
+	linkedList.add(30);
+	linkedList.add(22, 1);
+	std::cout << linkedList.get(0) << std::endl;
+	std::cout << linkedList.get(1) << std::endl;
+	std::cout << linkedList.get(2) << std::endl;
+	std::cout << linkedList.get(3) << std::endl;
+	// std::cout << linkedList.indexOf(30) << std::endl;
 	return 0;
 }

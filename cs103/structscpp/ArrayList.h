@@ -7,15 +7,14 @@
 
 #pragma once
 
-#include <cstring>
-#include <cstdlib>
+
 #include <exception>
 #include "List.h"
 
 typedef unsigned int uint;
 
 struct IndexOutOfBounds : public std::exception {
-	const char* what() const throw() {
+	const char* what() const noexcept override {
 		return "Index out of bounds";
 	}
 };

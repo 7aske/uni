@@ -2,6 +2,8 @@
 #include <stdint.h>
 #include <string.h>
 
+#define _ptr(x, size) &(size){x}
+
 typedef struct node {
 	void* data;
 	struct node* next;
@@ -15,6 +17,22 @@ typedef struct llist_t {
 } llist_t;
 
 
+extern void llist_destroy(llist_t* list) {
+	if (list != NULL) {
+		node_t* current = list->head;
+		while (current != NULL) {
+			free(current->data);
+			current->data = NULL;
+
+			node_t* temp = current;
+			current = current->next;
+			free(temp);
+		}
+		free(list);
+	}
+}
+
+
 extern llist_t* llist_new(uint size) {
 	llist_t* list = (llist_t*) calloc(1, sizeof(llist_t));
 	list->size = size;
@@ -22,6 +40,8 @@ extern llist_t* llist_new(uint size) {
 	list->tail = NULL;
 	return list;
 }
+
+
 
 static node_t* _newnode(void* data, uint size) {
 	node_t* newnode = (node_t*) calloc(1, sizeof(node_t));
@@ -53,7 +73,7 @@ static void _rmnode(llist_t* list, node_t* current) {
 extern void llist_add_front(llist_t* list, void* data) {
 	node_t* newnode = _newnode(data, list->size);
 
-	if (list->head == NULL && list->tail == NULL) {
+	if (list->head == NULL || list->tail == NULL) {
 		list->head = newnode;
 		list->tail = newnode;
 	} else {
@@ -65,7 +85,7 @@ extern void llist_add_front(llist_t* list, void* data) {
 
 extern void llist_add_back(llist_t* list, void* data) {
 	node_t* newnode = _newnode(data, list->size);
-	if (list->head == NULL && list->tail == NULL) {
+	if (list->head == NULL || list->tail == NULL) {
 		list->head = newnode;
 		list->tail = newnode;
 	} else {
@@ -75,12 +95,39 @@ extern void llist_add_back(llist_t* list, void* data) {
 	}
 }
 
+extern llist_t* llist_copy(llist_t* list) {
+	llist_t* newlist = (llist_t*) calloc(1, sizeof(llist_t));
+	newlist->size = list->size;
+	newlist->head = NULL;
+	newlist->tail = NULL;
+	node_t* current = list->head;
+	while (current != NULL) {
+		llist_add_back(newlist, current->data);
+		current = current->next;
+	}
+
+	return newlist;
+}
+
 extern void* llist_get(llist_t* list, uint index) {
 	uint _index = 0;
 	node_t* current = list->head;
 	while (current != NULL && _index <= index) {
 		if (_index == index) {
 			return current->data;
+		}
+		current = current->next;
+		_index++;
+	}
+	return NULL;
+}
+
+extern node_t* llist_get_node(llist_t* list, uint index) {
+	uint _index = 0;
+	node_t* current = list->head;
+	while (current != NULL && _index <= index) {
+		if (_index == index) {
+			return current;
 		}
 		current = current->next;
 		_index++;
@@ -99,6 +146,23 @@ extern void* llist_getr(llist_t* list, uint index) {
 		_index++;
 	}
 	return NULL;
+}
+
+extern node_t* llist_get_last_node(llist_t* list) {
+	return list->tail;
+}
+
+extern node_t* llist_get_first_node(llist_t* list) {
+	return list->head;
+}
+
+
+extern void* llist_get_last(llist_t* list) {
+	return list->tail->data;
+}
+
+extern void* llist_get_first(llist_t* list) {
+	return list->head->data;
 }
 
 

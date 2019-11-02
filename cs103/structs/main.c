@@ -39,12 +39,12 @@ int main() {
 		alist_add(intlist, &x);
 	}
 	quicksort(intlist->data, intlist->len, intlist->size, NULL);
+	alist_t* intlist2 = alist_copy(intlist);
 	printf("done %d\n", intlist->len);
-	for (int j = 0; j < intlist->len; ++j) {
-		printf("%d [%d]\n", j, *(int*) alist_get(intlist, j));
+	for (int j = 0; j < intlist2->len; ++j) {
+		printf("%d [%d]\n", j, *(int*) alist_get(intlist2, j));
 	}
 
-	alist_destroy(intlist);
 
 	llist_t* charlist = llist_new(sizeof(char));
 	char ca = 32, cb = 33, cd = 34, ce = 55;
@@ -61,6 +61,8 @@ int main() {
 	llist_print_front(charlist);
 	printf("len: %d\n", llist_size(charlist));
 	printf("idx: %d\n", llist_idxof(charlist, &ce));
-
+	llist_destroy(charlist);
+	alist_destroy(intlist);
+	alist_destroy(intlist2);
 	return 0;
 }

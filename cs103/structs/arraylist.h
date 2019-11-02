@@ -37,6 +37,16 @@ extern alist_t* alist_new(uint size) {
 	return list;
 }
 
+extern alist_t* alist_copy(alist_t* list) {
+	alist_t* newlist = malloc(sizeof(alist_t));
+	newlist->len = list->len;
+	newlist->size = list->size;
+	newlist->cap = list->cap;
+	newlist->data = calloc(newlist->cap, newlist->size);
+	memcpy(newlist->data, list->data, newlist->cap * newlist->size);
+	return newlist;
+}
+
 static void _alist_resize(alist_t* list) {
 	list->cap *= 2;
 	list->data = reallocarray(list->data, list->cap, list->size);

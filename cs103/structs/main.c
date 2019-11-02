@@ -14,7 +14,7 @@ int main() {
 	alist_add(intlist, &a);
 	alist_add(intlist, &b);
 	alist_add(intlist, &c);
-	alist_addat(intlist, &c, 3);
+	alist_add_at(intlist, &c, 3);
 	int x, y = 55;
 	alist_set(intlist, &y, 1);
 	// alist_rm_idx(intlist, 1);
@@ -52,11 +52,15 @@ int main() {
 	llist_add_front(charlist, &cb);
 	llist_add_front(charlist, &cd);
 	llist_add_back(charlist, &ce);
-	// printf("%d\n", *(char*) charlist->head->data);
-	// printf("%d\n", *(char*) charlist->head->next->data);
-	// printf("%d\n", *(char*) charlist->head->next->next->data);
-	// printf("%d\n", *(char*) charlist->head->next->prev->data);
-	print_front(charlist);
-	print_back(charlist);
+	llist_print_front(charlist);
+	printf("len: %d\n", llist_size(charlist));
+	// llist_print_back(charlist);
+	// printf("get: %d\n", *(char*)llist_get(charlist, 4));
+	llist_rm(charlist, 0);
+	llist_set(charlist, &ca, 2);
+	llist_print_front(charlist);
+	printf("len: %d\n", llist_size(charlist));
+	printf("idx: %d\n", llist_idxof(charlist, &ce));
+
 	return 0;
 }

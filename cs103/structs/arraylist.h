@@ -48,7 +48,7 @@ extern void alist_add(alist_t* list, void* data) {
 	memcpy(list->data + list->len++ * list->size, data, list->size);
 }
 
-extern void alist_addat(alist_t* list, void* data, uint index) {
+extern void alist_add_at(alist_t* list, void* data, uint index) {
 	if (index <= list->len) {
 		if (list->len + 1 == list->cap) {
 			_alist_resize(list);
@@ -74,7 +74,7 @@ extern void* alist_get(alist_t* list, uint index) {
 		return NULL;
 }
 
-extern int8_t alist_idxof(alist_t* list, void* elem) {
+extern uint32_t alist_idxof(alist_t* list, void* elem) {
 	for (uint i = 0; i < list->len; ++i) {
 		if (memcmp(list->data + i * list->size, elem, list->size) == 0) {
 			return i;

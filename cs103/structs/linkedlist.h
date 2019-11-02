@@ -42,7 +42,6 @@ extern llist_t* llist_new(uint size) {
 }
 
 
-
 static node_t* _newnode(void* data, uint size) {
 	node_t* newnode = (node_t*) calloc(1, sizeof(node_t));
 	newnode->data = calloc(1, size);
@@ -83,23 +82,6 @@ extern void llist_add_front(llist_t* list, void* data) {
 	}
 }
 
-
-extern void llist_add_at(llist_t* list, void* data, uint index) {
-	uint _index = 0;
-	node_t* current = list->head;
-	while (current != NULL && _index <= index) {
-		if (_index == index) {
-			node_t* newnode = _newnode(data, list->size);
-			newnode->next =
-			break;
-		}
-		current = current->next;
-		_index++;
-	}
-}
-
-
-
 extern void llist_add_back(llist_t* list, void* data) {
 	node_t* newnode = _newnode(data, list->size);
 	if (list->head == NULL || list->tail == NULL) {
@@ -111,6 +93,33 @@ extern void llist_add_back(llist_t* list, void* data) {
 		list->tail = newnode;
 	}
 }
+
+
+extern void llist_add_at(llist_t* list, void* data, uint index) {
+	uint _index = 0;
+	node_t* current = list->head;
+	if (index == 0) {
+		llist_add_front(list, data);
+	} else {
+		while (current != NULL && _index <= index) {
+			if (_index == index) {
+				node_t* newnode = _newnode(data, list->size);
+				newnode->next = current;
+				newnode->prev = current->prev;
+				current->prev->next = newnode;
+				current->prev = newnode;
+				break;
+			}
+			current = current->next;
+			_index++;
+		}
+		if (_index == index) {
+			llist_add_back(list, data);
+		}
+	}
+}
+
+
 
 extern llist_t* llist_copy(llist_t* list) {
 	llist_t* newlist = (llist_t*) calloc(1, sizeof(llist_t));

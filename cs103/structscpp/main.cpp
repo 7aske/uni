@@ -21,7 +21,6 @@ int main() {
 	linkedList.add(40);
 	linkedList.add(22, 4);
 	linkedList.remove(10);
-	linkedList.isEmpty()
 	std::cout << linkedList.get(0) << std::endl;
 	std::cout << linkedList.get(1) << std::endl;
 	std::cout << linkedList.get(2) << std::endl;

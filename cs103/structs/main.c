@@ -57,7 +57,8 @@ int main() {
 	// llist_print_back(charlist);
 	// printf("get: %d\n", *(char*)llist_get(charlist, 4));
 	llist_rm(charlist, 0);
-	llist_set(charlist, &ca, 2);
+	llist_set(charlist, _ptr(88,char), 2);
+	llist_add_at(charlist, _ptr(67, char), 3);
 	llist_print_front(charlist);
 	printf("len: %d\n", llist_size(charlist));
 	printf("idx: %d\n", llist_idxof(charlist, &ce));

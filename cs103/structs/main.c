@@ -3,8 +3,8 @@
 #include "arraylist.h"
 #include "linkedlist.h"
 
-int cmpfunc(void* a, void* b, uint size) {
-	return *(int*) a > *(int*) b;
+int cmpfunc(const void* a, const void* b, unsigned long size) {
+	return *(int*) a < *(int*) b;
 }
 
 
@@ -38,7 +38,7 @@ int main() {
 		int x = random() % i;
 		alist_add(intlist, &x);
 	}
-	quicksort(intlist->data, intlist->len, intlist->size, NULL);
+	quicksort(intlist->data, intlist->len, intlist->size, cmpfunc);
 	alist_t* intlist2 = alist_copy(intlist);
 	printf("done %d\n", intlist->len);
 	for (int j = 0; j < intlist2->len; ++j) {
@@ -56,12 +56,17 @@ int main() {
 	printf("len: %d\n", llist_size(charlist));
 	// llist_print_back(charlist);
 	// printf("get: %d\n", *(char*)llist_get(charlist, 4));
-	llist_rm(charlist, 0);
+	llist_rm_idx(charlist, 0);
 	llist_set(charlist, _ptr(88,char), 2);
 	llist_add_at(charlist, _ptr(67, char), 3);
 	llist_print_front(charlist);
 	printf("len: %d\n", llist_size(charlist));
 	printf("idx: %d\n", llist_idxof(charlist, &ce));
+	char* test = (char*) llist_get(charlist, 2);
+	printf("test: %d\n", *test);
+	llist_rm(charlist, test);
+	printf("test: %d\n", *(char*) llist_get(charlist, 2));
+
 	llist_destroy(charlist);
 	alist_destroy(intlist);
 	alist_destroy(intlist2);

@@ -2,7 +2,9 @@
 #include <stdint.h>
 #include <string.h>
 
-#define _ptr(x, size) &(size){x}
+#ifndef _ptr
+#define _ptr(x, size) &((size)){(x)}
+#endif
 
 typedef struct node {
 	void* data;
@@ -14,6 +16,8 @@ typedef struct llist_t {
 	uint size;
 	node_t* head;
 	node_t* tail;
+
+	int (* cmpfunc)(const void*, const void*, unsigned long);
 } llist_t;
 
 
@@ -38,7 +42,12 @@ extern llist_t* llist_new(uint size) {
 	list->size = size;
 	list->head = NULL;
 	list->tail = NULL;
+	list->cmpfunc = memcmp;
 	return list;
+}
+
+extern void llist_set_cmp(llist_t* list, int(* cmpfunc)(const void*, const void*, unsigned long)) {
+	list->cmpfunc = cmpfunc;
 }
 
 
@@ -120,7 +129,6 @@ extern void llist_add_at(llist_t* list, void* data, uint index) {
 }
 
 
-
 extern llist_t* llist_copy(llist_t* list) {
 	llist_t* newlist = (llist_t*) calloc(1, sizeof(llist_t));
 	newlist->size = list->size;
@@ -196,7 +204,20 @@ extern uint32_t llist_idxof(llist_t* list, void* data) {
 	uint32_t _index = 0;
 	node_t* current = list->head;
 	while (current != NULL) {
-		if (memcmp(current->data, data, list->size) == 0) {
+		if (list->cmpfunc(current->data, data, list->size) == 0) {
+			return _index;
+		}
+		current = current->next;
+		_index++;
+	}
+	return -1;
+}
+
+extern uint32_t llist_idxof_cmp(llist_t* list, void* data, int(* cmpfunc)(const void*, const void*, unsigned long)) {
+	uint32_t _index = 0;
+	node_t* current = list->head;
+	while (current != NULL) {
+		if (cmpfunc(current->data, data, list->size) == 0) {
 			return _index;
 		}
 		current = current->next;
@@ -206,8 +227,22 @@ extern uint32_t llist_idxof(llist_t* list, void* data) {
 }
 
 
-extern void llist_rm(llist_t* list, uint index) {
+extern void llist_rm_idx(llist_t* list, uint index) {
 	uint _index = 0;
+	node_t* current = list->head;
+	while (current != NULL && _index <= index) {
+		if (_index == index) {
+			_rmnode(list, current);
+			break;
+		}
+		current = current->next;
+		_index++;
+	}
+}
+
+extern void llist_rm(llist_t* list, void* elem) {
+	uint _index = 0;
+	uint index = llist_idxof(list, elem);
 	node_t* current = list->head;
 	while (current != NULL && _index <= index) {
 		if (_index == index) {

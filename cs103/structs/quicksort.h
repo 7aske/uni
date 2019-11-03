@@ -20,7 +20,7 @@ extern void memswp(void* a, void* b, uint size) {
 	free(t);
 }
 
-extern int64_t badd(void* num, uint size) {
+extern int64_t badd(const void* num, uint size) {
 	int64_t sum = 0;
 	int64_t n = *(int64_t*) num;
 	uint bmask = (uint) (1 << (size * CHAR_BIT - 1));
@@ -38,13 +38,12 @@ extern int64_t badd(void* num, uint size) {
 	return sum;
 }
 
-static int __cmpfunc(void* a, void* b, uint size) {
+static int __cmpfunc(const void* a, const void* b, unsigned long size) {
 	return badd(a, size) < badd(b, size);
 }
 
-static int (* _cmpfunc)(void*, void*, uint);
-
-static int _partition(void* arr, uint size, int low, int high, int (* cmpfunc)(void*, void*, uint)) {
+static int
+_partition(void* arr, uint size, int low, int high, int (* cmpfunc)(const void*, const void*, unsigned long)) {
 	void* pivot;
 	int i = low - 1;
 
@@ -62,7 +61,8 @@ static int _partition(void* arr, uint size, int low, int high, int (* cmpfunc)(v
 	return (i + 1);
 }
 
-static void _quicksort(void* arr, uint size, int32_t low, int32_t high, int (* cmpfunc)(void*, void*, uint)) {
+static void _quicksort(void* arr, uint size, int32_t low, int32_t high, int (* cmpfunc)(const void*, const void*,
+																						unsigned long)) {
 	if (low < high) {
 		int pi = _partition(arr, size, low, high, cmpfunc);
 		_quicksort(arr, size, low, pi - 1, cmpfunc);
@@ -70,8 +70,9 @@ static void _quicksort(void* arr, uint size, int32_t low, int32_t high, int (* c
 	}
 }
 
-extern void quicksort(void* arr, uint32_t nmemb, uint size, int (* cmpfunc)(void*, void*, uint)) {
-	_cmpfunc = cmpfunc != NULL ? cmpfunc : &__cmpfunc;
+extern void quicksort(void* arr, uint32_t nmemb, uint size, int (* cmpfunc)(const void*, const void*, unsigned long)) {
+
+	int (* _cmpfunc)(const void*, const void*, unsigned long) = cmpfunc != NULL ? cmpfunc : __cmpfunc;
 	_quicksort(arr, size, 0, nmemb, _cmpfunc);
 }
 

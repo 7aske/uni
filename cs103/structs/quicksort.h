@@ -13,6 +13,7 @@
 
 
 extern void memswp(void* a, void* b, uint size) {
+	if (a == b) return;
 	void* t = malloc(size);
 	memcpy(t, a, size);
 	memcpy(a, b, size);
@@ -73,7 +74,7 @@ static void _quicksort(void* arr, uint size, int32_t low, int32_t high, int (* c
 extern void quicksort(void* arr, uint32_t nmemb, uint size, int (* cmpfunc)(const void*, const void*, unsigned long)) {
 
 	int (* _cmpfunc)(const void*, const void*, unsigned long) = cmpfunc != NULL ? cmpfunc : __cmpfunc;
-	_quicksort(arr, size, 0, nmemb, _cmpfunc);
+	_quicksort(arr, size, 0, nmemb - 1, _cmpfunc);
 }
 
 #endif

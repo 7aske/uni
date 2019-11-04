@@ -9,6 +9,6 @@ set(PROJECT_HEADERS
         )
 set(PROJECT_SOURCES
         main.cpp
-        LinkedList.h)
+        LinkedList.h Stack.h)
 
 add_executable(structscpp ${PROJECT_SOURCES} ${PROJECT_HEADERS})

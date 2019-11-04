@@ -11,12 +11,6 @@
 #include <iostream>
 
 
-struct NoSuchElementException : public std::exception {
-	const char* what() const noexcept override {
-		return "No such element";
-	}
-};
-
 /**
  *
  * @brief List container implementing doubly linked list data structure.
@@ -26,6 +20,12 @@ struct NoSuchElementException : public std::exception {
 template<typename T>
 class LinkedList : public List<T> {
 private:
+	struct NoSuchElementException : public std::exception {
+		const char* what() const noexcept override {
+			return "No such element";
+		}
+	};
+
 	/**
 	 * @brief Inline class for representing individual elements of the list.
 	 */

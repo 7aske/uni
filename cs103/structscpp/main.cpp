@@ -1,14 +1,13 @@
 #include <iostream>
 #include "ArrayList.h"
 #include "LinkedList.h"
-#include <array>
+#include "Stack.h"
 
 int main() {
 	ArrayList<int> arrayList(32);
 	for (int i = 0; i < 10000; ++i) {
 		arrayList.add(i);
 	}
-	std::array<int, sizeof(int)> arr();
 
 	for (int j = 0; j < arrayList.size(); ++j) {
 		std::cout << arrayList.get(j) << std::endl;
@@ -25,6 +24,17 @@ int main() {
 	std::cout << linkedList.get(1) << std::endl;
 	std::cout << linkedList.get(2) << std::endl;
 	std::cout << linkedList.get(3) << std::endl;
-	// std::cout << linkedList.indexOf(30) << std::endl;
+
+	Stack<int> intstack = Stack<int>();
+	intstack.push(10);
+	intstack.push(20);
+	intstack.push(30);
+	for (int k = 0; k < 100; ++k) {
+		intstack.push(k);
+	}
+	std::cout << intstack.peek() << std::endl;
+	std::cout << intstack.pop() << std::endl;
+	std::cout << intstack.pop() << std::endl;
+	std::cout << intstack.pop() << std::endl;
 	return 0;
 }

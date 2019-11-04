@@ -2,6 +2,7 @@
 #include "quicksort.h"
 #include "arraylist.h"
 #include "linkedlist.h"
+#include "stack.h"
 
 int cmpfunc(const void* a, const void* b, unsigned long size) {
 	return *(int*) a < *(int*) b;
@@ -118,5 +119,34 @@ int main() {
 	print_frac(alist_get(fraclist, 1));
 	print_frac(alist_get(fraclist, 2));
 	print_frac(alist_get(fraclist, 3));
+
+	alist_destroy(fraclist);
+
+
+	stack_t* intstack = stack_new(sizeof(int));
+	stack_push(intstack, _ptr(10, int));
+	stack_push(intstack, _ptr(20, int));
+	stack_t* intstack2 = stack_copy(intstack);
+	printf("stack top: %p\n", intstack->top);
+	printf("stack base: %p\n", intstack->data);
+	printf("stack size: %d\n", stack_size(intstack2));
+	int* elem1 = stack_pop(intstack2);
+	int* elem2 = stack_pop(intstack2);
+	printf("%d\n", *elem1);
+	printf("%d\n", *elem2);
+	free(elem1);
+	free(elem2);
+	for (int i = 0; i < 1000; ++i) {
+		stack_push(intstack2, _ptr(i, int));
+	}
+	int* elem;
+	for (int i = 0; i < 1000; ++i) {
+		elem = stack_pop(intstack2);
+		printf("%d\n", *elem);
+		free(elem);
+	}
+
+	stack_destroy(intstack);
+	stack_destroy(intstack2);
 	return 0;
 }

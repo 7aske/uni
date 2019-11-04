@@ -21,6 +21,10 @@ void print_frac(frac_t* frac) {
 	printf("[%.2f/%.2f]\n", frac->numerator, frac->denominator);
 }
 
+void printfunc(const void* data) {
+	printf("P %d\n", *(int*) data);
+}
+
 int main() {
 	int a = 10, b = 20, c = 30, cc = 30;
 	alist_t* intlist = alist_new(sizeof(int));
@@ -62,6 +66,7 @@ int main() {
 	for (int j = 0; j < intlist->len; ++j) {
 		printf("%d [%d]\n", j, *(int*) alist_get(intlist, j));
 	}
+	alist_print(intlist, printfunc);
 
 
 	llist_t* charlist = llist_new(sizeof(char));
@@ -70,14 +75,14 @@ int main() {
 	llist_add_front(charlist, &cb);
 	llist_add_front(charlist, &cd);
 	llist_add_back(charlist, &ce);
-	llist_print_front(charlist);
+	llist_print_front(charlist, printfunc);
 	printf("len: %d\n", llist_size(charlist));
 	// llist_print_back(charlist);
 	// printf("get: %d\n", *(char*)llist_get(charlist, 4));
 	llist_rm_idx(charlist, 0);
 	llist_set(charlist, _ptr(88, char), 2);
 	llist_add_at(charlist, _ptr(67, char), 3);
-	llist_print_front(charlist);
+	llist_print_back(charlist, printfunc);
 	printf("len: %d\n", llist_size(charlist));
 	printf("idx: %d\n", llist_idxof(charlist, &ce));
 	char* test = (char*) llist_get(charlist, 2);

@@ -280,24 +280,28 @@ extern int8_t llist_isempty(llist_t* list) {
 	return list->tail == NULL && list->head == NULL;
 }
 
-extern void llist_print_front(llist_t* list) {
+extern void llist_print_front(llist_t* list, void (*_printfunc)(const void*)) {
+	if (_printfunc == NULL) {
+		return;
+	}
 	node_t* current = list->head;
 	if (current != NULL) {
-		while (current->next != NULL) {
-			printf("%d\n", *(char*) current->data);
+		while (current != NULL) {
+			_printfunc(current->data);
 			current = current->next;
 		}
-		printf("%d\n", *(char*) current->data);
 	}
 }
 
-extern void llist_print_back(llist_t* list) {
+extern void llist_print_back(llist_t* list, void (*_printfunc)(const void*)) {
+	if (_printfunc == NULL) {
+		return;
+	}
 	node_t* current = list->tail;
 	if (current != NULL) {
-		while (current->prev != NULL) {
-			printf("%d\n", *(char*) current->data);
+		while (current != NULL) {
+			_printfunc(current->data);
 			current = current->prev;
 		}
-		printf("%d\n", *(char*) current->data);
 	}
 }

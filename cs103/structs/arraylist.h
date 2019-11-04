@@ -56,7 +56,7 @@ extern alist_t* alist_copy(alist_t* list) {
 	return newlist;
 }
 
-extern void alist_set_cmp(alist_t* list, int(*cmpfunc)(const void*, const void*, unsigned long)){
+extern void alist_set_cmp(alist_t* list, int(* cmpfunc)(const void*, const void*, unsigned long)) {
 	list->cmpfunc = cmpfunc;
 }
 
@@ -156,6 +156,15 @@ extern uint alist_size(alist_t* list) {
 extern void alist_shrink(alist_t* list) {
 	list->cap = list->len;
 	list->data = reallocarray(list->data, list->len, list->size);
+}
+
+extern void alist_print(alist_t* list, void(* _printfunc)(const void*)) {
+	if (_printfunc == NULL){
+		return;
+	}
+	for (uint i = 0; i < list->len; ++i) {
+		_printfunc(list->data + i * list->size);
+	}
 }
 
 #endif //STRUCTS_ARRAYLIST_H

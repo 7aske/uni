@@ -1,3 +1,9 @@
+
+#ifndef STRUCTS_LINKEDLIST_H
+#define STRUCTS_LINKEDLISTs_H
+
+#pragma once
+
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
@@ -80,8 +86,7 @@ static void _rmnode(llist_t* list, node_t* current) {
 
 extern void llist_add_front(llist_t* list, void* data) {
 	node_t* newnode = _newnode(data, list->size);
-
-	if (list->head == NULL || list->tail == NULL) {
+	if (list->head == NULL && list->tail == NULL) {
 		list->head = newnode;
 		list->tail = newnode;
 	} else {
@@ -93,7 +98,7 @@ extern void llist_add_front(llist_t* list, void* data) {
 
 extern void llist_add_back(llist_t* list, void* data) {
 	node_t* newnode = _newnode(data, list->size);
-	if (list->head == NULL || list->tail == NULL) {
+	if (list->head == NULL && list->tail == NULL) {
 		list->head = newnode;
 		list->tail = newnode;
 	} else {
@@ -242,15 +247,26 @@ extern void llist_rm_idx(llist_t* list, uint index) {
 
 extern void llist_rm(llist_t* list, void* elem) {
 	uint _index = 0;
-	uint index = llist_idxof(list, elem);
 	node_t* current = list->head;
-	while (current != NULL && _index <= index) {
-		if (_index == index) {
+	while (current != NULL) {
+		if (list->cmpfunc(current->data, elem, list->size) == 0) {
 			_rmnode(list, current);
 			break;
 		}
 		current = current->next;
 		_index++;
+	}
+}
+
+extern void llist_rm_front(llist_t* list) {
+	if (list->head != NULL) {
+		_rmnode(list, list->head);
+	}
+}
+
+extern void llist_rm_back(llist_t* list) {
+	if (list->tail != NULL) {
+		_rmnode(list, list->tail);
 	}
 }
 
@@ -276,7 +292,7 @@ extern uint llist_size(llist_t* list) {
 	return len;
 }
 
-extern int8_t llist_isempty(llist_t* list) {
+extern int llist_isempty(llist_t* list) {
 	return list->tail == NULL && list->head == NULL;
 }
 
@@ -305,3 +321,5 @@ extern void llist_print_back(llist_t* list, void (*_printfunc)(const void*)) {
 		}
 	}
 }
+
+#endif

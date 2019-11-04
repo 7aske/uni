@@ -3,6 +3,7 @@
 #include "arraylist.h"
 #include "linkedlist.h"
 #include "stack.h"
+#include "queue.h"
 
 int cmpfunc(const void* a, const void* b, unsigned long size) {
 	return *(int*) a < *(int*) b;
@@ -148,5 +149,20 @@ int main() {
 
 	stack_destroy(intstack);
 	stack_destroy(intstack2);
+
+	queue_t* intqueue = queue_new(sizeof(int));
+
+	queue_enqueue(intqueue, _ptr(10, int));
+	queue_enqueue(intqueue, _ptr(20, int));
+	int* qelem1 = queue_dequeue(intqueue);
+	int* qelem2 = queue_dequeue(intqueue);
+	free(qelem1);
+	free(qelem2);
+	printf("q %d\n", *qelem1);
+	printf("q %d\n", *qelem2);
+	printf("isempty %d\n", queue_isempty(intqueue));
+	queue_enqueue(intqueue, _ptr(30, int));
+	printf("q %d\n", *(int*) (queue_front(intqueue)));
+	queue_destroy(intqueue);
 	return 0;
 }

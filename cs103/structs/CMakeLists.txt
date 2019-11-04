@@ -3,4 +3,4 @@ project(structs C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(structs main.c arraylist.h linkedlist.h quicksort.h stack.h)
+add_executable(structs main.c arraylist.h linkedlist.h quicksort.h stack.h queue.h)

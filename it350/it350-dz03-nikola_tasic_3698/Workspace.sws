@@ -5,7 +5,8 @@
 <Workspace>
 	<Local Expanded="Yes">
 		<Model Expanded="Yes" ID="{4F3883ED-37D6-4911-8BEE-FB53C9884100}" Loaded="No" Name="DrvoImpex" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="DrvoImpex.prj"/>
-		<Model Expanded="Yes" ID="{9F125537-FB05-4337-8DF6-F65358025F40}" Name="DZ04" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="../it350-dz04-nikola_tasic_3698/DZ04.prj"/>
+		<Model Expanded="Yes" ID="{9F125537-FB05-4337-8DF6-F65358025F40}" Loaded="No" Name="DZ04" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="../it350-dz04-nikola_tasic_3698/DZ04.prj"/>
+		<Model Expanded="Yes" ID="{64E4EDF5-D638-4AEE-9BBC-E1365BF4E645}" Name="Aerodrom" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="../it350-dz05-nikola_tasic_3698/Aerodrom/Aerodrom.prj"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>

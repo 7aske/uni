@@ -1,6 +1,6 @@
 
 #ifndef STRUCTS_LINKEDLIST_H
-#define STRUCTS_LINKEDLISTs_H
+#define STRUCTS_LINKEDLIST_H
 
 #pragma once
 

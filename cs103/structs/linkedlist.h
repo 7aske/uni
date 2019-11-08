@@ -9,7 +9,7 @@
 #include <string.h>
 
 #ifndef _ptr
-#define _ptr(x, size) &((size)){(x)}
+#define _ptr(x, size) &(size){(x)}
 #endif
 
 typedef struct node {

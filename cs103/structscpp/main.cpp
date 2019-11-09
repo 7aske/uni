@@ -12,6 +12,9 @@ int main() {
 	for (int j = 0; j < arrayList.size(); ++j) {
 		std::cout << arrayList.get(j) << std::endl;
 	}
+	std::cout << arrayList.capacity << std::endl;
+	std::cout << arrayList.size() << std::endl;
+	std::cout << arrayList.isEmpty() << std::endl;
 
 	LinkedList<int> linkedList;
 	linkedList.add(10);
@@ -36,5 +39,21 @@ int main() {
 	std::cout << intstack.pop() << std::endl;
 	std::cout << intstack.pop() << std::endl;
 	std::cout << intstack.pop() << std::endl;
+
+
+	LinkedList<char> charlist;
+
+	charlist.addFront(10);
+	charlist.addFront(20);
+	charlist.addFront(30);
+	charlist.addFront(40);
+
+	charlist.removeAt(1);
+
+	std::cout << (int) charlist.get(0) << std::endl;
+	std::cout << (int) charlist.get(1) << std::endl;
+	std::cout << (int) charlist.get(2) << std::endl;
+	std::cout << (int) charlist.get(3) << std::endl;
+
 	return 0;
 }

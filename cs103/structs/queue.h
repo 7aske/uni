@@ -9,6 +9,10 @@
 
 #include "linkedlist.h"
 
+#ifndef _ptr
+#define _ptr(x, size) &(size){(x)}
+#endif
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>

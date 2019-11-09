@@ -12,7 +12,7 @@
 #include <string.h>
 
 #ifndef _ptr
-#define _ptr(x, size) &((size)){(x)}
+#define _ptr(x, size) &(size){(x)}
 #endif
 
 #define STACK_CAP 16

@@ -5,17 +5,23 @@
 #ifndef STRUCTSCPP_LIST_H
 #define STRUCTSCPP_LIST_H
 
+#pragma once
+
+#include <exception>
+
 typedef unsigned int uint;
+
+struct IndexOutOfBounds : public std::exception {
+	const char* what() const noexcept override {
+		return "Index out of bounds";
+	}
+};
+
 
 template<typename T>
 class List {
 protected:
 	List() = default;
-
-	inline virtual ~List() {
-		delete[] this->data;
-		this->length = 0;
-	};
 
 public:
 
@@ -57,6 +63,11 @@ public:
 	virtual void remove(T) = 0;
 
 	virtual void set(T, uint) = 0;
+
+	inline virtual ~List() {
+		delete[] this->data;
+		this->length = 0;
+	};
 };
 
 

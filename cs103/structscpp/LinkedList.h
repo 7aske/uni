@@ -1,5 +1,5 @@
 //
-// Created by nik on 11/2/19.
+// Created by nik on 11/7/19.
 //
 
 #ifndef STRUCTSCPP_LINKEDLIST_H
@@ -8,71 +8,78 @@
 #pragma once
 
 #include "List.h"
-#include <iostream>
-
 
 /**
- *
  * @brief List container implementing doubly linked list data structure.
- *
  * @tparam T type of elements in the list
  */
 template<typename T>
 class LinkedList : public List<T> {
-private:
-	struct NoSuchElementException : public std::exception {
-		const char* what() const noexcept override {
-			return "No such element";
-		}
-	};
+public:
+	explicit LinkedList() : head(nullptr), tail(nullptr) {}
 
+private:
 	/**
 	 * @brief Inline class for representing individual elements of the list.
 	 */
 	class Node {
 	public:
-		/**
-		 * @param data Generic T type element that is stored in the node.
-		 *
-		 */
-		inline explicit Node(T data) : data(data), next(nullptr), prev(nullptr) {}
 		T data;
-		struct Node* next;
-		struct Node* prev;
+		Node* next;
+		Node* prev;
+
+		/**
+         * @param data Generic T type element that is stored in the node.
+         */
+		explicit Node(T data) : data(data), next(nullptr), prev(nullptr) {}
+
+		Node(T data, Node* next, Node* prev) : data(data), next(next), prev(prev) {}
+
+		~Node() = default;
 	};
 
-	Node* head = nullptr;
-	Node* tail = nullptr;
+	Node* head;
+	Node* tail;
+
+	void removeNode(Node* current);
 
 public:
-	inline explicit LinkedList() = default;
-
 	void clear() override;
 
 	uint size() override;
 
 	bool isEmpty() override;
 
-	T get(uint uint1) override;
+	T get(uint index) override;
 
 	int indexOf(T elem) override;
 
-	int lastIndexOf(T t) override;
+	int lastIndexOf(T elem) override;
 
-	bool contains(T t) override;
+	bool contains(T elem) override;
 
 	void add(T elem) override;
 
-	void add_front(T elem);
+	void addFront(T elem);
 
-	void add(T elem, uint uint1) override;
+	void addBack(T elem);
+
+	void add(T elem, uint index) override;
 
 	void remove(T elem) override;
 
-	void set(T elem, uint uint1) override;
+	void removeAt(uint index);
 
-	~LinkedList() override;
+	void removeFront();
 
+	void removeBack();
+
+	void set(T elem, uint index) override;
+
+	/**
+     * @brief Default destructor.
+     */
+	~LinkedList() { this->clear(); };
 };
 
 /**
@@ -96,13 +103,14 @@ void LinkedList<T>::clear() {
  */
 template<typename T>
 uint LinkedList<T>::size() {
-	uint _index = 0;
+	uint count = 0;
 	Node* current = this->head;
 	while (current != nullptr) {
-		_index++;
 		current = current->next;
+		count++;
 	}
-	return _index;
+
+	return count;
 }
 
 /**
@@ -124,13 +132,13 @@ T LinkedList<T>::get(uint index) {
 	uint _index = 0;
 	Node* current = this->head;
 	while (current != nullptr) {
-		if (index == _index) {
+		if (_index == index) {
 			return current->data;
 		}
-		_index++;
 		current = current->next;
+		_index++;
 	}
-	throw NoSuchElementException();
+	throw IndexOutOfBounds();
 }
 
 /**
@@ -143,11 +151,11 @@ int LinkedList<T>::indexOf(T elem) {
 	int _index = 0;
 	Node* current = this->head;
 	while (current != nullptr) {
-		if (current->data == elem) {
+		if (elem == current->data) {
 			return _index;
 		}
-		_index++;
 		current = current->next;
+		_index++;
 	}
 	return -1;
 }
@@ -162,11 +170,11 @@ int LinkedList<T>::lastIndexOf(T elem) {
 	int _index = 0;
 	Node* current = this->tail;
 	while (current != nullptr) {
-		if (current->data == elem) {
+		if (elem == current->data) {
 			return _index;
 		}
-		_index++;
 		current = current->prev;
+		_index++;
 	}
 	return -1;
 }
@@ -178,14 +186,7 @@ int LinkedList<T>::lastIndexOf(T elem) {
  */
 template<typename T>
 bool LinkedList<T>::contains(T elem) {
-	Node* current = this->head;
-	while (current != nullptr) {
-		if (current->data == elem) {
-			return true;
-		}
-		current = current->next;
-	}
-	return false;
+	return this->indexOf(elem) != -1;
 }
 
 /**
@@ -194,8 +195,8 @@ bool LinkedList<T>::contains(T elem) {
  */
 template<typename T>
 void LinkedList<T>::add(T elem) {
-	auto* newnode = new Node(elem);
-	if (this->head == nullptr || this->tail == nullptr) {
+	Node* newnode = new Node(elem);
+	if (this->head == nullptr && this->tail == nullptr) {
 		this->head = newnode;
 		this->tail = newnode;
 	} else {
@@ -212,43 +213,29 @@ void LinkedList<T>::add(T elem) {
  */
 template<typename T>
 void LinkedList<T>::add(T elem, uint index) {
-	uint _index = 0;
 	Node* current = this->head;
-	if (index == 0) {
-		this->add_front(elem);
-	} else {
-		while (current != nullptr) {
-			if (_index == index) {
-				auto* newnode = new Node(elem);
+	uint _index = 0;
+	if (index == 0 || current == nullptr) {
+		return this->addFront(elem);
+	}
+	while (current != nullptr && _index <= index) {
+		if (_index == index) {
+			if (current->next == nullptr) {
+				this->add(elem);
+			} else {
+				Node* newnode = new Node(elem);
 				newnode->next = current;
 				newnode->prev = current->prev;
 				current->prev->next = newnode;
 				current->prev = newnode;
-				break;
 			}
-			_index++;
-			current = current->next;
+			return;
 		}
-		if (_index == index) {
-			this->add(elem);
-		}
+		current = current->next;
+		_index++;
 	}
-}
-
-/**
- * @brief Adds the element to the beginning of the list.
- * @param elem - Element to be added to the list
- */
-template<typename T>
-void LinkedList<T>::add_front(T elem) {
-	auto* newnode = new Node(elem);
-	if (this->head == nullptr || this->tail == nullptr) {
-		this->head = newnode;
-		this->tail = newnode;
-	} else {
-		newnode->next = this->head;
-		this->head->prev = newnode;
-		this->head = newnode;
+	if (_index == index) {
+		this->addBack(elem);
 	}
 }
 
@@ -260,21 +247,27 @@ template<typename T>
 void LinkedList<T>::remove(T elem) {
 	Node* current = this->head;
 	while (current != nullptr) {
-		if (current->data == elem) {
-			if (current->next == nullptr) {
-				current->prev->next = nullptr;
-				this->tail = current->prev;
-			} else if (current->prev == nullptr) {
-				current->next->prev = nullptr;
-				this->head = current->next;
-			} else {
-				current->prev->next = current->next;
-				current->next->prev = current->prev;
-			}
-			delete current;
-			break;
+		if (elem == current->data) {
+			return removeNode(current);
 		}
 		current = current->next;
+	}
+}
+
+/**
+ * @brief Removes the element from the list at given index.
+ * @param index - Index of the element to be removed from the list
+ */
+template<typename T>
+void LinkedList<T>::removeAt(uint index) {
+	int _index = 0;
+	Node* current = this->head;
+	while (current != nullptr) {
+		if (_index == index) {
+			return removeNode(current);
+		}
+		current = current->next;
+		_index++;
 	}
 }
 
@@ -285,22 +278,79 @@ void LinkedList<T>::remove(T elem) {
  */
 template<typename T>
 void LinkedList<T>::set(T elem, uint index) {
-	uint _index = 0;
+	int _index = 0;
 	Node* current = this->head;
-	while (current != nullptr && _index <= index) {
+	while (current != nullptr) {
 		if (_index == index) {
 			current->data = elem;
 		}
 		current = current->next;
+		_index++;
 	}
 }
 
 /**
- * @brief Default destructor.
+ * @brief Adds the element to the beginning of the list.
+ * @param elem - Element to be added to the list
  */
 template<typename T>
-LinkedList<T>::~LinkedList() {
-	this->clear();
+void LinkedList<T>::addFront(T elem) {
+	Node* newnode = new Node(elem);
+	if (this->head == nullptr && this->tail == nullptr) {
+		this->head = newnode;
+		this->tail = newnode;
+	} else {
+		newnode->next = this->head;
+		this->head->prev = newnode;
+		this->head = newnode;
+	}
+}
+
+/**
+ * @brief Adds the element to the end of the list.
+ * @param elem - Element to be added to the list
+ */
+template<typename T>
+void LinkedList<T>::addBack(T elem) {
+	this->add(elem);
+}
+
+/**
+ * @brief Removes the element from the front of the list.
+ */
+template<typename T>
+void LinkedList<T>::removeFront() {
+	this->removeNode(this->head);
+}
+
+/**
+ * @brief Removes the element at the end of the list.
+ */
+template<typename T>
+void LinkedList<T>::removeBack() {
+	this->removeNode(this->tail);
+}
+
+/**
+ * @brief Helper function to remove the node and re-wire next and prev pointers.
+ */
+template<typename T>
+void LinkedList<T>::removeNode(LinkedList::Node* current) {
+	if (current == nullptr) {
+		return;
+	}
+
+	if (current->prev == nullptr && current->next != nullptr) {
+		this->head->next->prev = nullptr;
+		this->head = this->head->next;
+	} else if (current->next == nullptr && current->prev != nullptr) {
+		this->tail->prev->next = nullptr;
+		this->tail = this->tail->prev;
+	} else if (current->prev != nullptr && current->next != nullptr) {
+		current->prev->next = current->next;
+		current->next->prev = current->prev;
+	}
+	return delete current;
 }
 
 #endif //STRUCTSCPP_LINKEDLIST_H

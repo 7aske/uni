@@ -7,28 +7,36 @@
 
 #pragma once
 
-
-#include <exception>
 #include "List.h"
 
 typedef unsigned int uint;
 
-struct IndexOutOfBounds : public std::exception {
-	const char* what() const noexcept override {
-		return "Index out of bounds";
-	}
-};
 
+/**
+ * @brief List container implementing array list data structure.
+ * @tparam T type of elements in the list
+ */
 template<typename T>
 class ArrayList : public List<T> {
 public:
-	ArrayList() = default;
+	/**
+	 * @brief Default constructor.
+	 */
+	ArrayList() : ArrayList(16) {}
 
+	/**
+	 * @brief Initialize the list with starting capacity.
+	 * @param capacity Initial capacity.
+	 */
 	inline explicit ArrayList(uint capacity) {
 		this->capacity = capacity;
 		this->data = new T[this->capacity];
 	}
 
+	/**
+	 * @brief Initialize the list with starting capacity.
+	 * @param capacity Initial capacity.
+	 */
 	inline explicit ArrayList(T* arr, uint length) {
 		this->capacity = length * 2;
 		this->data = new T[this->capacity];
@@ -36,6 +44,8 @@ public:
 			this->data[i] = arr[i];
 		}
 	}
+
+	uint size() override;
 
 	T get(uint) override;
 
@@ -52,7 +62,16 @@ public:
 	void remove(T) override;
 
 	void set(T, uint) override;
+
+	void clear() override;
+
+	bool isEmpty() override;
+
+private:
+	void resize() override;
+
 };
+
 
 template<typename T>
 T ArrayList<T>::get(uint index) {
@@ -63,6 +82,11 @@ T ArrayList<T>::get(uint index) {
 	}
 }
 
+/**
+ * @brief Searches for the index of the elements in the array head to tail.
+ * @param elem - Element that is being searched for.
+ * @return Returns the index of the element if found or -1 if not found.
+ */
 template<typename T>
 int ArrayList<T>::indexOf(T elem) {
 	for (int i = 0; i < this->size(); ++i) {
@@ -73,6 +97,11 @@ int ArrayList<T>::indexOf(T elem) {
 	return -1;
 }
 
+/**
+ * @brief Searches for the index of the elements in the array tail to head.
+ * @param elem - Element that is being searched for.
+ * @return Returns the index of the element if found or -1 if not found.
+ */
 template<typename T>
 int ArrayList<T>::lastIndexOf(T elem) {
 	for (int i = this->size() - 1; i > -1; ++i) {
@@ -83,11 +112,20 @@ int ArrayList<T>::lastIndexOf(T elem) {
 	return -1;
 }
 
+/**
+ * @brief Checks whether the element elem is in the list.
+ * @param elem - Element that is being searched for.
+ * @return Returns true if element has been found.
+ */
 template<typename T>
 bool ArrayList<T>::contains(T elem) {
 	return this->indexOf(elem) != -1;
 }
 
+/**
+ * @brief Adds the element to the end of the list.
+ * @param elem - Element to be added to the list
+ */
 template<typename T>
 void ArrayList<T>::add(T elem) {
 	if (this->size() + 1 == this->capacity) {
@@ -97,6 +135,11 @@ void ArrayList<T>::add(T elem) {
 	this->length++;
 }
 
+/**
+ * @brief Adds the element to the end of the list at the position index.
+ * @param elem - Element to be added to the list
+ * @param index - Index where the element will be placed in the list.
+ */
 template<typename T>
 void ArrayList<T>::add(T elem, uint index) {
 	if (this->size() + 1 == this->capacity) {
@@ -108,6 +151,10 @@ void ArrayList<T>::add(T elem, uint index) {
 	this->data[index] = elem;
 }
 
+/**
+ * @brief Removes the element from the list. Comparison is preformed using equals operator.
+ * @param elem - Element to be removed from the list
+ */
 template<typename T>
 void ArrayList<T>::remove(T elem) {
 	int index = this->indexOf(elem);
@@ -118,6 +165,11 @@ void ArrayList<T>::remove(T elem) {
 	}
 }
 
+/**
+ * @brief Sets the element at the given index to the value specified by elem.
+ * @param elem Value to be set.
+ * @param index Index at which value will be set.
+ */
 template<typename T>
 void ArrayList<T>::set(T elem, uint index) {
 	if (index < this->size()) {
@@ -126,6 +178,40 @@ void ArrayList<T>::set(T elem, uint index) {
 		throw IndexOutOfBounds();
 
 	}
+}
+
+/**
+ * @brief Frees memory allocated by the list and sets size to 0.
+ */
+template<typename T>
+void ArrayList<T>::clear() {
+	List<T>::clear();
+}
+
+/**
+ * @brief Counts the elements in the list.
+ * @return Returns the size of the list.
+ */
+template<typename T>
+uint ArrayList<T>::size() {
+	return List<T>::size();
+}
+
+/**
+ * @brief Returns whether the list is empty.
+ * @return Returns true if the list is empty.
+ */
+template<typename T>
+bool ArrayList<T>::isEmpty() {
+	return List<T>::isEmpty();
+}
+
+/**
+ * @brief Resizes the list to fit new elements.
+ */
+template<typename T>
+void ArrayList<T>::resize() {
+	List<T>::resize();
 }
 
 

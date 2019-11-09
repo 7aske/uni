@@ -1,6 +1,6 @@
 
 #ifndef STRUCTS_LINKEDLIST_H
-#define STRUCTS_LINKEDLISTs_H
+#define STRUCTS_LINKEDLIST_H
 
 #pragma once
 
@@ -9,7 +9,7 @@
 #include <string.h>
 
 #ifndef _ptr
-#define _ptr(x, size) &((size)){(x)}
+#define _ptr(x, size) &(size){(x)}
 #endif
 
 typedef struct node {

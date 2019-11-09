@@ -6,7 +6,9 @@
 	<Local Expanded="Yes">
 		<Model Expanded="Yes" ID="{4F3883ED-37D6-4911-8BEE-FB53C9884100}" Loaded="No" Name="DrvoImpex" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="DrvoImpex.prj"/>
 		<Model Expanded="Yes" ID="{9F125537-FB05-4337-8DF6-F65358025F40}" Loaded="No" Name="DZ04" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="../it350-dz04-nikola_tasic_3698/DZ04.prj"/>
-		<Model Expanded="Yes" ID="{64E4EDF5-D638-4AEE-9BBC-E1365BF4E645}" Name="Aerodrom" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="../it350-dz05-nikola_tasic_3698/Aerodrom/Aerodrom.prj"/>
+		<Model Expanded="Yes" ID="{64E4EDF5-D638-4AEE-9BBC-E1365BF4E645}" Loaded="No" Name="Aerodrom" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="../it350-dz05-nikola_tasic_3698/Aerodrom/Aerodrom.prj"/>
+		<Model Expanded="Yes" ID="{956FDA0E-5056-4676-AA5C-23B1A15D4E13}" Loaded="No" Name="IT350-DZ03-Aleksandra_Blagojevic_3801" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="../it350-dz05-nikola_tasic_3698/IT350-DZ03-Aleksandra_Blagojevic_3801/IT350-DZ03-Aleksandra_Blagojevic_3801.prj"/>
+		<Model Expanded="Yes" ID="{39310E87-C57C-41BD-A53D-C1DC51972A0E}" Name="Project1" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="../../se201/se201-v06/Project1.prj"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>

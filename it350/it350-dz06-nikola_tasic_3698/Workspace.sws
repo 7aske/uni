@@ -7,7 +7,16 @@
 		<Model ID="{73A50577-7816-436D-9529-9BB8ADCC9FD1}" Loaded="No" Name="it350-dz06-nikola_tasic_3698" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="it350-dz06-nikola_tasic_3698.prj"/>
 		<Model Expanded="Yes" ID="{80545A82-3B61-429F-A541-3D0057DD4EC5}" Loaded="No" Name="it305-v07" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="../it305-v07/it305-v07.prj"/>
 		<Model Expanded="Yes" ID="{3E50C728-6959-49A6-95C7-6B83F754E42A}" Loaded="No" Name="Fakultet" Type="{1E597170-9350-11D1-AB3C-0020AF71E433}" URL="../it305-v07/Fakultet.cdm"/>
-		<Model Expanded="Yes" ID="{11C0BF7A-2B1F-4AEB-826E-CA02B0B937E7}" Name="se201-v07" Selected="Yes" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="../../se201/se201-v07/se201-v07.prj"/>
+		<Model Expanded="Yes" ID="{11C0BF7A-2B1F-4AEB-826E-CA02B0B937E7}" Loaded="No" Name="se201-v07" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="../../se201/se201-v07/se201-v07.prj"/>
+		<Model ID="{0F67BC78-066B-4D68-9460-E303E6F5AEB4}" Name="se201-dz03-nikola_tasic_3698" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="../../se201/se201-dz03-nikola_tasic_3698/se201-dz03-nikola_tasic_3698.prj"/>
+		<Model ID="{7601803C-E461-4529-A789-19C714BA997A}" Name="UpdateApp" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="../../se201/se201-dz03-nikola_tasic_3698/UpdateApp.oom"/>
+		<Model ID="{54DCBB9E-D5EE-4001-9AF0-39E9AB0A000C}" Name="ModifySettings" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="../../se201/se201-dz03-nikola_tasic_3698/ModifyAppSettings.oom"/>
+		<Model ID="{F839554D-5446-4D47-A18B-56EFA669B4A3}" Name="DeployApp" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="../../se201/se201-dz03-nikola_tasic_3698/DeployApp.oom"/>
+		<Model ID="{75ABDEC1-E1C6-4BAF-B287-2EB3E85D3208}" Name="RemoveApp" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="../../se201/se201-dz03-nikola_tasic_3698/RemoveApp.oom"/>
+		<Model ID="{999DF020-E996-4F7E-BBAE-89B9A66C4CC0}" Name="DeployAppSSD" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="../../se201/se201-dz03-nikola_tasic_3698/DeployAppSSD.oom"/>
+		<Model ID="{1B94CD5C-7985-4AB9-8046-24A512BF6D1E}" Name="RemoveAppSSD" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="../../se201/se201-dz03-nikola_tasic_3698/RemoveAppSSD.oom"/>
+		<Model ID="{42676B28-2CB9-4A6A-B0AA-48B51C44C41F}" Name="UpdateAppSSD" Selected="Yes" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="../../se201/se201-dz03-nikola_tasic_3698/UpdateAppSSD.oom"/>
+		<Model Expanded="Yes" ID="{1319BDD7-44C2-409A-9180-9DD396AA5832}" Name="ModifySettingsSSD" Type="{18112060-1A4B-11D1-83D9-444553540000}" URL="../../se201/se201-dz03-nikola_tasic_3698/ModifySettingsSSD.oom"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>

@@ -10,6 +10,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include "queue.h"
 
@@ -102,10 +103,7 @@ static void inorder(tnode_t* temp, void (* prtfunc)(const void*)) {
 }
 
 extern void btree_inorder(btree_t* tree, void (* prtfunc)(const void*)) {
-	if (prtfunc == NULL) {
-		return;
-	}
-
+	assert(prtfunc != NULL);
 	inorder(tree->root, prtfunc);
 }
 

@@ -10,6 +10,10 @@ int cmpfunc(const void* a, const void* b, unsigned long size) {
 	return *(int*) a < *(int*) b;
 }
 
+void inttreeprint(const void* data) {
+	printf("%d ", *(int*) data);
+}
+
 typedef struct frac {
 	double numerator;
 	double denominator;
@@ -175,8 +179,7 @@ int main() {
 	btree_add(inttree, _ptr(50, int));
 	btree_add(inttree, _ptr(60, int));
 	btree_add(inttree, _ptr(70, int));
-
-	btree_inorder(inttree);
+	btree_inorder(inttree, inttreeprint);
 	btree_destroy(inttree);
 	return 0;
 }

@@ -6,19 +6,12 @@ void prtfunc(const void* data) {
 	printf("%d ", *(int*) data);
 }
 
-void _sum_nodes(tnode_t* temp, int* sum) {
-	if (temp == NULL) {
-		return;
-	}
-	_sum_nodes(temp->left, sum);
-	*sum += *(int*) temp->data;
-	_sum_nodes(temp->right, sum);
-}
-
 int sum_nodes(tnode_t* temp) {
-	int sum = 0;
-	_sum_nodes(temp, &sum);
-	return sum;
+	if (temp == NULL) {
+		return 0;
+	}
+
+	return  *(int*) temp->data + sum_nodes(temp->left) + sum_nodes(temp->right);
 }
 
 void traverse(tnode_t* temp) {

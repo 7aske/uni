@@ -53,6 +53,7 @@ extern llist_t* llist_new(uint size) {
 }
 
 extern void llist_set_cmp(llist_t* list, int(* cmpfunc)(const void*, const void*, unsigned long)) {
+	assert(cmpfunc != NULL);
 	list->cmpfunc = cmpfunc;
 }
 
@@ -297,9 +298,7 @@ extern int llist_isempty(llist_t* list) {
 }
 
 extern void llist_print_front(llist_t* list, void (*_printfunc)(const void*)) {
-	if (_printfunc == NULL) {
-		return;
-	}
+	assert(_printfunc != NULL);
 	node_t* current = list->head;
 	if (current != NULL) {
 		while (current != NULL) {
@@ -310,9 +309,7 @@ extern void llist_print_front(llist_t* list, void (*_printfunc)(const void*)) {
 }
 
 extern void llist_print_back(llist_t* list, void (*_printfunc)(const void*)) {
-	if (_printfunc == NULL) {
-		return;
-	}
+	assert(_printfunc != NULL);
 	node_t* current = list->tail;
 	if (current != NULL) {
 		while (current != NULL) {

@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
+#include <assert.h>
 
 #ifndef _ptr
 #define _ptr(x, size) &(size){(x)}
@@ -57,6 +58,7 @@ extern alist_t* alist_copy(alist_t* list) {
 }
 
 extern void alist_set_cmp(alist_t* list, int(* cmpfunc)(const void*, const void*, unsigned long)) {
+	assert(cmpfunc != NULL);
 	list->cmpfunc = cmpfunc;
 }
 
@@ -137,6 +139,7 @@ extern void alist_rm(alist_t* list, void* elem) {
 }
 
 extern void alist_rm_cmp(alist_t* list, void* elem, int(* cmpfunc)(const void*, const void*, unsigned long)) {
+	assert(cmpfunc != NULL);
 	int32_t index = alist_idxof_cmp(list, elem, cmpfunc);
 	if (index > -1) {
 		alist_rm_idx(list, index);
@@ -159,9 +162,7 @@ extern void alist_shrink(alist_t* list) {
 }
 
 extern void alist_print(alist_t* list, void(* _printfunc)(const void*)) {
-	if (_printfunc == NULL){
-		return;
-	}
+	assert(_printfunc != NULL);
 	for (uint i = 0; i < list->len; ++i) {
 		_printfunc(list->data + i * list->size);
 	}

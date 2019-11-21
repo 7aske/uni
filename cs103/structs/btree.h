@@ -13,8 +13,9 @@
 
 #include "queue.h"
 
-#include <stdio.h>
-
+#ifndef _ptr
+#define _ptr(x, size) &(size){(x)}
+#endif
 
 typedef struct tnode {
 	void* data;

@@ -4,6 +4,7 @@
 #include "linkedlist.h"
 #include "stack.h"
 #include "queue.h"
+#include "btree.h"
 
 int cmpfunc(const void* a, const void* b, unsigned long size) {
 	return *(int*) a < *(int*) b;
@@ -164,5 +165,18 @@ int main() {
 	queue_enqueue(intqueue, _ptr(30, int));
 	printf("q %d\n", *(int*) (queue_front(intqueue)));
 	queue_destroy(intqueue);
+
+
+	btree_t* inttree = btree_new(sizeof(int));
+	btree_add(inttree, _ptr(10, int));
+	btree_add(inttree, _ptr(20, int));
+	btree_add(inttree, _ptr(30, int));
+	btree_add(inttree, _ptr(40, int));
+	btree_add(inttree, _ptr(50, int));
+	btree_add(inttree, _ptr(60, int));
+	btree_add(inttree, _ptr(70, int));
+
+	btree_inorder(inttree);
+	btree_destroy(inttree);
 	return 0;
 }

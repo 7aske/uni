@@ -6,3 +6,4 @@ select indeks, ime, prezime from student where ime between 'M%' and 'Z%' and pre
 
 select indeks, ime, prezime from student where ime in ('Milan', 'Marko', 'Milica');
 
+select predmet_id, avg(ocena) as avgocena from overa where predmet_id like 'CS%' group by predmet_id order by avgocena desc;

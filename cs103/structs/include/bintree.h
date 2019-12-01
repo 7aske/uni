@@ -2,12 +2,11 @@
 // Created by nik on 11/21/19.
 //
 
-#ifndef STRUCTS_BTREE_H
-#define STRUCTS_BTREE_H
+#ifndef STRUCTS_BINTREE_H
+#define STRUCTS_BINTREE_H
 
 #pragma once
 
-#include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -24,13 +23,13 @@ typedef struct tnode {
 	struct tnode* right;
 } tnode_t;
 
-typedef struct btree {
+typedef struct bintree {
 	tnode_t* root;
-	uint size;
-} btree_t;
+	int size;
+} bintree_t;
 
 
-static tnode_t* tnode_new(void* data, uint size) {
+static tnode_t* tnode_new(void* data, int size) {
 	tnode_t* newnode = (tnode_t*) calloc(1, sizeof(tnode_t));
 	newnode->data = malloc(size);
 	memcpy(newnode->data, data, size);
@@ -39,13 +38,13 @@ static tnode_t* tnode_new(void* data, uint size) {
 	return newnode;
 }
 
-extern btree_t* btree_new(uint size) {
-	btree_t* newtree = (btree_t*) calloc(1, sizeof(btree_t));
+static bintree_t* bintree_new(int size) {
+	bintree_t* newtree = (bintree_t*) calloc(1, sizeof(bintree_t));
 	newtree->root = NULL;
 	newtree->size = size;
 }
 
-extern void btree_add(btree_t* tree, void* data) {
+static void bintree_add(bintree_t* tree, void* data) {
 	tnode_t* newnode = tnode_new(data, tree->size);
 	if (tree->root == NULL) {
 		tree->root = newnode;
@@ -73,22 +72,22 @@ extern void btree_add(btree_t* tree, void* data) {
 		}
 		free(temp);
 	}
-	queue_destroy(nodequeue);
+	queue_destroy(&nodequeue);
 }
 
-extern void _btree_destroy(tnode_t* temp) {
+static void _bintree_destroy(tnode_t* temp) {
 	if (temp == NULL) {
 		return;
 	}
 
-	_btree_destroy(temp->left);
-	_btree_destroy(temp->right);
+	_bintree_destroy(temp->left);
+	_bintree_destroy(temp->right);
 	free(temp->data);
 	free(temp);
 }
 
-extern void btree_destroy(btree_t* tree) {
-	_btree_destroy(tree->root);
+static void bintree_destroy(bintree_t* tree) {
+	_bintree_destroy(tree->root);
 	free(tree);
 }
 
@@ -102,9 +101,9 @@ static void inorder(tnode_t* temp, void (* prtfunc)(const void*)) {
 	inorder(temp->right, prtfunc);
 }
 
-extern void btree_inorder(btree_t* tree, void (* prtfunc)(const void*)) {
+static void bintree_inorder(bintree_t* tree, void (* prtfunc)(const void*)) {
 	assert(prtfunc != NULL);
 	inorder(tree->root, prtfunc);
 }
 
-#endif //STRUCTS_BTREE_H
+#endif //STRUCTS_BINTREE_H

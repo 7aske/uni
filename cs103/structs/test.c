@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <time.h>
+#include "htable.h"
 #include "quicksort.h"
 #include "arraylist.h"
 #include "linkedlist.h"
@@ -197,7 +198,8 @@ int main() {
 	free(qelem2);
 
 	assert(1 == queue_isempty(intqueue));
-	queue_enqueue(intqueue, _ptr(30, int));
+	queue_enqueue(intqueue, _ptr(30,
+								 int));
 	assert(30 == *(int*) queue_front(intqueue));
 
 	queue_destroy(&intqueue);
@@ -212,9 +214,20 @@ int main() {
 	bintree_add(inttree, _ptr(50, int));
 	bintree_add(inttree, _ptr(60, int));
 	bintree_add(inttree, _ptr(70, int));
-	bintree_inorder(inttree, inttreeprint);
 
-	bintree_destroy(inttree);
+	bintree_destroy(&inttree);
 	assert(NULL == inttree);
+
+	long tabletest[] = {1, 2, 3, 4, 5, 6, 7};
+
+	htable_t* inttable = htable_new(sizeof(long));
+	htable_add(inttable, &tabletest[0]);
+	htable_add(inttable, &tabletest[1]);
+	htable_add(inttable, &tabletest[2]);
+	htable_add(inttable, &tabletest[3]);
+	htable_add(inttable, &tabletest[4]);
+	htable_add(inttable, &tabletest[5]);
+	
+	assert(6 == htable_size(inttable));
 	return 0;
 }

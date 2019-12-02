@@ -4,4 +4,4 @@ project(structs C)
 set(CMAKE_C_STANDARD 99)
 include_directories(include)
 
-add_executable(structs test.c)
+add_executable(structs test.c include/htable.h)

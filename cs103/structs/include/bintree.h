@@ -86,9 +86,11 @@ static void _bintree_destroy(tnode_t* temp) {
 	free(temp);
 }
 
-static void bintree_destroy(bintree_t* tree) {
-	_bintree_destroy(tree->root);
-	free(tree);
+static void bintree_destroy(bintree_t** tree) {
+	assert(tree != NULL);
+	_bintree_destroy((*tree)->root);
+	free(*tree);
+	*tree = NULL;
 }
 
 static void inorder(tnode_t* temp, void (* prtfunc)(const void*)) {

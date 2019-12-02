@@ -227,7 +227,7 @@ int main() {
 	htable_add(inttable, &tabletest[3]);
 	htable_add(inttable, &tabletest[4]);
 	htable_add(inttable, &tabletest[5]);
-	
+
 	assert(6 == htable_size(inttable));
 	return 0;
 }

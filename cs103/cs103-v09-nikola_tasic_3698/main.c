@@ -5,6 +5,7 @@
 #define DEF_NMEMB 4
 #define T_TRESHHOLD 0.5f
 
+// bolja implementacija na structs folderu
 struct htable {
 	void* data;
 	size_t size;

@@ -12,7 +12,7 @@
 #define T_TRESHHOLD 0.5f
 
 struct htable {
-	void* data;
+	void** data;
 	size_t size;
 	int nmemb;
 };
@@ -38,42 +38,47 @@ htable_t* htable_new(size_t size) {
 	htable_t* newhtable = calloc(1, sizeof(htable_t));
 	newhtable->nmemb = DEF_NMEMB;
 	newhtable->size = size;
-	newhtable->data = calloc(newhtable->nmemb, size * newhtable->nmemb);
+	newhtable->data = calloc(newhtable->nmemb, sizeof(void*));
 	return newhtable;
 }
 
 void htable_destroy(htable_t** table) {
 	assert(table != NULL);
-
+	int i;
+	void* temp;
+	for (i = 0; i < (*table)->nmemb; ++i) {
+		temp = (*table)->data[i];
+		if (temp != NULL) {
+			free(temp);
+		}
+	}
+	free((*table)->data);
+	free(*table);
+	*table = NULL;
 }
 
 void htable_add(htable_t* table, void* data) {
 	if ((float) htable_size(table) / (float) table->nmemb > T_TRESHHOLD) {
 		_linear_probe(table);
 	}
-
 	unsigned long hash = _hashfunc(table->nmemb, data, table->size);
+	void* dataptr = calloc(1, table->size);
+	memcpy(dataptr, data, table->size);
 
-	if (*(unsigned long*) (table->data + hash * table->size) == 0) {
-		memcpy(table->data + (hash * table->size), data, table->size);
-	} else {
-		while (*(unsigned long*) (table->data + hash * table->size) != 0) {
-			hash = hash == table->nmemb - 1 ? 0 : hash + 1;
-		}
-		memcpy(table->data + (hash * table->size), data, table->size);
-	}
+	while (table->data[hash] != NULL)
+		hash = hash == table->nmemb - 1 ? 0 : hash + 1;
+	table->data[hash] = dataptr;
 }
 
 void _linear_probe(htable_t* table) {
-	void* temp = table->data;
-	int oldnmemb = table->nmemb;
-	table->nmemb = table->nmemb * 2 + 1;
-	int i = 0;
+	int i = 0, n = table->nmemb;
+	void** temp = table->data;
+	table->nmemb *= 2;
+	table->data = calloc(table->nmemb, sizeof(void*));
 
-	table->data = calloc(table->nmemb, table->size * table->nmemb);
-	for (i = 0; i < oldnmemb; ++i) {
-		if (*(unsigned long*) (temp + (i * table->size)) != 0) {
-			htable_add(table, temp + (i * table->size));
+	for (i = 0; i < n; ++i) {
+		if (temp[i] != NULL) {
+			htable_add(table, temp[i]);
 		}
 	}
 	free(temp);
@@ -95,10 +100,9 @@ void _quadratic_probe(htable_t* table) {
 
 
 int htable_size(htable_t* table) {
-	int i;
-	int count = 0;
+	int i, count = 0;
 	for (i = 0; i < table->nmemb; ++i) {
-		count += *(unsigned long*) (table->data + (i * table->size)) != 0;
+		count += table->data[i] != NULL;
 	}
 	return count;
 }

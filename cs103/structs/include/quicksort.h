@@ -7,12 +7,11 @@
 #pragma once
 
 #include <stdlib.h>
-#include <stdint.h>
 #include <limits.h>
 #include <string.h>
 
 
-extern void memswp(void* a, void* b, uint size) {
+static void memswp(void* a, void* b, size_t size) {
 	if (a == b) return;
 	void* t = malloc(size);
 	memcpy(t, a, size);
@@ -21,10 +20,10 @@ extern void memswp(void* a, void* b, uint size) {
 	free(t);
 }
 
-extern int64_t badd(const void* num, uint size) {
+static int64_t badd(const void* num, size_t size) {
 	int64_t sum = 0;
 	int64_t n = *(int64_t*) num;
-	uint bmask = (uint) (1 << (size * CHAR_BIT - 1));
+	uint bmask = (uint) (1u << (size * CHAR_BIT - 1));
 	uint msb = n & bmask;
 	if (msb) {
 		n = ~n + 1;
@@ -62,7 +61,7 @@ _partition(void* arr, uint size, int low, int high, int (* cmpfunc)(const void*,
 	return (i + 1);
 }
 
-static void _quicksort(void* arr, uint size, int32_t low, int32_t high, int (* cmpfunc)(const void*, const void*,
+static void _quicksort(void* arr, size_t size, int low, int high, int (* cmpfunc)(const void*, const void*,
 																						unsigned long)) {
 	if (low < high) {
 		int pi = _partition(arr, size, low, high, cmpfunc);
@@ -71,7 +70,7 @@ static void _quicksort(void* arr, uint size, int32_t low, int32_t high, int (* c
 	}
 }
 
-extern void quicksort(void* arr, uint32_t nmemb, uint size, int (* cmpfunc)(const void*, const void*, unsigned long)) {
+static void quicksort(void* arr, int nmemb, uint size, int (* cmpfunc)(const void*, const void*, unsigned long)) {
 
 	int (* _cmpfunc)(const void*, const void*, unsigned long) = cmpfunc != NULL ? cmpfunc : __cmpfunc;
 	_quicksort(arr, size, 0, nmemb - 1, _cmpfunc);

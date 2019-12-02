@@ -5,7 +5,6 @@
 #pragma once
 
 #include <stdlib.h>
-#include <stdint.h>
 #include <string.h>
 
 #ifndef _ptr
@@ -19,7 +18,7 @@ typedef struct node {
 } node_t;
 
 typedef struct llist_t {
-	uint size;
+	int size;
 	node_t* head;
 	node_t* tail;
 
@@ -27,9 +26,10 @@ typedef struct llist_t {
 } llist_t;
 
 
-extern void llist_destroy(llist_t* list) {
-	if (list != NULL) {
-		node_t* current = list->head;
+static void llist_destroy(llist_t** list) {
+	assert(list != NULL);
+	if (*list != NULL) {
+		node_t* current = (*list)->head;
 		while (current != NULL) {
 			free(current->data);
 			current->data = NULL;
@@ -38,12 +38,13 @@ extern void llist_destroy(llist_t* list) {
 			current = current->next;
 			free(temp);
 		}
-		free(list);
+		free(*list);
+		*list = NULL;
 	}
 }
 
 
-extern llist_t* llist_new(uint size) {
+static llist_t* llist_new(int size) {
 	llist_t* list = (llist_t*) calloc(1, sizeof(llist_t));
 	list->size = size;
 	list->head = NULL;
@@ -52,13 +53,13 @@ extern llist_t* llist_new(uint size) {
 	return list;
 }
 
-extern void llist_set_cmp(llist_t* list, int(* cmpfunc)(const void*, const void*, unsigned long)) {
+static void llist_set_cmp(llist_t* list, int(* cmpfunc)(const void*, const void*, unsigned long)) {
 	assert(cmpfunc != NULL);
 	list->cmpfunc = cmpfunc;
 }
 
 
-static node_t* _newnode(void* data, uint size) {
+static node_t* _newnode(void* data, int size) {
 	node_t* newnode = (node_t*) calloc(1, sizeof(node_t));
 	newnode->data = calloc(1, size);
 	memcpy(newnode->data, data, size);
@@ -85,7 +86,7 @@ static void _rmnode(llist_t* list, node_t* current) {
 	free(current);
 }
 
-extern void llist_add_front(llist_t* list, void* data) {
+static void llist_add_front(llist_t* list, void* data) {
 	node_t* newnode = _newnode(data, list->size);
 	if (list->head == NULL && list->tail == NULL) {
 		list->head = newnode;
@@ -97,7 +98,7 @@ extern void llist_add_front(llist_t* list, void* data) {
 	}
 }
 
-extern void llist_add_back(llist_t* list, void* data) {
+static void llist_add_back(llist_t* list, void* data) {
 	node_t* newnode = _newnode(data, list->size);
 	if (list->head == NULL && list->tail == NULL) {
 		list->head = newnode;
@@ -110,8 +111,8 @@ extern void llist_add_back(llist_t* list, void* data) {
 }
 
 
-extern void llist_add_at(llist_t* list, void* data, uint index) {
-	uint _index = 0;
+static void llist_add_at(llist_t* list, void* data, int index) {
+	int _index = 0;
 	node_t* current = list->head;
 	if (index == 0) {
 		llist_add_front(list, data);
@@ -135,7 +136,7 @@ extern void llist_add_at(llist_t* list, void* data, uint index) {
 }
 
 
-extern llist_t* llist_copy(llist_t* list) {
+static llist_t* llist_copy(llist_t* list) {
 	llist_t* newlist = (llist_t*) calloc(1, sizeof(llist_t));
 	newlist->size = list->size;
 	newlist->head = NULL;
@@ -149,8 +150,8 @@ extern llist_t* llist_copy(llist_t* list) {
 	return newlist;
 }
 
-extern void* llist_get(llist_t* list, uint index) {
-	uint _index = 0;
+static void* llist_get(llist_t* list, int index) {
+	int _index = 0;
 	node_t* current = list->head;
 	while (current != NULL && _index <= index) {
 		if (_index == index) {
@@ -162,8 +163,8 @@ extern void* llist_get(llist_t* list, uint index) {
 	return NULL;
 }
 
-extern node_t* llist_get_node(llist_t* list, uint index) {
-	uint _index = 0;
+static node_t* llist_get_node(llist_t* list, int index) {
+	int _index = 0;
 	node_t* current = list->head;
 	while (current != NULL && _index <= index) {
 		if (_index == index) {
@@ -175,8 +176,8 @@ extern node_t* llist_get_node(llist_t* list, uint index) {
 	return NULL;
 }
 
-extern void* llist_getr(llist_t* list, uint index) {
-	uint _index = 0;
+static void* llist_getr(llist_t* list, int index) {
+	int _index = 0;
 	node_t* current = list->tail;
 	while (current != NULL && _index <= index) {
 		if (_index == index) {
@@ -188,26 +189,26 @@ extern void* llist_getr(llist_t* list, uint index) {
 	return NULL;
 }
 
-extern node_t* llist_get_last_node(llist_t* list) {
+static node_t* llist_get_last_node(llist_t* list) {
 	return list->tail;
 }
 
-extern node_t* llist_get_first_node(llist_t* list) {
+static node_t* llist_get_first_node(llist_t* list) {
 	return list->head;
 }
 
 
-extern void* llist_get_last(llist_t* list) {
+static void* llist_get_last(llist_t* list) {
 	return list->tail->data;
 }
 
-extern void* llist_get_first(llist_t* list) {
+static void* llist_get_first(llist_t* list) {
 	return list->head->data;
 }
 
 
-extern uint32_t llist_idxof(llist_t* list, void* data) {
-	uint32_t _index = 0;
+static int llist_idxof(llist_t* list, void* data) {
+	int _index = 0;
 	node_t* current = list->head;
 	while (current != NULL) {
 		if (list->cmpfunc(current->data, data, list->size) == 0) {
@@ -219,8 +220,8 @@ extern uint32_t llist_idxof(llist_t* list, void* data) {
 	return -1;
 }
 
-extern uint32_t llist_idxof_cmp(llist_t* list, void* data, int(* cmpfunc)(const void*, const void*, unsigned long)) {
-	uint32_t _index = 0;
+static int llist_idxof_cmp(llist_t* list, void* data, int(* cmpfunc)(const void*, const void*, unsigned long)) {
+	int _index = 0;
 	node_t* current = list->head;
 	while (current != NULL) {
 		if (cmpfunc(current->data, data, list->size) == 0) {
@@ -233,8 +234,8 @@ extern uint32_t llist_idxof_cmp(llist_t* list, void* data, int(* cmpfunc)(const 
 }
 
 
-extern void llist_rm_idx(llist_t* list, uint index) {
-	uint _index = 0;
+static void llist_rm_idx(llist_t* list, int index) {
+	int _index = 0;
 	node_t* current = list->head;
 	while (current != NULL && _index <= index) {
 		if (_index == index) {
@@ -246,8 +247,8 @@ extern void llist_rm_idx(llist_t* list, uint index) {
 	}
 }
 
-extern void llist_rm(llist_t* list, void* elem) {
-	uint _index = 0;
+static void llist_rm(llist_t* list, void* elem) {
+	int _index = 0;
 	node_t* current = list->head;
 	while (current != NULL) {
 		if (list->cmpfunc(current->data, elem, list->size) == 0) {
@@ -259,20 +260,20 @@ extern void llist_rm(llist_t* list, void* elem) {
 	}
 }
 
-extern void llist_rm_front(llist_t* list) {
+static void llist_rm_front(llist_t* list) {
 	if (list->head != NULL) {
 		_rmnode(list, list->head);
 	}
 }
 
-extern void llist_rm_back(llist_t* list) {
+static void llist_rm_back(llist_t* list) {
 	if (list->tail != NULL) {
 		_rmnode(list, list->tail);
 	}
 }
 
-extern void llist_set(llist_t* list, void* data, uint index) {
-	uint _index = 0;
+static void llist_set(llist_t* list, void* data, int index) {
+	int _index = 0;
 	node_t* current = list->head;
 	while (current != NULL && _index <= index) {
 		if (_index == index) {
@@ -283,8 +284,8 @@ extern void llist_set(llist_t* list, void* data, uint index) {
 	}
 }
 
-extern uint llist_size(llist_t* list) {
-	uint len = 0;
+static int llist_size(llist_t* list) {
+	int len = 0;
 	node_t* current = list->head;
 	while (current != NULL) {
 		len++;
@@ -293,11 +294,11 @@ extern uint llist_size(llist_t* list) {
 	return len;
 }
 
-extern int llist_isempty(llist_t* list) {
+static int llist_isempty(llist_t* list) {
 	return list->tail == NULL && list->head == NULL;
 }
 
-extern void llist_print_front(llist_t* list, void (*_printfunc)(const void*)) {
+static void llist_print_front(llist_t* list, void (*_printfunc)(const void*)) {
 	assert(_printfunc != NULL);
 	node_t* current = list->head;
 	if (current != NULL) {
@@ -308,7 +309,7 @@ extern void llist_print_front(llist_t* list, void (*_printfunc)(const void*)) {
 	}
 }
 
-extern void llist_print_back(llist_t* list, void (*_printfunc)(const void*)) {
+static void llist_print_back(llist_t* list, void (*_printfunc)(const void*)) {
 	assert(_printfunc != NULL);
 	node_t* current = list->tail;
 	if (current != NULL) {

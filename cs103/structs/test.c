@@ -244,7 +244,7 @@ int main() {
 	bintree_destroy(&inttree);
 	assert(NULL == inttree);
 
-	long tabletest[] = {1, 2, 3, 4, 5, 6, 7};
+	long tabletest[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 
 	htable_t* inttable = htable_new(sizeof(long));
 	htable_add(inttable, &tabletest[0]);
@@ -253,8 +253,14 @@ int main() {
 	htable_add(inttable, &tabletest[3]);
 	htable_add(inttable, &tabletest[4]);
 	htable_add(inttable, &tabletest[5]);
+	htable_add(inttable, &tabletest[6]);
+	htable_add(inttable, &tabletest[7]);
+	htable_add(inttable, &tabletest[8]);
+	htable_add(inttable, &tabletest[9]);
+	htable_add(inttable, &tabletest[10]);
+	htable_add(inttable, &tabletest[11]);
 
-	assert(6 == htable_size(inttable));
+	assert(12 == htable_size(inttable));
 
 	htable_destroy(&inttable);
 

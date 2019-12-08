@@ -8,13 +8,22 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define DEF_NMEMB 4
-#define T_TRESHHOLD 0.5f
+#ifndef HTABLE_NMEMB
+#define HTABLE_NMEMB 4
+#endif
+
+#ifndef HTABLE_THOLD
+#define HTABLE_THOLD 0.5f
+#endif
 
 struct htable {
 	void** data;
 	size_t size;
 	int nmemb;
+
+	unsigned long (* hashfunc)(long nmemb, void* data, size_t size);
+
+	unsigned long (* probefunc)(int nmemb, unsigned long hash);
 };
 
 typedef struct htable htable_t;
@@ -27,18 +36,22 @@ static int htable_size(htable_t* table);
 
 static void htable_destroy(htable_t** table);
 
-static void _linear_probe(htable_t* table);
+static void _resize(htable_t* table);
 
-static void _quadratic_probe(htable_t* table);
+static unsigned long _linear_probe(int nmemb, unsigned long hash);
+
+static unsigned long _quadratic_probe(int nmemb, unsigned long hash);
 
 static unsigned long _hashfunc(long nmemb, void* data, size_t size);
 
 
 htable_t* htable_new(size_t size) {
 	htable_t* newhtable = calloc(1, sizeof(htable_t));
-	newhtable->nmemb = DEF_NMEMB;
+	newhtable->nmemb = HTABLE_NMEMB;
 	newhtable->size = size;
 	newhtable->data = calloc(newhtable->nmemb, sizeof(void*));
+	newhtable->hashfunc = _hashfunc;
+	newhtable->probefunc = _linear_probe;
 	return newhtable;
 }
 
@@ -58,19 +71,20 @@ void htable_destroy(htable_t** table) {
 }
 
 void htable_add(htable_t* table, void* data) {
-	if ((float) htable_size(table) / (float) table->nmemb > T_TRESHHOLD) {
-		_linear_probe(table);
+	if ((float) htable_size(table) / (float) table->nmemb > HTABLE_THOLD) {
+		_resize(table);
 	}
 	unsigned long hash = _hashfunc(table->nmemb, data, table->size);
 	void* dataptr = malloc(table->size);
 	memcpy(dataptr, data, table->size);
 
 	while (table->data[hash] != NULL)
-		hash = hash == table->nmemb - 1 ? 0 : hash + 1;
+		hash = table->probefunc(table->nmemb, hash);
 	table->data[hash] = dataptr;
 }
 
-void _linear_probe(htable_t* table) {
+
+void _resize(htable_t* table) {
 	int i = 0, n = table->nmemb;
 	void** temp = table->data;
 	table->nmemb *= 2;
@@ -96,12 +110,6 @@ unsigned long _hashfunc(long nmemb, void* data, size_t size) {
 	return hash % nmemb;
 }
 
-
-void _quadratic_probe(htable_t* table) {
-	// TODO: quadratic probe
-}
-
-
 int htable_size(htable_t* table) {
 	int i, count = 0;
 	for (i = 0; i < table->nmemb; ++i) {
@@ -109,5 +117,17 @@ int htable_size(htable_t* table) {
 	}
 	return count;
 }
+
+unsigned long _linear_probe(int nmemb, unsigned long hash) {
+	printf("%lu\n", hash);
+	return hash == nmemb - 1 ? 0 : hash + 1;
+}
+
+unsigned long _quadratic_probe(int nmemb, unsigned long hash) {
+	static unsigned long c = 0;
+	c++;
+	return (hash + (c * c)) % nmemb;
+}
+
 
 #endif //STRUCTS_HTABLE_H

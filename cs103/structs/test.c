@@ -8,6 +8,7 @@
 #include "astack.h"
 #include "queue.h"
 #include "bintree.h"
+#include "pqueue.h"
 
 int cmpfunc(const void* a, const void* b, unsigned long size) {
 	return *(int*) a > *(int*) b;
@@ -37,6 +38,31 @@ void print_frac(frac_t* frac) {
 
 void printfunc(const void* data) {
 	printf("P %d\n", *(int*) data);
+}
+
+struct racecar {
+	char name[32];
+	int pos;
+};
+
+struct racecar racecar_new(char* name, int pos) {
+	struct racecar newcar;
+	strncpy(newcar.name, name, 32);
+	newcar.pos = pos;
+	return newcar;
+}
+
+int racecarcmp(void const* r1, void const* r2, unsigned long size) {
+	int pos1 = *(int*) r1;
+	int pos2 = *(int*) r2;
+
+	if (pos1 < pos2) {
+		return 1;
+	} else if (pos2 < pos1) {
+		return -1;
+	} else {
+		return 0;
+	}
 }
 
 int main() {
@@ -229,5 +255,39 @@ int main() {
 	htable_add(inttable, &tabletest[5]);
 
 	assert(6 == htable_size(inttable));
+
+	htable_destroy(&inttable);
+
+	struct racecar car1 = racecar_new("Audi", 2);
+	struct racecar car2 = racecar_new("Koenigsegg", 1);
+	struct racecar car3 = racecar_new("Lotus", 4);
+	struct racecar car4 = racecar_new("Bugatti", 3);
+
+	pqueue_t* race = pqueue_new(sizeof(struct racecar), sizeof(int));
+	pqueue_set_cmp(race, racecarcmp);
+	pqueue_enqueue(race, &car1, &car1.pos);
+	pqueue_enqueue(race, &car2, &car2.pos);
+	pqueue_enqueue(race, &car3, &car3.pos);
+	pqueue_enqueue(race, &car4, &car4.pos);
+	assert(pqueue_size(race) == 4);
+
+	assert(strncmp(((struct racecar*) pqueue_front(race))->name, car2.name, 32) == 0);
+	struct racecar* car = pqueue_dequeue(race);
+	assert(car->pos == car2.pos);
+	assert(strncmp(car->name, car2.name, 32) == 0);
+	free(car);
+
+
+	assert(strncmp(((struct racecar*) pqueue_front(race))->name, car1.name, 32) == 0);
+	car = pqueue_dequeue(race);
+	assert(car->pos == car1.pos);
+	assert(strncmp(car->name, car1.name, 32) == 0);
+	free(car);
+
+	assert(strncmp(((struct racecar*) pqueue_front(race))->name, car4.name, 32) == 0);
+	assert(!pqueue_isempty(race));
+	pqueue_destroy(&race);
+
+	assert(race == NULL);
 	return 0;
 }

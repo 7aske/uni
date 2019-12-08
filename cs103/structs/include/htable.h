@@ -62,7 +62,7 @@ void htable_add(htable_t* table, void* data) {
 		_linear_probe(table);
 	}
 	unsigned long hash = _hashfunc(table->nmemb, data, table->size);
-	void* dataptr = calloc(1, table->size);
+	void* dataptr = malloc(table->size);
 	memcpy(dataptr, data, table->size);
 
 	while (table->data[hash] != NULL)
@@ -79,6 +79,7 @@ void _linear_probe(htable_t* table) {
 	for (i = 0; i < n; ++i) {
 		if (temp[i] != NULL) {
 			htable_add(table, temp[i]);
+			free(temp[i]);
 		}
 	}
 	free(temp);
@@ -86,10 +87,12 @@ void _linear_probe(htable_t* table) {
 
 unsigned long _hashfunc(long nmemb, void* data, size_t size) {
 	unsigned long hash = 5381;
-	int n = 0;
-	unsigned char* byte = (unsigned char*) data;
-	while (n++ < size)
-		hash = ((hash << 5u) + hash) + *(byte + n);
+	unsigned long n = 0;
+	unsigned char byte = 0u;
+	while (n++ < size) {
+		memcpy(&byte, data + n - 1, 1);
+		hash = ((hash << 5u) + hash) + byte;
+	}
 	return hash % nmemb;
 }
 

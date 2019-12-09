@@ -16,9 +16,16 @@
 #define HTABLE_THOLD 0.5f
 #endif
 
+
+struct htable_node {
+	void* key;
+	void* data;
+};
+
 struct htable {
-	void** data;
-	size_t size;
+	struct htable_node** data;
+	size_t dsize;
+	size_t ksize;
 	int nmemb;
 
 	unsigned long (* hashfunc)(long nmemb, void* data, size_t size);
@@ -27,16 +34,23 @@ struct htable {
 };
 
 typedef struct htable htable_t;
+typedef struct htable_node htable_node_t;
 
-static htable_t* htable_new(size_t size);
+static htable_t* htable_new(size_t dsize, size_t ksize);
 
-static void htable_add(htable_t* table, void* data);
+static void htable_add(htable_t* table, void* key, void* data);
+
+static void* htable_get(htable_t* table, void* key);
+
+static void htable_remove(htable_t* table, void* key);
 
 static int htable_size(htable_t* table);
 
 static void htable_destroy(htable_t** table);
 
 static void _resize(htable_t* table);
+
+static void _rehash(htable_t* table, int old_nmemb);
 
 static unsigned long _linear_probe(int nmemb, unsigned long hash);
 
@@ -45,11 +59,12 @@ static unsigned long _quadratic_probe(int nmemb, unsigned long hash);
 static unsigned long _hashfunc(long nmemb, void* data, size_t size);
 
 
-htable_t* htable_new(size_t size) {
+htable_t* htable_new(size_t ksize, size_t dsize) {
 	htable_t* newhtable = calloc(1, sizeof(htable_t));
 	newhtable->nmemb = HTABLE_NMEMB;
-	newhtable->size = size;
-	newhtable->data = calloc(newhtable->nmemb, sizeof(void*));
+	newhtable->ksize = ksize;
+	newhtable->dsize = dsize;
+	newhtable->data = calloc(newhtable->nmemb, sizeof(struct htable_node*));
 	newhtable->hashfunc = _hashfunc;
 	newhtable->probefunc = _linear_probe;
 	return newhtable;
@@ -58,10 +73,12 @@ htable_t* htable_new(size_t size) {
 void htable_destroy(htable_t** table) {
 	assert(table != NULL);
 	int i;
-	void* temp;
+	htable_node_t* temp;
 	for (i = 0; i < (*table)->nmemb; ++i) {
 		temp = (*table)->data[i];
 		if (temp != NULL) {
+			free(temp->data);
+			free(temp->key);
 			free(temp);
 		}
 	}
@@ -70,33 +87,65 @@ void htable_destroy(htable_t** table) {
 	*table = NULL;
 }
 
-void htable_add(htable_t* table, void* data) {
+void htable_add(htable_t* table, void* key, void* data) {
 	if ((float) htable_size(table) / (float) table->nmemb > HTABLE_THOLD) {
 		_resize(table);
 	}
-	unsigned long hash = _hashfunc(table->nmemb, data, table->size);
-	void* dataptr = malloc(table->size);
-	memcpy(dataptr, data, table->size);
+	unsigned long hash = _hashfunc(table->nmemb, key, table->ksize);
+	htable_node_t* node = calloc(1, sizeof(struct htable_node));
+	node->data = malloc(table->dsize);
+	node->key = malloc(table->ksize);
+	memcpy(node->data, data, table->dsize);
+	memcpy(node->key, key, table->ksize);
 
 	while (table->data[hash] != NULL)
 		hash = table->probefunc(table->nmemb, hash);
-	table->data[hash] = dataptr;
+	table->data[hash] = node;
 }
 
 
-void _resize(htable_t* table) {
-	int i = 0, n = table->nmemb;
-	void** temp = table->data;
-	table->nmemb *= 2;
-	table->data = calloc(table->nmemb, sizeof(void*));
+void* htable_get(htable_t* table, void* key) {
+	unsigned long hash = _hashfunc(table->nmemb, key, table->ksize);
+	htable_node_t* ptr = table->data[hash];
+	if (ptr != NULL) {
+		return ptr->data;
+	} else {
+		return NULL;
+	}
+}
 
-	for (i = 0; i < n; ++i) {
+
+void htable_remove(htable_t* table, void* key) {
+	unsigned long hash = _hashfunc(table->nmemb, key, table->ksize);
+	htable_node_t* ptr = table->data[hash];
+	if (ptr != NULL) {
+		free(ptr->data);
+		free(ptr->key);
+		free(ptr);
+		table->data[hash] = NULL;
+	}
+}
+
+void _rehash(htable_t* table, int old_nmemb) {
+	int i;
+	htable_node_t** temp = table->data;
+	table->data = calloc(table->nmemb, sizeof(htable_node_t*));
+
+	for (i = 0; i < old_nmemb; ++i) {
 		if (temp[i] != NULL) {
-			htable_add(table, temp[i]);
+			htable_add(table, temp[i]->key, temp[i]->data);
+			free(temp[i]->key);
+			free(temp[i]->data);
 			free(temp[i]);
 		}
 	}
 	free(temp);
+}
+
+void _resize(htable_t* table) {
+	int n = table->nmemb;
+	table->nmemb *= 2;
+	_rehash(table, n);
 }
 
 unsigned long _hashfunc(long nmemb, void* data, size_t size) {
@@ -119,7 +168,6 @@ int htable_size(htable_t* table) {
 }
 
 unsigned long _linear_probe(int nmemb, unsigned long hash) {
-	printf("%lu\n", hash);
 	return hash == nmemb - 1 ? 0 : hash + 1;
 }
 

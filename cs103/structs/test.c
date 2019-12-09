@@ -246,28 +246,40 @@ int main() {
 
 	long tabletest[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
 
-	htable_t* inttable = htable_new(sizeof(long));
-	htable_add(inttable, &tabletest[0]);
-	htable_add(inttable, &tabletest[1]);
-	htable_add(inttable, &tabletest[2]);
-	htable_add(inttable, &tabletest[3]);
-	htable_add(inttable, &tabletest[4]);
-	htable_add(inttable, &tabletest[5]);
-	htable_add(inttable, &tabletest[6]);
-	htable_add(inttable, &tabletest[7]);
-	htable_add(inttable, &tabletest[8]);
-	htable_add(inttable, &tabletest[9]);
-	htable_add(inttable, &tabletest[10]);
-	htable_add(inttable, &tabletest[11]);
-
-	assert(12 == htable_size(inttable));
-
-	htable_destroy(&inttable);
+	htable_t* inttable = htable_new(sizeof(long), sizeof(long));
+	htable_add(inttable, &tabletest[0], &tabletest[0]);
+	htable_add(inttable, &tabletest[1], &tabletest[1]);
+	htable_add(inttable, &tabletest[2], &tabletest[2]);
+	htable_add(inttable, &tabletest[3], &tabletest[3]);
+	htable_add(inttable, &tabletest[4], &tabletest[4]);
+	htable_add(inttable, &tabletest[5], &tabletest[5]);
+	htable_add(inttable, &tabletest[6], &tabletest[6]);
+	htable_add(inttable, &tabletest[7], &tabletest[7]);
+	htable_add(inttable, &tabletest[8], &tabletest[8]);
+	htable_add(inttable, &tabletest[9], &tabletest[9]);
+	htable_add(inttable, &tabletest[10], &tabletest[10]);
+	htable_add(inttable, &tabletest[11], &tabletest[11]);
 
 	struct racecar car1 = racecar_new("Audi", 2);
 	struct racecar car2 = racecar_new("Koenigsegg", 1);
 	struct racecar car3 = racecar_new("Lotus", 4);
 	struct racecar car4 = racecar_new("Bugatti", 3);
+	struct racecar car5 = racecar_new("Test", 4);
+
+	htable_t* racetable = htable_new(sizeof(int), sizeof(struct racecar));
+	htable_add(racetable, &car1.pos, &car1);
+	htable_add(racetable, &car2.pos, &car2);
+	htable_add(racetable, &car3.pos, &car3);
+	htable_add(racetable, &car4.pos, &car4);
+
+	struct racecar* carg5 = htable_get(racetable, _ptr(4, int));
+	assert(carg5->pos == 4);
+	htable_remove(racetable, _ptr(4, int));
+
+	assert(3 == htable_size(racetable));
+
+	htable_destroy(&inttable);
+	htable_destroy(&racetable);
 
 	pqueue_t* race = pqueue_new(sizeof(struct racecar), sizeof(int));
 	pqueue_set_cmp(race, racecarcmp);

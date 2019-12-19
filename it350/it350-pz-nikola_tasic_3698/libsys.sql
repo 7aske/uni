@@ -3,6 +3,8 @@
 /* Created on:     12/19/2019 8:09:15 PM                        */
 /*==============================================================*/
 
+create database if not exists library;
+use library;
 
 drop table if exists ADDRESS;
 
@@ -35,7 +37,7 @@ create table ADDRESS
 (
    ID_ADDRESS           int not null auto_increment,
    ID_MUNICIPALITY      int not null,
-   STREET               VBIN255 not null,
+   STREET               varchar(255) not null,
    NUMBER               varchar(8) not null,
    primary key (ID_ADDRESS)
 );

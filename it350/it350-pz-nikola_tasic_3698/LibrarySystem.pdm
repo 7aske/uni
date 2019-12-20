@@ -14,7 +14,8 @@
 <a:Creator>nik</a:Creator>
 <a:ModificationDate>1576875988</a:ModificationDate>
 <a:Modifier>nik</a:Modifier>
-<a:History>ORG {5B129BAC-ECF0-45B7-9AAB-8F23B83E6429}</a:History>
+<a:History>ORG {5B129BAC-ECF0-45B7-9AAB-8F23B83E6429}
+ATT SMDC</a:History>
 <a:PackageOptionsText>[FolderOptions]
 
 [FolderOptions\Physical Objects]
@@ -6820,7 +6821,7 @@ DAT 1576875160</a:History>
 <a:ModificationDate>1576875160</a:ModificationDate>
 <a:Modifier>nik</a:Modifier>
 <a:ExtractionBranchName/>
-<a:TargetModelURL>file:///C|/Users/nik/Code/uni/it350/it350-pz-nikola_tasic_3698/LibrarySystem.cdm</a:TargetModelURL>
+<a:TargetModelURL>file:///%[PRJ_ROOT_DIR]%/LibrarySystem.cdm</a:TargetModelURL>
 <a:TargetModelID>5B129BAC-ECF0-45B7-9AAB-8F23B83E6429</a:TargetModelID>
 <a:TargetModelClassID>1E597170-9350-11D1-AB3C-0020AF71E433</a:TargetModelClassID>
 <c:SessionShortcuts>

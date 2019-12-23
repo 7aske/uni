@@ -1,6 +1,6 @@
 /*==============================================================*/
-/* dbms name:      mysql 5.0                                    */
-/* created on:     12/19/2019 8:09:15 pm                        */
+/* DBMS name:      MySQL 5.0                                    */
+/* Created on:     12/20/2019 10:06:35 PM                       */
 /*==============================================================*/
 
 create database if not exists library;
@@ -9,6 +9,8 @@ use library;
 drop table if exists address;
 
 drop table if exists author;
+
+drop table if exists author_book;
 
 drop table if exists book;
 
@@ -26,12 +28,10 @@ drop table if exists reader;
 
 drop table if exists region;
 
-drop table if exists book_author;
-
 drop table if exists rent;
 
 /*==============================================================*/
-/* table: address                                               */
+/* Table: address                                               */
 /*==============================================================*/
 create table address
 (
@@ -43,19 +43,30 @@ create table address
 );
 
 /*==============================================================*/
-/* table: author                                                */
+/* Table: author                                                */
 /*==============================================================*/
 create table author
 (
    id_person            int not null,
    first_name           varchar(255) not null,
    last_name            varchar(255) not null,
+   jmbg                 varchar(13),
    description          varchar(4096) not null,
    primary key (id_person)
 );
 
 /*==============================================================*/
-/* table: book                                                  */
+/* Table: author_book                                           */
+/*==============================================================*/
+create table author_book
+(
+   id_book              int not null,
+   id_person            int not null,
+   primary key (id_book, id_person)
+);
+
+/*==============================================================*/
+/* Table: book                                                  */
 /*==============================================================*/
 create table book
 (
@@ -67,7 +78,7 @@ create table book
 );
 
 /*==============================================================*/
-/* table: book_specimen                                         */
+/* Table: book_specimen                                         */
 /*==============================================================*/
 create table book_specimen
 (
@@ -79,7 +90,7 @@ create table book_specimen
 );
 
 /*==============================================================*/
-/* table: employee                                              */
+/* Table: employee                                              */
 /*==============================================================*/
 create table employee
 (
@@ -87,12 +98,13 @@ create table employee
    id_library           int not null,
    first_name           varchar(255) not null,
    last_name            varchar(255) not null,
+   jmbg                 varchar(13),
    position             varchar(32) not null,
    primary key (id_person)
 );
 
 /*==============================================================*/
-/* table: library                                               */
+/* Table: library                                               */
 /*==============================================================*/
 create table library
 (
@@ -103,7 +115,7 @@ create table library
 );
 
 /*==============================================================*/
-/* table: municipality                                          */
+/* Table: municipality                                          */
 /*==============================================================*/
 create table municipality
 (
@@ -114,18 +126,19 @@ create table municipality
 );
 
 /*==============================================================*/
-/* table: person                                                */
+/* Table: person                                                */
 /*==============================================================*/
 create table person
 (
    id_person            int not null auto_increment,
    first_name           varchar(255) not null,
    last_name            varchar(255) not null,
+   jmbg                 varchar(13),
    primary key (id_person)
 );
 
 /*==============================================================*/
-/* table: reader                                                */
+/* Table: reader                                                */
 /*==============================================================*/
 create table reader
 (
@@ -136,7 +149,7 @@ create table reader
 );
 
 /*==============================================================*/
-/* table: region                                                */
+/* Table: region                                                */
 /*==============================================================*/
 create table region
 (
@@ -146,17 +159,7 @@ create table region
 );
 
 /*==============================================================*/
-/* table: book_author                                           */
-/*==============================================================*/
-create table book_author
-(
-   id_book              int not null,
-   id_person            int not null,
-   primary key (id_book, id_person)
-);
-
-/*==============================================================*/
-/* table: rent                                                  */
+/* Table: rent                                                  */
 /*==============================================================*/
 create table rent
 (
@@ -173,11 +176,17 @@ alter table address add constraint fk_relationship_2 foreign key (id_municipalit
 alter table author add constraint fk_inheritance_2 foreign key (id_person)
       references person (id_person) on delete restrict on update restrict;
 
-alter table book_specimen add constraint fk_relationship_10 foreign key (id_library)
-      references library (id_library) on delete restrict on update restrict;
-
-alter table book_specimen add constraint fk_relationship_7 foreign key (id_book)
+alter table author_book add constraint fk_author_book foreign key (id_book)
       references book (id_book) on delete restrict on update restrict;
+
+alter table author_book add constraint fk_author_book2 foreign key (id_person)
+      references author (id_person) on delete restrict on update restrict;
+
+alter table book_specimen add constraint fk_relationship_6 foreign key (id_book)
+      references book (id_book) on delete restrict on update restrict;
+
+alter table book_specimen add constraint fk_relationship_9 foreign key (id_library)
+      references library (id_library) on delete restrict on update restrict;
 
 alter table employee add constraint fk_inheritance_1 foreign key (id_person)
       references person (id_person) on delete restrict on update restrict;
@@ -191,15 +200,9 @@ alter table library add constraint fk_relationship_3 foreign key (id_address)
 alter table municipality add constraint fk_relationship_1 foreign key (id_region)
       references region (id_region) on delete restrict on update restrict;
 
-alter table book_author add constraint fk_relationship_5 foreign key (id_book)
-      references book (id_book) on delete restrict on update restrict;
-
-alter table book_author add constraint fk_relationship_6 foreign key (id_person)
-      references author (id_person) on delete restrict on update restrict;
-
-alter table rent add constraint fk_relationship_8 foreign key (id_book_specimen)
+alter table rent add constraint fk_relationship_7 foreign key (id_book_specimen)
       references book_specimen (id_book_specimen) on delete restrict on update restrict;
 
-alter table rent add constraint fk_relationship_9 foreign key (id_user)
+alter table rent add constraint fk_relationship_8 foreign key (id_user)
       references reader (id_user) on delete restrict on update restrict;
 

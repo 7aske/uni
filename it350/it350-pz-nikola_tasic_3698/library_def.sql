@@ -1,10 +1,8 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     12/20/2019 10:06:35 PM                       */
+/* Created on:     12/26/2019 12:48:58 AM                       */
 /*==============================================================*/
 
-create database if not exists library;
-use library;
 
 drop table if exists address;
 
@@ -48,11 +46,9 @@ create table address
 create table author
 (
    id_person            int not null,
-   first_name           varchar(255) not null,
-   last_name            varchar(255) not null,
-   jmbg                 varchar(13),
+   id_author            int not null auto_increment,
    description          varchar(4096) not null,
-   primary key (id_person)
+   primary key (id_author)
 );
 
 /*==============================================================*/
@@ -61,8 +57,8 @@ create table author
 create table author_book
 (
    id_book              int not null,
-   id_person            int not null,
-   primary key (id_book, id_person)
+   id_author            int not null,
+   primary key (id_book, id_author)
 );
 
 /*==============================================================*/
@@ -95,12 +91,10 @@ create table book_specimen
 create table employee
 (
    id_person            int not null,
+   id_employee          int not null auto_increment,
    id_library           int not null,
-   first_name           varchar(255) not null,
-   last_name            varchar(255) not null,
-   jmbg                 varchar(13),
    position             varchar(32) not null,
-   primary key (id_person)
+   primary key (id_employee)
 );
 
 /*==============================================================*/
@@ -179,8 +173,8 @@ alter table author add constraint fk_inheritance_2 foreign key (id_person)
 alter table author_book add constraint fk_author_book foreign key (id_book)
       references book (id_book) on delete restrict on update restrict;
 
-alter table author_book add constraint fk_author_book2 foreign key (id_person)
-      references author (id_person) on delete restrict on update restrict;
+alter table author_book add constraint fk_author_book2 foreign key (id_author)
+      references author (id_author) on delete restrict on update restrict;
 
 alter table book_specimen add constraint fk_relationship_6 foreign key (id_book)
       references book (id_book) on delete restrict on update restrict;

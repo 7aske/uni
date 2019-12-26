@@ -1,7 +1,11 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     12/26/2019 12:48:58 AM                       */
+/* Created on:     12/26/2019 1:26:11 AM                        */
 /*==============================================================*/
+
+drop database if exists library;
+create database library;
+use library;
 
 
 drop table if exists address;
@@ -45,8 +49,8 @@ create table address
 /*==============================================================*/
 create table author
 (
-   id_person            int not null,
    id_author            int not null auto_increment,
+   id_person            int not null,
    description          varchar(4096) not null,
    primary key (id_author)
 );
@@ -56,9 +60,10 @@ create table author
 /*==============================================================*/
 create table author_book
 (
+   id_author_book       int not null,
    id_book              int not null,
    id_author            int not null,
-   primary key (id_book, id_author)
+   primary key (id_author_book)
 );
 
 /*==============================================================*/
@@ -90,8 +95,8 @@ create table book_specimen
 /*==============================================================*/
 create table employee
 (
-   id_person            int not null,
    id_employee          int not null auto_increment,
+   id_person            int not null,
    id_library           int not null,
    position             varchar(32) not null,
    primary key (id_employee)

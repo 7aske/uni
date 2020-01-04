@@ -1,6 +1,12 @@
 build
 out
+cmake-build-debug
+dist
+
 .idea
 .vscode
 .vs
-cmake-build-debug
+
+venv
+node_modules
+__pycache__

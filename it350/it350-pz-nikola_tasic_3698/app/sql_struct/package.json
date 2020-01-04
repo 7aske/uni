@@ -1,0 +1,14 @@
+{
+  "name": "sql_struct",
+  "version": "1.0.0",
+  "description": "Generate JSON from DDL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nikola Tasic",
+  "license": "ISC",
+  "dependencies": {
+    "sql-ddl-to-json-schema": "^3.1.2"
+  }
+}

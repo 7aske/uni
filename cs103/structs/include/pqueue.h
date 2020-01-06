@@ -5,6 +5,10 @@
 #ifndef STRUCTS_PQUEUE_H
 #define STRUCTS_PQUEUE_H
 
+#pragma once
+
+#include "assert.h"
+
 #include "linkedlist.h"
 
 

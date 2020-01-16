@@ -14,6 +14,8 @@ Repository with home assignments, projects and other university related stuff.
     * [IT350-PZ](https://github.com/7aske/uni/tree/second-year/it350/it350-pz-nikola_tasic_3698)
 - SE201 - Introduction to Software Engineering
 - NT213 - English for IT
+    * [NT213-PRES](https://github.com/7aske/uni/blob/second-year/nt213/nt213-presentation/pres.pdf)
+
 
 <!-- ### Semester 4 -->
 

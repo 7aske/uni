@@ -4,7 +4,7 @@
 
 <Workspace>
 	<Local Expanded="Yes">
-		<Model Expanded="Yes" ID="{92F5930E-134A-4BFE-B335-4EAE1E64C3CA}" Name="se210-v13" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="../../se201/se210-v13/se210-v13.prj"/>
+		<Model Expanded="Yes" ID="{5C19C6E4-0616-4FBE-B4BC-DEF495C2DB40}" Name="se201-pz-nikola_tasic_3698" Type="{FF4B6538-9856-42CF-B9B9-304ED370CEAA}" URL="../../se201/se201-pz-nikola_tasic_3698/se201-pz-nikola_tasic_3698.prj"/>
 	</Local>
 	<BrowserModule Name="Repository"/>
 </Workspace>

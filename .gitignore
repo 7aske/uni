@@ -10,3 +10,5 @@ dist
 venv
 node_modules
 __pycache__
+
+.~lock*

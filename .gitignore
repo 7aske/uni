@@ -11,4 +11,11 @@ venv
 node_modules
 __pycache__
 
+# MS and Libre office backup
 .~*
+
+# Powerdesigner backupfiles
+*.oob
+*.eab
+*.rqb
+*.pjb

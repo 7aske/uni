@@ -241,19 +241,27 @@ Interfejs nekog objekta definiše poruke na koje objekat reaguje. Svaka poruka s
 
 # L8    
 
-Implementacija obuhvata razvoj programa primenom programskih jezika visokog ili niskog nivoa, ili pak, korišćenje opštih, gotovih sistema koji se onda prilagođavaju zahtevima korisnika
+Implementacija obuhvata razvoj programa primenom programskih jezika visokog ili niskog nivoa, ili pak, korišćenje opštih, gotovih sistema koji se onda prilagođavaju zahtevima korisnika.
 
-Razvoj softvera koji se višestruko koristi se vrši na više nivoa: apstraktni nivo (projektni šabloni), nivo objekta (objekti iz biblioteka), nivo komponenti i nivo sistema
+Razvoj softvera koji se višestruko koristi se vrši na više nivoa: 
 
-Korišćenjem ranije razvijenog softvera, ubrzava se razvoj novog softvera, smanjuje se rizik neuspeha i smanjuju se troškovi razvoja
+* Apstraktni nivo (projektni šabloni)
 
-Konfiguracija softvera je skup određenih verzija softverskih komponenata. Upravljanje konfiguraciom je opšti proces upravljanja promenama softverskog sistema
+* Nivo objekta (objekti iz biblioteka)
 
-Upravljanje konfiguraciom je upravljanje verzijama, integracija sistema i praćenje problema radi prijava grešaka i problema u softveru.
+* Nivo komponenti
 
-Razvojne i izvršne platforme obuhvataju i hardversku i softversku opremu, koja se koristi pri razvoju i pri korišćenju razvijenog sistema
+* Nivo sistema
 
-Odluka o izvršnoj konfiguraciji softverskog sistema se najčešće dokumentuje primenom UML dijagrama instalacije
+Korišćenjem ranije razvijenog softvera, ubrzava se razvoj novog softvera, smanjuje se rizik neuspeha i smanjuju se troškovi razvoja.
+
+Konfiguracija softvera je skup određenih verzija softverskih komponenata. Upravljanje konfiguraciom je opšti proces upravljanja promenama softverskog sistema.
+
+Upravljanje konfiguracijom je upravljanje verzijama, integracija sistema i praćenje problema radi prijava grešaka i problema u softveru.
+
+Razvojne i izvršne platforme obuhvataju i hardversku i softversku opremu, koja se koristi pri razvoju i pri korišćenju razvijenog sistema.
+
+Odluka o izvršnoj konfiguraciji softverskog sistema se najčešće dokumentuje primenom UML dijagrama instalacije.
 
 Zbog ad-hoc izmena u softveru, koje nisu u skladu sa projektnom dokumentacijom, nastaju problemi pri integraciji većih softverskih sistema.
 
@@ -261,44 +269,185 @@ Transformacija ima za cilj da poboljša jedan aspekt modela zadržavajući sva d
 
 TRANSFORMACIJA MODELA - Svrha ove transformacije je pojednostavljenje ili optimizacija originalnog modela, a u skladu sa specifikacijom zahteva
 
-Refaktorisanje je transformacija izvornog koda radi poboljšanja njegove jasnoće (čitljivosti) ili promenljivosti, a bez promena ponašanja sistema
+Refaktorisanje je transformacija izvornog koda radi poboljšanja njegove čitljivosti ili promenljivosti, a bez promena ponašanja sistema
 
 Inženjerstvo unapred se primenjuje na skup elemenata modela i dovodi do odgovarajućih komandi izvršnog koda, kao što su deklaracije klasa, Java izrazi ili šema baze podataka
 
-Inženjerstvo unazad (Reverse) se primenjuje nad skupom elemenata izvornog koda da bi se dobio skup elemenata modela
+Inženjerstvo unazad (reverse engineering) se primenjuje nad skupom elemenata izvornog koda da bi se dobio skup elemenata modela
 
-Primenom principa transformacija objektnog modela umanjujete mogućnost javljanja grešaka
+Primenom principa transformacija objektnog modela umanjujete mogućnost javljanja grešaka.
 
 Implementacija je preslikavanje, tj. transformacija objektnog modela u izvorni kod, kao i optimizacija samog objektnog modela, kao i njegovo preslikavanje u šemu baze podataka
 
 OPTIMIZACIJA PRISTUPA - Čest izvor neefikasnosti je ponavljanje prolaze preko višestrukih asocijacija i pogrešno postavljanje atributa.
 
-Klasa koja ostane sa samo nekoliko atributa ili metoda (posle više optimizacija) i ako ima asocijaciju samo sa jednom klasom, može se zameniti sa jednim atributom
-
-Operacije koje troše mnogo resursa, treba odložiti u izvršenju što kasnje.
+Klasa koja ostane sa samo nekoliko atributa ili metoda (posle više optimizacija) i ako ima asocijaciju samo sa jednom klasom, može se zameniti sa jednim atributom.
 
 Asocijacije su UML koncepti koje označavaju kolekcije dvosmernih veza između dva ili više objekata. Programski jezici podržavaju koncept reference.
 
-Dvosmerne asocijacije su složenije, jer uvode uzajamne zavisnosti među klasama
+Dvosmerne asocijacije su složenije, jer uvode uzajamne zavisnosti među klasama.
 
-ASOCIJACIE “JEDAN-KA-PUNO” - Stranu sa “puno” možemo realizovati samo sa kolekcijom referenci
+ASOCIJACIE “JEDAN-NA-VISE” - Stranu sa "VISE" možemo realizovati samo sa kolekcijom referenci
 
-ASOCIJACIJE “PUNO-KA-PUNO” - Obe strane imaju klase koje imaju polja podataka tipa kolekcije, a koje sadrže reference na objekte, kao i operacije koje su neophodne za njihovo ažuriranje
+ASOCIJACIJE "VISE-NA-VISE” - Obe strane imaju klase koje imaju polja podataka tipa kolekcije, a koje sadrže reference na objekte, kao i operacije koje su neophodne za njihovo ažuriranje.
 
-Ukoliko dođe do kršenje ugovora (operacije na interfejsu), izbacuje se izuzetak te se izvršenje programa zaoustavlja.
+Razvoj softvera sa otvorenim kodom je pristup razvoju softvera u kome je izvorni kod softvera javno dostupan, a pozivaju se dobrovoljci da učestvuju u njegovom daljem razvoju.
 
-U mnogim slučajevima, kod za proveru predusplova i postuslova je obimniji i složeniji nego kod koji obavlja zahtevanu funkciju, te je izvor novih grešaka kao i pada performansi softvera
+Vlasnik softvera može da postavi ograničenja za njegovo korišćenje, uključujući i korišćenje posebne dozvole za korišćenje softvera sa otvorenim kodom.
 
-RELACIONA TABELA - Šema baze podataka opisuje ispravan skup slogova podataka koji se mogu skladištiti u bazi podataka. Relacione baze podatake memorišu i šemu i podatke, u obliku tabela
+## L9
 
-Strani ili sekundarni ključ je primarni ključ, ali u nekoj drugoj tabeli, jer on povezuje tu drugu tabelu sa tabelom u kojoj je definisan primarni ključ. Na taj način se povezuju dve tabele.
+Testiranje služi da se utvrdi da li program radi ono bi trebalo da radi i da se otkriju greške u programu pre nego što se pusti u upotrebu.
 
-PRESLIKAVANJA KLASA I ATRIBUTA - Klasa se preslikava u tabelu, sa istim imenom. Svaki atribut klase je kolona tabele, sa istim imenom. Svaki slog podataka tabele odgovara jednom primerku (objektu) klase
+Testiranje je samo deo šireg procesa provere (verifikacije) i potvrđivanja (validacije) ispravnosti softvera.
 
-PRESLIKAVANJE ASOCIJACIJE - Kardinalnost 1 može da bude strani ključ, a kardinalnost “mnogo” je strani ključ koji predstavlja klasu. Asocijacija sa “mnogo-ka-mnogo” se predstavlja posebnom tabelom
+Inspekcije softvera podržava proces verifikacije i validacije u različitim fazama procesa razvoja softvera.
 
-PRESLIKAVANJE NASLEĐIVANJA - Koristi se strani ključ ka vezi ka tabeli koja predstavlja podklasu ili se atributi super klase prebacuju u podklase, te se dupliciraju kolone tabela koje odgovaraju podklasama
+Inspekcija bolje otkriva greške nego testiranje programa.
 
-Razvoj softvera sa otvorenim kodom je pristup razvoju softvera u kome je izvorni kod softvera javno dostupan, a pozivaju se dobrovoljci da učestvuju u njegovom daljem razvoju
+Slučajevi za testiranje (test cases) i specifikacije su ulaz u testiranje. Izvršenje testova se može automatizovati i dobijeni razultati automatski upoređivati sa očekivan rezultatima (automated testing).
 
-Vlasnik softvera može da postavi ograničenja za njegovo korišćenje, uključujući i korišćenje posebne dozvole za korišćenje softvera sa otvorenim kodom
+**Tri faze testiranja** su: 
+
+* Razvojno testiranje
+
+* Testiranje softvera za isporuku
+
+* Korisničko tetsiranje
+
+Razvojna testiranja uključuju sve aktivnosti testiranja koje provode članovi razvojnog tima.
+
+Jedinicno testiranje je proces testiranja osnovnih softverskih jedinica, kao što su metodi ili klase
+
+Alati za testiranje (kao što je JUnit) poseduju opšte klase za testiranje koje vi možete da proširite da bi kreirali specifične slučajeve testiranja.
+
+Koriste se dve vrste slučajeva testiranja. Prvi se odnosi na normalan način rada programa, a drugi – na česte probleme zasnovane na iskustvu.
+
+Kategorije ulaznih podataka se često nazivaju particijama ekvivalencije ili domenima. Testiranje particija se koristi kod slučajeva testiranja sistema.
+
+Primena particija ekvivalencije je efektivan pristup testiranja jer pomaže u utvrđivanju grešaka programera kada se za ulaze koriste podaci na ivicama particija.
+
+Testiranje komponente se fokusira na interfejs komponente s ciljem da se proveri da li se ponaša u skladu sa specifikacijom.
+
+Vrsta interfejsa usplovaljava i mogućnost javljanja greške određenog tipa.
+
+VRSTE GREŠAKA KOD INTERFEJSA - Greške potiću od lošeg korišćenja interfejsa, nerazumevanja interfejsa i usled neusklađenosti brzina rada komponenti koje su u vezi posredstvom interfejsa.
+
+Inspekcije i recenzije ponekad mogu biti troškovno efektivnije nego testiranje radi otkrivanja grešaka.
+
+Na osnovu sekvencijalnog dijagrama slučajeva korišćenja sistema utvrđuju se operacije koje se treba da testiraju i vrši se projektovanje slučajeva testiranja za izvršenje testova.
+
+Testovima vodjen razvoj (test driven development) je pristup razvoju programa u kome se istovremeno vrši i razvoj koda i njegovo testiranje.
+
+AUTOMATSKO TESTIRANJE - Testovi su ugrađeni u jedan poseban program koji izvršava testove i koji aktivira program koji se testira.
+
+Testovima vodjen razvoj se najčešće koristi kod razvoja novog softvera.
+
+Primarni cilj procesa testiranja softvera za isporuku je da proizvođač softvera uveri sebe da je sistem dovoljno dobar za upotrebu.
+
+Testiranje zasnovano na zahtevima je validaciono testiranje, jer treba da utvrdi da li sistem ostvaruje zadate zahteve.
+
+Scenario testiranja je jedan pristup testiranja softvera pre isporuke u kome vi osmislite tipične scenarije korišćenja i onda ih iskoristite za razvoj slučajeva testiranja sistema
+
+Kada primenjujete testiranja korišćenjem scenarija, vi najčešće testirate nekoliko zahteva sa jednim scenarijom
+
+TESTIRANJE PERFORMANSI SISTEMA - Testiranje se vrši izvršavanjem više testova sa postepenim povećanjem opterećenja sistema sve dok te performanse postanu neprihvatljive.
+
+Testiranje od strane kupca, je faza procesa testiranja u kojoj naručioci softvera definišu ulazne podatke i interakcije radi donošenja odluke o preuzimanju sistema i njegovog korišćenja.
+
+Proces prihvatanja softverskog sistema sdrži šest faza: 
+
+* Definisanje kriterijuma
+
+* Planiranje testa
+
+* Priprema tasta
+
+* Izvršavanje testa
+
+* Analiza rezultata
+
+* Odbijanje ili prihvatanje sistema
+
+U slučaju primene agilnog metoda u razvoju softvera, nema posebne aktivnosti kojom se vrši testiranje sistema radi njegovog prihvatanja od strane korisnika.
+
+## L10
+
+Evolucija softvera je stalna promena softvera posle njegovog inicijalnog razvoja i isporuke naručiocu, ili tržištu.
+
+Evolucija je faza u kojoj se vrše značajne promene u arhitekturi softvera i njegovoj funkcionalnosti. Za vreme servisiranja, vrše se sitnije promene, ali neophodne promene.
+
+Glavni pokretač evolucije softvera u svim organizacijama su predlozi za promenu sistema.
+
+Troškovi i efekat promena se ocenjuju da bi se donela odluka o prihvatanju.
+
+IMPLEMENTACIJA PROMENE - Mora se proceniti da li promena neće izazvati neke nove probleme.
+
+Sistemi koji imaju puno hitnih ispravki u svojoj istoriji (menja se kod, ali ne i projektna dokumentacija) brže stare, jer nove promene postaju teže izvodljive i teže se održavaju.
+
+Održavanje softvera praćeno je značajnim troškovima jer se u dugom periodu vrše povremene manje ili veće dorade softvera.
+
+Održavanje softvera je proces menjanja sistema posle njegove isporuke.
+
+Tri tipa odrzavanja: popravka greski, prilagodjavanje okruzenju i dodavanje funkcionalnosti.
+
+Ukupni troškovi održavanja softvera u toku njegovog životnog veka mogu da se smanje u odnosu na troškove razvoja ako se o održavanju vodi računa još u fazi razvoja softvera.
+
+Skuplje je dodati novu funkcionalnost već postojećem softveru nego je ugraditi pri njegovom razvoju.
+
+Reinženjering softvera je promena strukture arhitekture sistema, ponovno pisanje koda primenom modernih programskih jezika, promena struktura i vrednosti podataka sistema.
+
+Proces reeinženjeringa starog softvera sadrži niz aktivnosti koje poboljšavaju performanse starog softvera.
+
+Restrukturiranje je poboljšanje strukture programa, smanjivanje njegove složenosti i olakšavanje njegovog razumevanja.
+
+Sta raditi sa starim softverom - Da bi se izabrala pravilna strategija evolucije starog sistema, potrebno je najpre izvršiti njegovu procenu i sa poslovnog i sa tehničkog stanovišta.
+
+Poslovna vrednost softvera u nekoj organizaciji se određuje analizom frekvencije njegove upotrebe, brojem poslovnih procesa koje podržava, stepenom pouzdanosti i važnosti rezultata.
+
+Da bi ocenili okruženje, potrebno je da izvršite neka merenja sistema, njegovog okruženja i njegovog procesa održavanja
+
+Najvažniji faktori za ocenjivanje kvaliteta aplikacije su vezani za pouzdanost sistema, poteškoće u održavanje sistema i dokumentaciju.
+
+# L11
+
+
+ZAŠTO JE DOŠLO DA RAZVOJA AGILNIH METODA RAZVOJA SOFTVERA? - Trka za vremenom zahvatila je i industriju razvoja softvera. S ciljem da se brzo dobije koristan softver, on se ne dobija kao jedna jedinstvena jedinica, već se dobija u seriji inkremenata.
+
+Agilne metode realizuju koncept integralnog razvoja softvera, u kome su inkrementi mali, i isporučuju se korisnicima na svake dve ili tri nedelje.
+
+Agilne metode se filozofski oslanjaju na tzv. „agilni manifest“ koji je dokument oko koga su se složili mnogi proizvođači softvera.
+
+Zbog odsustva jasnog i kompletnog dokumenta koji definiše zahteve, što je obično deo ugovore, softverske kuće imaju poteškoće da angažuju druge firme kao podizvođače.
+
+Ukjlučivanje korisnika sistema i česte promene u sastavu razvojnog tima – su dva najveća problema u primeni agilnih metoda u održavanju sistema.
+
+Kod planski vođenog razvoja, iteracije se javljaju unutar aktivnosti sa formalnom dokumentacijom. Kod agilnog pristupa, iteracije se dešavaju između aktivnosti.
+
+Najveći broj projekata razvoja softvera koriste praksu i planom vođenim i agilnog pristupa razvoju softvera.
+
+Kod ekstremnog programiranja, zahtevi se izražavaju u vidu scenarija a programeri rade u parovima i razvijaju testove za svaki zadatak pre nego što napišu kod.
+
+Zahtevi nisu specificirani u obliku lista zahtevanih funkcija sistema, već u vidu scenarija koji nastaju kao rezultat diskusije predstavnika korisnika i razvojnog tima.
+
+Kada se karte sa pričama razviju, razvojni tim svaki kartu podeli na zadatke i onda procenjuje potreban rad i resurse za implementaciju.
+
+Opšti problem kod inkrementalnog programiranja je da on dovodi do degradacije strukture softvera, tako da se buduće promene sve teže i teže implementiraju.
+
+Prvo se definiše test, pa se onda razvija kod. To omogućava testiranja programa još kada je u fazi razvoja.
+
+Da bi se testiranje ubrzalo, izvršenje testova se automatizuje. Testovi se pišu kao izvršne komponente pre nego što se implementira zadatak.
+
+PROGRAMIRANJE U PAROVIMA - Podržava ideju o osećanju kolektivnog autorstva, realizuje neformalna recenzija procesa razvoja i omaže rad na usavršavanu koda, tj. restrukturiranje, tokom razvoja izmena sistema.
+
+SCRUM PRISTUP RAZVOJU - Rad na projektima se realizuje u tzv. sprint ciklusima, gde svaki sprint ciklus razvije jedan inkrement sistema.
+
+Scrum sprint ciklus je jedinica planiranja u kojoj se radi neki posao koje se ocenjuje, sa svojstvima koji su odabrani za razvoj, i koji se softverski primenjuje.
+
+Scrum postupak je timski vođen, baziran na skupu upravljivih i razumljivih delova, koji kupcu isporučuje softverske verzije na vreme u bliskoj saradnji sa kupcem.
+
+Veliki softverski sistemi imaju svoje specifičnosti koje ometaju primenu agilnh metoda u njihovom razvoju.
+
+Postoji mišljenja da se agilne metode mogu koristiti i kod razvoja velikih sistema,ali uz izvesne modifikacije metoda.
+
+Primena agilnih metoda u velikim organizacijama je proces promene kulture organizacije. Za to je potrebno dosta vremena i zahteva upravljanje organizacijskim promenama.

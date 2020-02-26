@@ -3,7 +3,7 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_7.xsd"
              version="7">
 
-    <module id="cs230-v02-Web">
+    <module id="RegistrationServletDemo">
         <web>
             <web-uri>web.war</web-uri>
             <context-root>RegistrationServletDemo</context-root>

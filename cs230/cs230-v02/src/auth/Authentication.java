@@ -5,11 +5,15 @@ import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
+/**
+ * Authentication singleton class
+ */
 public class Authentication {
 	private static final String usersFilename = "/tmp/users.txt";
 
@@ -36,9 +40,10 @@ public class Authentication {
 
 	public void saveUser(User user) throws IOException {
 		FileWriter fileWriter = new FileWriter(usersFilename);
-		String userstring = user.getUsername().replaceAll(" ", "_") + " " + user.getPassword();
+		String userstring = user.getUsername() + " " + user.getPassword();
+		// Base64 encoding for quasi-security :)
 		String b64 = new BASE64Encoder().encode(userstring.getBytes());
-		fileWriter.append(b64+"\n");
+		fileWriter.append(b64 + "\n");
 		fileWriter.close();
 	}
 
@@ -46,8 +51,6 @@ public class Authentication {
 		for (User user : getUserList())
 			if (user.getUsername().equals(username))
 				return true;
-
-
 		return false;
 	}
 
@@ -56,16 +59,15 @@ public class Authentication {
 
 		BufferedReader bufferedReader = new BufferedReader(fileReader);
 		List<User> userList = new ArrayList<>();
-		FileWriter fileWriter = new FileWriter("/tmp/users2.txt");
-		BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
 		String line;
 		while ((line = bufferedReader.readLine()) != null) {
+			String decoded = new String(new BASE64Decoder().decodeBuffer(line), StandardCharsets.UTF_8);
+			String[] userParts = decoded.split(" ");
 
-			String decoded = Arrays.toString(new BASE64Decoder().decodeBuffer(line));
-			bufferedWriter.append(line);
-			String usernamePart = decoded.split(" ")[0];
-			String passwordPart = decoded.split(" ")[1];
-			userList.add(new User(usernamePart, passwordPart));
+			// handle the situation where password has a space
+			String password = String.join(" ", Arrays.asList(Arrays.copyOfRange(userParts, 1, userParts.length)));
+			userList.add(new User(userParts[0], password));
 		}
 		return userList;
 	}

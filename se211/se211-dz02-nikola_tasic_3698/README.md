@@ -1,4 +1,4 @@
-# SE211 DZ01
+# SE211 DZ02
 
 ## Prikazati strukturni način programiranja
 

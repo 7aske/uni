@@ -22,4 +22,12 @@ Repository with home assignments, projects and other university related stuff.
     * [assignment](https://github.com/7aske/uni/tree/seconntd-year/nt213/nt213-hra/nt213-hra.pdf)
 
 
-<!-- ### Semester 4 -->
+### Semester 4
+
+- CS230 - Distributed systems
+    * project
+- IT370 - Human-computer interaction
+    * project   
+- SE211 - Software construction
+    * project
+- MA202 - Mathematics 2

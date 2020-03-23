@@ -21,3 +21,5 @@ __pycache__
 *.eab
 *.rqb
 *.pjb
+
+*.vpp.lck

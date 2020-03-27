@@ -21,8 +21,6 @@ Broj indeksa: **3698**
 
 Datum izrade: **27.03.2020**
 
-\pagebreak
-
 ---
 ### <span style="background-color:#a70432;display:block;padding:.3em;font-weight:bold;color:white;">Tekst domaćeg zadatka:</span>
 ---

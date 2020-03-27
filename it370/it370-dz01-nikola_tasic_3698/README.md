@@ -1,6 +1,6 @@
  <div align="center">
  
- ![logo](https://www.metropolitan.ac.rs/files/2018/11/logo-01.png) 
+ ![](https://www.metropolitan.ac.rs/files/2018/11/logo-01.png) 
 
  </div>
 
@@ -20,6 +20,8 @@ Ime i prezime: **Nikola Tasić**
 Broj indeksa: **3698**
 
 Datum izrade: **27.03.2020**
+
+\pagebreak
 
 ---
 ### <span style="background-color:#a70432;display:block;padding:.3em;font-weight:bold;color:white;">Tekst domaćeg zadatka:</span>

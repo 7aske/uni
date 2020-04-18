@@ -1,0 +1,15 @@
+INSERT INTO blog.post_tag (id_post_tag, name) VALUES (1, 'featured');
+INSERT INTO blog.post_tag (id_post_tag, name) VALUES (2, 'general');
+INSERT INTO blog.post_tag (id_post_tag, name) VALUES (3, 'computer');
+INSERT INTO blog.post_tag (id_post_tag, name) VALUES (4, 'programming');
+INSERT INTO blog.post_tag (id_post_tag, name) VALUES (5, 'life');
+INSERT INTO blog.post_tag (id_post_tag, name) VALUES (6, 'travel');
+INSERT INTO blog.post_tag (id_post_tag, name) VALUES (7, 'food');
+INSERT INTO blog.post_tag (id_post_tag, name) VALUES (8, 'writing');
+INSERT INTO blog.post_tag (id_post_tag, name) VALUES (9, 'newsletter');
+INSERT INTO blog.post_tag (id_post_tag, name) VALUES (10, 'tech');
+INSERT INTO blog.post_tag (id_post_tag, name) VALUES (11, 'fashion');
+INSERT INTO blog.post_tag (id_post_tag, name) VALUES (12, 'science');
+INSERT INTO blog.post_tag (id_post_tag, name) VALUES (13, 'news');
+INSERT INTO blog.post_tag (id_post_tag, name) VALUES (14, 'politics');
+INSERT INTO blog.post_tag (id_post_tag, name) VALUES (15, 'personal');

@@ -59,7 +59,7 @@
             <%= blogPost.getTitle()%>
             <%
                 if (loggedIn) {
-                    out.print(String.format("<a class=\"btn orange\" href=\"%s/admin/edit/%d\">Edit<i class=\"material-icons right\">edit</i></a>", request.getContextPath(), blogPost.getIdBlogPost()));
+                    out.print(String.format("<a class=\"btn orange\" href=\"%s/admin/post/edit/%d\">Edit<i class=\"material-icons right\">edit</i></a>", request.getContextPath(), blogPost.getIdBlogPost()));
                 }
             %>
         </h2>

@@ -19,7 +19,7 @@ public class EditPostServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String idBlogPost = UrlUtil.getUrlBase(request.getRequestURL().toString());
 		request.setAttribute("idBlogPost", idBlogPost);
-		request.getRequestDispatcher("/admin/edit.jsp").forward(request, response);
+		request.getRequestDispatcher("/admin/post/edit.jsp").forward(request, response);
 	}
 
 	@Override

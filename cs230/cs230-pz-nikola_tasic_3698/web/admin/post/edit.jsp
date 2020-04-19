@@ -7,11 +7,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
     <title>Admin - Edit</title>
-    <jsp:include page="../include/head.jsp"/>
-    <jsp:include page="../include/mde.jsp"/>
+    <jsp:include page="../../include/head.jsp"/>
+    <jsp:include page="../../include/mde.jsp"/>
 </head>
 <body>
-<jsp:include page="../include/nav.jsp"/>
+<jsp:include page="../../include/nav.jsp"/>
 <%
     BlogPost blogPost = null;
     try {
@@ -41,12 +41,13 @@
     </div>
 </nav>
 <div class="container">
-    <jsp:include page="../fragment/postEditForm.jsp">
+    <jsp:include page="../../fragment/postEditForm.jsp">
         <jsp:param name="idBlogPost" value="${blogPost.idBlogPost}"/>
         <jsp:param name="title" value="${blogPost.title}"/>
         <jsp:param name="slug" value="${blogPost.slug}"/>
         <jsp:param name="preview" value="${blogPost.preview}"/>
         <jsp:param name="body" value="${blogPost.body}"/>
+        <jsp:param name="published" value="${blogPost.published}"/>
     </jsp:include>
 </div>
 <br><br>
@@ -96,6 +97,6 @@
         toolbarTips: false,
     });
 </script>
-<jsp:include page="../include/footer.jsp"/>
+<jsp:include page="../../include/footer.jsp"/>
 </body>
 </html>

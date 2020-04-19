@@ -1,10 +1,8 @@
-package servlet.admin.edit;
+package servlet.admin.post.edit;
 
-import com.sun.corba.se.spi.oa.ObjectAdapter;
 import config.Config;
 import database.dao.BlogPostDAO;
 import database.entity.BlogPost;
-import sun.applet.AppletResourceLoader;
 import util.UrlUtil;
 
 import javax.servlet.ServletException;
@@ -15,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 
-@WebServlet("/admin/edit/*")
+@WebServlet("/admin/post/edit/*")
 public class EditPostServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,6 +30,10 @@ public class EditPostServlet extends HttpServlet {
 		String slug = request.getParameter("slug");
 		String preview = request.getParameter("preview");
 		String body = request.getParameter("body");
+		boolean published = false;
+		if (request.getParameter("published") != null && request.getParameter("published").equals("on")) {
+			published = true;
+		}
 		BlogPostDAO blogPostDAO = new BlogPostDAO();
 		try {
 			idBlogPost = Long.parseLong(idBlogPostString);
@@ -40,6 +42,7 @@ public class EditPostServlet extends HttpServlet {
 			blogPost.setSlug(slug);
 			blogPost.setBody(body);
 			blogPost.setPreview(preview);
+			blogPost.setPublished(published);
 			blogPostDAO.update(blogPost);
 		} catch (NumberFormatException ex) {
 			BlogPost blogPost = new BlogPost();
@@ -47,6 +50,7 @@ public class EditPostServlet extends HttpServlet {
 			blogPost.setSlug(slug);
 			blogPost.setBody(body);
 			blogPost.setPreview(preview);
+			blogPost.setPublished(published);
 			blogPost.setDatePosted(LocalDate.now());
 			blogPost.setAuthor((String) Config.getProperties().get("author"));
 			blogPostDAO.create(blogPost);

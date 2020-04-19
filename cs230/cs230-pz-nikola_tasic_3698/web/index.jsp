@@ -23,7 +23,7 @@
     </div>
 </div>
 <%
-    List<BlogPost> blogPosts = new BlogPostDAO().findAll();
+    List<BlogPost> blogPosts = new BlogPostDAO().findAllPublished();
     pageContext.setAttribute("blogPosts", blogPosts);
 %>
 <div class="row">

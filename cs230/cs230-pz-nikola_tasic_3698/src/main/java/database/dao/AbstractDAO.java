@@ -35,6 +35,12 @@ abstract public class AbstractDAO<T> {
 		em.remove(em.merge(entity));
 		em.getTransaction().commit();
 	}
+	public void removeById(Object id) {
+		EntityManager em = getEntityManager();
+		em.getTransaction().begin();
+		em.remove(em.merge(this.find(id)));
+		em.getTransaction().commit();
+	}
 
 	public T find(Object id) {
 		EntityManager em = getEntityManager();

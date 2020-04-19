@@ -41,7 +41,7 @@
 </nav>
 <div class="container">
     <br/>
-    <a class="btn orange" href="${pageContext.request.contextPath}/admin/edit"><i class="material-icons right">note_add</i>New Post</a>
+    <a class="btn orange" href="${pageContext.request.contextPath}/admin/post/edit"><i class="material-icons right">note_add</i>New Post</a>
     <ul class="collection">
         <c:forEach items="${blogPostList}" var="post">
             <jsp:include page="../fragment/adminPostListItem.jsp">
@@ -49,6 +49,7 @@
                 <jsp:param name="slug" value="${post.slug}"/>
                 <jsp:param name="idBlogPost" value="${post.idBlogPost}"/>
                 <jsp:param name="preview" value="${post.preview}"/>
+                <jsp:param name="published" value="${post.published}"/>
             </jsp:include>
         </c:forEach>
     </ul>

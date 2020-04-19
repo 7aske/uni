@@ -13,6 +13,7 @@
             <%
                 if (loggedIn) {
                     out.print(String.format("<li><a href=\"%s/admin/admin.jsp\">Admin</a></li>", request.getContextPath()));
+                    out.print(String.format("<li><a href=\"%s/admin/tag/tags.jsp\">Tags</a></li>", request.getContextPath()));
                     out.print(String.format("<li><a href=\"%s/admin/logout\">Logout</a></li>", request.getContextPath()));
                 }
             %>
@@ -22,6 +23,7 @@
             <%
                 if (loggedIn) {
                     out.print(String.format("<li><a href=\"%s/admin/admin.jsp\">Admin</a></li>", request.getContextPath()));
+                    out.print(String.format("<li><a href=\"%s/admin/tag/tags.jsp\">Tags</a></li>", request.getContextPath()));
                     out.print(String.format("<li><a href=\"%s/admin/logout\">Logout</a></li>", request.getContextPath()));
                 }
             %>

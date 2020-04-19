@@ -21,6 +21,9 @@ public class BlogPost {
 	@Column(name = "slug")
 	private String slug;
 
+	@Column(name = "published")
+	private boolean published;
+
 	@Column(name = "date_posted")
 	private LocalDate datePosted;
 
@@ -104,6 +107,14 @@ public class BlogPost {
 		this.postTags = postTags;
 	}
 
+	public boolean isPublished() {
+		return published;
+	}
+
+	public void setPublished(boolean published) {
+		this.published = published;
+	}
+
 	@Override
 	public String toString() {
 		return "BlogPost{" +
@@ -111,6 +122,7 @@ public class BlogPost {
 				", body='" + body + '\'' +
 				", title='" + title + '\'' +
 				", slug='" + slug + '\'' +
+				", published=" + published +
 				", datePosted=" + datePosted +
 				", author='" + author + '\'' +
 				", preview='" + preview + '\'' +

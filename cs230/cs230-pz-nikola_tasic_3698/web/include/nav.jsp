@@ -2,6 +2,7 @@
 <%
     String username = (String) session.getAttribute("username");
     String confUsername = Config.getProperties().getProperty("blog-username");
+    boolean loggedIn = username != null && username.equals(confUsername);
 %>
 <nav class="light-blue lighten-1" role="navigation">
     <div class="nav-wrapper container">
@@ -10,7 +11,7 @@
         <ul class="right hide-on-med-and-down">
             <li><a href="${pageContext.request.contextPath}">Home</a></li>
             <%
-                if (username != null && username.equals(confUsername)) {
+                if (loggedIn) {
                     out.print(String.format("<li><a href=\"%s/admin/admin.jsp\">Admin</a></li>", request.getContextPath()));
                     out.print(String.format("<li><a href=\"%s/admin/logout\">Logout</a></li>", request.getContextPath()));
                 }
@@ -19,7 +20,7 @@
         <ul id="nav-mobile" class="sidenav">
             <li><a href="${pageContext.request.contextPath}">Home</a></li>
             <%
-                if (username != null && username.equals(confUsername)) {
+                if (loggedIn) {
                     out.print(String.format("<li><a href=\"%s/admin/admin.jsp\">Admin</a></li>", request.getContextPath()));
                     out.print(String.format("<li><a href=\"%s/admin/logout\">Logout</a></li>", request.getContextPath()));
                 }

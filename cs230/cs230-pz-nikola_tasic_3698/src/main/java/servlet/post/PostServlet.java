@@ -1,7 +1,5 @@
-package servlet;
+package servlet.post;
 
-import com.sun.net.httpserver.Filter;
-import filter.AuthenticationFilter;
 import util.UrlUtil;
 
 import javax.servlet.ServletException;
@@ -18,11 +16,5 @@ public class PostServlet extends HttpServlet {
 		String slug = UrlUtil.getUrlBase(request.getRequestURL().toString());
 		request.setAttribute("postSlug", slug);
 		request.getRequestDispatcher("/post.jsp").forward(request, response);
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-		String idBlogPost = request.getParameter("idBlogPost");
-		System.out.println(idBlogPost);
 	}
 }

@@ -1,4 +1,4 @@
-package servlet;
+package servlet.admin;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +10,6 @@ import java.io.IOException;
 public class AdminServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		response.sendRedirect(request.getServletContext().toString() + "/admin/admin.jsp");
+		response.sendRedirect(request.getContextPath() + "/admin/admin.jsp");
 	}
 }

@@ -48,5 +48,6 @@
     <orderEntry type="library" name="javaee:javaee-api:5" level="project" />
     <orderEntry type="library" name="jstl:jstl:1.2" level="project" />
     <orderEntry type="library" name="simplemde" level="application" />
+    <orderEntry type="library" name="showdown" level="application" />
   </component>
 </module>

@@ -13,7 +13,7 @@
 </head>
 <body>
 <jsp:include page="include/nav.jsp"/>
-<div class="section no-pad-bot" id="index-banner">
+<div class="section no-pad-bot">
     <div class="container">
         <br><br>
         <h1 class="header center orange-text">Blog Template</h1>
@@ -22,26 +22,22 @@
         </div>
     </div>
 </div>
-<div class="container">
-    <div class="section">
-        <%
-            List<BlogPost> blogPosts = new BlogPostDAO().findAll();
-            pageContext.setAttribute("blogPosts", blogPosts);
-        %>
-        <div class="row">
-            <c:forEach items="${blogPosts}" var="post">
-                <jsp:include page="fragment/indexPost.jsp">
-                    <jsp:param name="title" value="${post.title}"/>
-                    <jsp:param name="preview" value="${post.preview}"/>
-                    <jsp:param name="author" value="${post.author}"/>
-                    <jsp:param name="slug" value="${post.slug}"/>
-                    <jsp:param name="datePosted" value="${post.datePosted}"/>
-                </jsp:include>
-            </c:forEach>
-        </div>
-    </div>
-    <br><br>
+<%
+    List<BlogPost> blogPosts = new BlogPostDAO().findAll();
+    pageContext.setAttribute("blogPosts", blogPosts);
+%>
+<div class="row">
+    <c:forEach items="${blogPosts}" var="post">
+        <jsp:include page="fragment/indexPost.jsp">
+            <jsp:param name="title" value="${post.title}"/>
+            <jsp:param name="preview" value="${post.preview}"/>
+            <jsp:param name="author" value="${post.author}"/>
+            <jsp:param name="slug" value="${post.slug}"/>
+            <jsp:param name="datePosted" value="${post.datePosted}"/>
+        </jsp:include>
+    </c:forEach>
 </div>
+<br><br>
 <jsp:include page="include/footer.jsp"/>
 </body>
 </html>

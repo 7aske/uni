@@ -1,5 +1,6 @@
 <%@ page import="database.entity.BlogPost" %>
 <%@ page import="database.dao.BlogPostDAO" %>
+<%@ page import="config.Config" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
@@ -16,15 +17,26 @@
 
     request.setAttribute("post", blogPost);
 %>
+<%
+    String username = (String) session.getAttribute("username");
+    String confUsername = Config.getProperties().getProperty("blog-username");
+    boolean loggedIn = username != null && username.equals(confUsername);
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-    <title>Blog - <%= blogPost.getTitle()%>
+    <title>
+        Blog - <%= blogPost.getTitle()%>
     </title>
     <jsp:include page="include/head.jsp"/>
-    <jsp:include page="include/marked.jsp"/>
+    <jsp:include page="include/markdown.jsp"/>
+    <style>
+        .post-body img {
+            max-width: 100%;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="include/nav.jsp"/>
@@ -36,37 +48,45 @@
             </a>
             <a href="${pageContext.request.contextPath}/post/${pageContext.request.getAttribute("post").slug}"
                class="breadcrumb">
-                <%=blogPost.getTitle()%>
+                <%= blogPost.getTitle()%>
             </a>
         </div>
     </div>
 </nav>
 <div class="section no-pad-bot">
     <div class="container">
-        <br><br>
-        <h2><%= blogPost.getTitle()%>
+        <h2>
+            <%= blogPost.getTitle()%>
+            <%
+                if (loggedIn) {
+                    out.print(String.format("<a class=\"btn orange\" href=\"%s/admin/edit/%d\">Edit<i class=\"material-icons right\">edit</i></a>", request.getContextPath(), blogPost.getIdBlogPost()));
+                }
+            %>
         </h2>
     </div>
 </div>
 <div class="container">
-    <div class="section post-body">
-        <%=blogPost.getBody()%>
-    </div>
+    <div class="post-body"><%=blogPost.getBody()%></div>
     <br><br>
 </div>
 <jsp:include page="include/footer.jsp"/>
 <script type="text/javascript">
-    const postBody = document.querySelector(".post-body");
-    postBody.innerHTML = marked(postBody.innerHTML, {
-        "baseUrl": null,
-        "breaks": false,
-        "gfm": true,
-        "headerIds": true,
-        "mangle": true,
-        "sanitize": false,
-        "smartLists": true,
-        "smartypants": true,
-        "xhtml": false
+    document.addEventListener("DOMContentLoaded", () => {
+        const postBody = document.querySelector(".post-body");
+        // const converter = new showdown.Converter();
+        // postBody.innerHTML = converter.makeHtml(postBody.innerHTML);
+        postBody.innerHTML = marked(postBody.innerHTML, {
+            "baseUrl": null,
+            "breaks": false,
+            "gfm": true,
+            "headerIds": true,
+            "highlight": null,
+            "mangle": true,
+            "sanitize": false,
+            "smartLists": true,
+            "smartypants": true,
+            "xhtml": false
+        });
     });
 </script>
 </body>

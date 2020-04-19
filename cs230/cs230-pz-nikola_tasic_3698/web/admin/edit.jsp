@@ -13,8 +13,12 @@
 <body>
 <jsp:include page="../include/nav.jsp"/>
 <%
-    long idBlogPost = Long.parseLong((String) request.getAttribute("idBlogPost"));
-    BlogPost blogPost = new BlogPostDAO().find(idBlogPost);
+    BlogPost blogPost = null;
+    try {
+        long idBlogPost = Long.parseLong((String) request.getAttribute("idBlogPost"));
+        blogPost = new BlogPostDAO().find(idBlogPost);
+    } catch (NumberFormatException ignored) {
+    }
     pageContext.setAttribute("blogPost", blogPost);
 %>
 <nav class="light-blue lighten-2">
@@ -27,55 +31,23 @@
                class="breadcrumb">
                 Admin
             </a>
-            <a href="${pageContext.request.contextPath}/admin/edit/${blogPost.idBlogPost}"
-               class="breadcrumb">
-                ${blogPost.title}
-            </a>
+            <c:if test="${blogPost != null}">
+                <a href="${pageContext.request.contextPath}/admin/edit/${blogPost.idBlogPost}"
+                   class="breadcrumb">
+                        ${blogPost.title}
+                </a>
+            </c:if>
         </div>
     </div>
 </nav>
 <div class="container">
-    <form action="${pageContext.request.contextPath}/post/${blogPost.idBlogPost}" method="POST" class="row">
-        <div class="row">
-            <div class="input-field col s12">
-                <input id="idBlogPost" name="idBlogPost" type="text" hidden value="${blogPost.idBlogPost}">
-                <label for="idBlogPost" hidden>Title</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12">
-                <input id="title" name="title" type="text" data-length="128" value="${blogPost.title}">
-                <label for="title">Title</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12">
-                <input id="slug" name="slug" type="text" data-length="128" value="${blogPost.slug}">
-                <label for="slug">ULR Slug</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12">
-                <textarea id="preview" class="materialize-textarea" name="preview">${blogPost.preview}</textarea>
-                <label for="preview">Preview Text</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12">
-                <textarea id="body" name="body" hidden class="materialize-textarea"><%=blogPost.getBody()%></textarea>
-                <label for="body" hidden>Textarea</label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="row">
-                <div class="col s12 right-align">
-                    <button class="btn waves-light light-blue lighten-1" type="submit" name="action">
-                        Publish<i class="material-icons right">publish</i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </form>
+    <jsp:include page="../fragment/postEditForm.jsp">
+        <jsp:param name="idBlogPost" value="${blogPost.idBlogPost}"/>
+        <jsp:param name="title" value="${blogPost.title}"/>
+        <jsp:param name="slug" value="${blogPost.slug}"/>
+        <jsp:param name="preview" value="${blogPost.preview}"/>
+        <jsp:param name="body" value="${blogPost.body}"/>
+    </jsp:include>
 </div>
 <br><br>
 <script type="text/javascript">

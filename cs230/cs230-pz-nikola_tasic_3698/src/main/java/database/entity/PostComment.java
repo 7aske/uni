@@ -1,11 +1,12 @@
 package database.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "post_comment")
-public class PostComment {
+public class PostComment implements Serializable {
 	@Id
 	@GeneratedValue
 	@Column(name = "id_post_comment")

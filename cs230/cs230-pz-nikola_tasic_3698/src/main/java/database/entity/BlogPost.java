@@ -1,12 +1,13 @@
 package database.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
 @Table(name = "blog_post")
-public class BlogPost {
+public class BlogPost implements Serializable {
 	@Id
 	@GeneratedValue
 	@Column(name = "id_blog_post")
@@ -34,11 +35,11 @@ public class BlogPost {
 	private String preview;
 
 	@OneToMany
-	@JoinTable(name = "tag",
+	@JoinTable(name = "post_tag",
 			joinColumns = @JoinColumn(name = "id_blog_post"),
-			inverseJoinColumns = @JoinColumn(name = "id_post_tag")
+			inverseJoinColumns = @JoinColumn(name = "id_tag")
 	)
-	private Set<PostTag> postTags;
+	private Set<Tag> tags;
 
 	public BlogPost() {
 	}
@@ -99,12 +100,12 @@ public class BlogPost {
 		this.preview = preview;
 	}
 
-	public Set<PostTag> getPostTags() {
-		return postTags;
+	public Set<Tag> getPostTags() {
+		return tags;
 	}
 
-	public void setPostTags(Set<PostTag> postTags) {
-		this.postTags = postTags;
+	public void setPostTags(Set<Tag> tags) {
+		this.tags = tags;
 	}
 
 	public boolean isPublished() {
@@ -126,7 +127,7 @@ public class BlogPost {
 				", datePosted=" + datePosted +
 				", author='" + author + '\'' +
 				", preview='" + preview + '\'' +
-				", postTags=" + postTags +
+				", tags=" + tags +
 				'}';
 	}
 }

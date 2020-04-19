@@ -17,12 +17,14 @@
     String slug = (String) request.getAttribute("postSlug");
     if (slug == null) {
         response.sendRedirect(request.getContextPath());
+        return;
     }
     BlogPost blogPost = new BlogPostDAO().findBySlug(slug);
     if (blogPost == null) {
         response.sendRedirect(request.getContextPath());
+        return;
     }
-    assert blogPost != null;
+
     request.setAttribute("post", blogPost);
 %>
 <nav class="light-blue lighten-2">

@@ -7,6 +7,7 @@
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
           <factory-entry name="NewPersistenceUnit" value="964d1c6d-5595-4518-b91f-8556e8e0d882" />
+          <factory-entry name="blogpu" value="964d1c6d-5595-4518-b91f-8556e8e0d882" />
         </datasource-mapping>
         <naming-strategy-map />
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />

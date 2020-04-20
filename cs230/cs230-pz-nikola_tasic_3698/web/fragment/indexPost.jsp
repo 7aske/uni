@@ -8,6 +8,17 @@
             <p class="light">
                 <%=request.getParameter("preview")%>
             </p>
+            <div style="margin-top: .5em;">
+                <%
+                    String[] tags = request.getParameter("tags").split(",");
+                    for (String tag : tags) {
+                    	if(!tag.trim().equals("")){
+                            out.print(String.format("<div style=\"font-size: 1em; height: 1.75em; line-height: 1.75em\" class=\"chip\">%s</div>", tag));
+                        }
+                    }
+
+                %>
+            </div>
         </div>
         <div class="card-action">
             <a class="btn orange" href="${pageContext.request.contextPath}/post/${pageContext.request.getParameter("slug")}">Read more</a>

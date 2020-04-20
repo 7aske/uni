@@ -1,6 +1,7 @@
 <%@ page import="database.entity.BlogPost" %>
 <%@ page import="database.dao.BlogPostDAO" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.stream.Collectors" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -34,6 +35,7 @@
             <jsp:param name="author" value="${post.author}"/>
             <jsp:param name="slug" value="${post.slug}"/>
             <jsp:param name="datePosted" value="${post.datePosted}"/>
+            <jsp:param name="tags" value="${post.tags.stream().map(t -> t.name).reduce((l, r) -> l += ',' += r).orElse('')}"/>
         </jsp:include>
     </c:forEach>
 </div>

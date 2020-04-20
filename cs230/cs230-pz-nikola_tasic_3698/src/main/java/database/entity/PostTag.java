@@ -10,5 +10,4 @@ public class PostTag implements Serializable {
 	@GeneratedValue
 	@Column
 	private Long idPostTag;
-
 }

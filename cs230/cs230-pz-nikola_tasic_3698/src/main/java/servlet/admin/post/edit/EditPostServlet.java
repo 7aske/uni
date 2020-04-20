@@ -2,7 +2,9 @@ package servlet.admin.post.edit;
 
 import config.Config;
 import database.dao.BlogPostDAO;
+import database.dao.TagDAO;
 import database.entity.BlogPost;
+import database.entity.Tag;
 import util.UrlUtil;
 
 import javax.servlet.ServletException;
@@ -12,6 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @WebServlet("/admin/post/edit/*")
 public class EditPostServlet extends HttpServlet {
@@ -34,6 +40,16 @@ public class EditPostServlet extends HttpServlet {
 		if (request.getParameter("published") != null && request.getParameter("published").equals("on")) {
 			published = true;
 		}
+		TagDAO tagDAO = new TagDAO();
+		Set<Tag> tagList = new HashSet<>();
+		String[] tags = request.getParameter("tags").split(",");
+		for (String tagName : tags) {
+			Tag tag = tagDAO.findByName(tagName);
+			if (tag != null) {
+				tagList.add(tag);
+			}
+		}
+
 		BlogPostDAO blogPostDAO = new BlogPostDAO();
 		try {
 			idBlogPost = Long.parseLong(idBlogPostString);
@@ -43,6 +59,7 @@ public class EditPostServlet extends HttpServlet {
 			blogPost.setBody(body);
 			blogPost.setPreview(preview);
 			blogPost.setPublished(published);
+			blogPost.setTags(tagList);
 			blogPostDAO.update(blogPost);
 		} catch (NumberFormatException ex) {
 			BlogPost blogPost = new BlogPost();
@@ -52,6 +69,7 @@ public class EditPostServlet extends HttpServlet {
 			blogPost.setPreview(preview);
 			blogPost.setPublished(published);
 			blogPost.setDatePosted(LocalDate.now());
+			blogPost.setTags(tagList);
 			blogPost.setAuthor((String) Config.getProperties().get("author"));
 			blogPostDAO.create(blogPost);
 		}

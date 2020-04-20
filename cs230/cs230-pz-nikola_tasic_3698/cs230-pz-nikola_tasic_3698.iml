@@ -49,5 +49,7 @@
     <orderEntry type="library" name="jstl:jstl:1.2" level="project" />
     <orderEntry type="library" name="simplemde" level="application" />
     <orderEntry type="library" name="showdown" level="application" />
+    <orderEntry type="library" name="json-taglib-0.4.1" level="project" />
+    <orderEntry type="library" name="marked" level="application" />
   </component>
 </module>

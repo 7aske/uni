@@ -100,11 +100,11 @@ public class BlogPost implements Serializable {
 		this.preview = preview;
 	}
 
-	public Set<Tag> getPostTags() {
+	public Set<Tag> getTags() {
 		return tags;
 	}
 
-	public void setPostTags(Set<Tag> tags) {
+	public void setTags(Set<Tag> tags) {
 		this.tags = tags;
 	}
 

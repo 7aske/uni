@@ -32,7 +32,7 @@
                 Admin
             </a>
             <c:if test="${blogPost != null}">
-                <a href="${pageContext.request.contextPath}/admin/edit/${blogPost.idBlogPost}"
+                <a href="${pageContext.request.contextPath}/admin/post/edit/${blogPost.idBlogPost}"
                    class="breadcrumb">
                         ${blogPost.title}
                 </a>

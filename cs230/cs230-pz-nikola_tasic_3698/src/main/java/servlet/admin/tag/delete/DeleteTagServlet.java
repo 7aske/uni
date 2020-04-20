@@ -1,9 +1,9 @@
 package servlet.admin.tag.delete;
 
-import database.dao.BlogPostDAO;
 import database.dao.TagDAO;
 import util.UrlUtil;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +13,7 @@ import java.io.IOException;
 @WebServlet("/admin/tag/delete/*")
 public class DeleteTagServlet extends HttpServlet {
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		String idTagString = UrlUtil.getUrlBase(request.getRequestURL().toString());
 		long idTag;
 		TagDAO tagDAO = new TagDAO();
@@ -23,7 +23,14 @@ public class DeleteTagServlet extends HttpServlet {
 			tagDAO.removeById(idTag);
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
+		} catch (Exception ex) {
+			String[] errors = new String[]{
+					ex.getMessage()
+			};
+			request.setAttribute("errors", errors);
 		}
-		response.sendRedirect(request.getContextPath() + "/admin/tag/tags.jsp");
+		// response.sendRedirect(request.getContextPath() + "/admin/tag/tags.jsp");
+		request.getRequestDispatcher("/admin/tag/tags.jsp").forward(request, response);
+		request.setAttribute("errors", null);
 	}
 }

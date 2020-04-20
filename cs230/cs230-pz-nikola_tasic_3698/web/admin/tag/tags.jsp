@@ -40,6 +40,19 @@
         </div>
     </div>
 </nav>
+<div class="container">
+    <%
+        if (request.getAttribute("errors") != null) {
+            out.print("<ul class=\"collection\">");
+            String[] errors = ((String[]) request.getAttribute("errors"));
+            for (String error : errors) {
+                out.print(String.format("<li class=\"collection-item\">%s</li>", error));
+            }
+            request.setAttribute("errors", null);
+            out.print("</ul>");
+        }
+    %>
+</div>
 <%
     List<Tag> tagList = new TagDAO().findAll();
     pageContext.setAttribute("tagList", tagList);

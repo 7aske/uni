@@ -12,7 +12,7 @@ public class RentalInfo {
         switch (movie.getCode()) {
             case Movie.Code.REGULAR:
                 if (r.getDays() > 2) {
-                    return (r.getDays() - 2) * 1.5;
+                    return (r.getDays() - 2) * 1.5 + 2;
                 } else {
                     return 2;
                 }
@@ -20,7 +20,7 @@ public class RentalInfo {
                 return r.getDays() * 3;
             case Movie.Code.CHILDRENS:
                 if (r.getDays() > 3) {
-                    return (r.getDays() - 3) * 1.5;
+                    return (r.getDays() - 3) * 1.5 + 1.5;
                 } else {
                     return 1.5;
                 }

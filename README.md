@@ -25,9 +25,10 @@ Repository with home assignments, projects and other university related stuff.
 ### Semester 4
 
 - CS230 - Distributed systems
-    * project
+    * [project](https://github.com/7aske/jsp-cms)
 - IT370 - Human-computer interaction
     * project   
 - SE211 - Software construction
-    * project
+    * [docs](https://github.com/7aske/uni/blob/second-year/se211/se211-pz01-nikola_tasic_3698/se211-pz01-nikola_tasic_3698.pdf)
+    * [project](https://github.com/7aske/rexif2)
 - MA202 - Mathematics 2

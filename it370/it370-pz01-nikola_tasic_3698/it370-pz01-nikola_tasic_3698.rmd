@@ -220,3 +220,53 @@ Najvažnije je da prilikom testiranja prepustimo korisnika bez ikakvih sugerisan
 </div>
 
 </font>
+
+# <span class="section-header">Dizajn</span>
+
+
+## <span class="section-sub-header">Opis aplikacije</span>
+
+<font size="5">
+
+Zbog ubrzanog načina života u današnjem vremenu dolazi do situacija gde veoma često zaboravljamo važne stvari. Kod nekoga su u pitanju poslovne obaveze dok kod drugih mogu da budu razni događaji svojih bližnjih i slično. Kod nekog možda nije slučaj zaboravljanje nego jednostavno prevelika količina obaveza ili jednostavno želja da se izvuče maksimum iz sebe. U bilo kom slučaju u modernom vremenu mobilne i web aplikacije su postale de facto najbolji alat u mnogim sferama naših zivota. Od plaćanja računa preko komunikacije sa drugim ljudima do naručivanja hrane i još mnogih drugih primena. U suštini retko ko u sadašnjici nema pristup mobilnom telefonu ili računaru i gotovo svakodnevno konzumira makar jednu ili, često, desetine aplikacija prilikom svakodnevnih aktivnosti. Naravno naveden aplikacije, naravno izuzev onih za zabavu, imaju za svrhu da olakšaju ili ubrzaju svakodnevne poslove i time "kupe" više vremena.
+
+**Karma** je aplikacija koja upravo rešava mnoge od ovih problema. Ona pruža interfejs za lako unošenje, pregled i manipulisanje obavezama i zadacima koji će gotovo svakome biti od velikog značaja. Korisnik aplikacije ima mogućnost dodavanja obaveza bez prethodne registracije jer je zaključeno iz istraživanja da mnogi korisnici prilikom prve potrebe da se uloguju kod nove nepoznate aplikacije istu napuštaju u potrazi za novom. Tako da je odlučeno da osnovna funkcionalnost, odnosno manipulacija obaveza, ne bude ograničena potrebom da se korisnik uloguje.
+
+Dakle korisnik ima mogućnost da:
+
+* Dodaje zadatke
+
+	Zadatak moze da sadrži:
+	* Kratak opis	
+	* Duži opis
+	* Kategoriju
+	* Datum izvršenja
+	* Prioritet
+	* Labele
+
+* Briše zadatke
+* Menja zadatke
+* Označava zadatke kao izvršene
+* Arhivira zadatke
+* Sortira i pregleda sve zadatke po raznim kriterijumima
+
+Registracijom korisnik dobija mogućnost da:
+
+* Menja, briše i dodaje kategorije i labele
+* Podešava notifikacije i obaveštenja koja mu stižu putem mejla ili na telefonu
+* *Karma* bodovni sistem
+* Povezivanje sa prijateljima koji su korisnici aplikacije
+* Dodaju grupne zadatke povezanim prijateljima
+* Sinhronizacija 
+
+
+### <font size="6">Kategorije i labele</font>
+
+Bez logovanja korisnik ima neke osnovne kategorije pomoću kojih može lakše da organizuje svoje zadatke. Neke od kategorija su: *work*, *school*, *friends and family*, *personal*, *health*... Ulogovani korisnik ima mogućnost da menja postojeće kategorije i dodaje nove i one se čuvaju u njegovom nalogu. Slična situacija je i sa labelama koje mogu imati dodatne opise kao i boje koje će vizuelno razlikovati različite zadatke u samoj aplikaciji. Naravno obe ove opcija znatno pomažu pri pregledu i sortiranju.
+
+### <font size="6">Ciljne grupe</font>
+
+Ciljne grupe ove aplikacije mogu da pripadaju gotovo bilo kom životnom dobu ali prevashodno su targetirani ljudi bilo kog pola od 16 do 45 godina. Ovu ciljnu grupu takođe treba da karakteriše osnovno poznavanje mobilnih aplikacija jer ova aplikacija treba da im pomogne u životu punom obaveza a ne da pruži jos jednu stvar koju moraju naučiti kako da koriste.
+
+Kao što je već pomenuto targetirani su pojedinci koji imaju problema sa organizacijom vremena da li zbog lične nemogućnosti da se sami organizuju ili zbog jednostavno prevelike količine obaveza koje imaju pred sobom.
+</font>

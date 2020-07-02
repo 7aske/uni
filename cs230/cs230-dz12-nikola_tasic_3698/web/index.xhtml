@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:jsf="http://xmlns.jcp.org/jsf" xml:lang="en">
+<head jsf:id="head">
+    <title>Index</title>
+    <script language="javascript" type="text/javascript" src="websocket.js"></script>
+</head>
+<body jsf:id="body">
+<form method="post" jsf:prependId="false">
+    <input type="button" value="Get Default Values" onclick="doSend('getDefaults')"/>
+    <table>
+        <tr>
+            <td>First Name:</td>
+            <td>
+                <label>
+                    First Name:
+                    <input type="text" jsf:id="firstName" jsf:value="#{person.firstName}"/>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Last Name:</td>
+            <td>
+                <label>
+                    Last Name:
+                    <input type="text" jsf:id="lastName" jsf:value="#{person.lastName}"/>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>City:</td>
+            <td>
+                <label>
+                    City:
+                    <input type="text" jsf:id="city" jsf:value="#{person.city}"/>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="Confirm" jsf:action="confirmation"/>
+            </td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
+

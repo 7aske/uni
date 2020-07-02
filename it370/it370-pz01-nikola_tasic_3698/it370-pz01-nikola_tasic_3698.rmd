@@ -549,6 +549,8 @@ Slika 10 prikazuje ekran na kome imamo pristup izmeni osnovnih podataka. Pored i
 
 Kontinualno testiranje aplikacije u svakoj iteraciji razvoja je ključ uspešnosti ovog projekta. Na osnovu prethodnih analiza ciljnih grupa možemo relativno lako do prvog prototipa aplikacije. Prvi prototip je u suštini aplikacija izrađena na osnovnu potreba i sposobnosti analiziranih ciljnih grupa. Po razvoju prvog prototipa menja se sam pristup jer počevši s ovom verzijom će se primenjivati Test-Driven Development odnosno TDD. TDD predstavlja model razvoja koji na kraju svake nove iteracije (verzije) proizvoda primenjuje isti set evaluacija od strane ciljnih grupa kako bi se on što bolje prilagodio njihovim potrebama i sposobnostima. Analiza rezultata dobijenih ovim testiranjem znatno povećava efikasnost razvoja aplikacije jer direktno ukazuje na probleme u dizajnu ili korisničkom iskustvu. 
 
+
+
 \
 \
 \
@@ -566,8 +568,97 @@ Neki od testova koje ćemo primenjivati na ovom projektu koji su deo heurističk
 
 *Navigation Test* služi da nam da uvid u to kroz koje korake je korisnik prolazio dok je prelazio sa jednog ekrana naše aplikacije na drugi. Pomoću ovog tipa testova možemo dobiti uvid u to koliko je lako odnosno teško koristiti aplikaciju.
 
+**Napomena:** Usled neuspešnosti potrage za odgovarajućim heatmap alatima sve heatmape su generisane preko Python programa koji se nalazi u repozitorijumu sa dokumentacijom.
 
+### <font size="6">Click Test</font>
+
+<table>
+<tr>
+<td>
+<div align="center" class="impl-img">
+![Slika 11.1 - Heatmap ekrana za podešavanja](assets/img/heatmap/Settings_plot.png)
+</div>
+</td>
+<td>
+<div align="center" class="impl-img">
+![Slika 11.2 - Lokacije click-ova](assets/img/heatmap/Settings_scr.png)
+</div>
+</td>
+</tr>
+</table>
+
+Test pokazuje da su korisnici uspeli da identifikuju većinu interaktivnih elemenata interfejsa osim mogućnosti promene profilne slike. To je jedno od poboljšanja koje bi trebalo implementirati u sledećoj iteraciji razvoja. Odnosno treba se naznačiti da je profilna slika interaktivna.
+
+<table>
+<tr>
+<td>
+<div align="center" class="impl-img">
+![Slika 12.1 - Heatmap ekrana za kreiranje zadatka](assets/img/heatmap/Create_plot.png)
+</div>
+</td>
+<td>
+<div align="center" class="impl-img">
+![Slika 12.2 - Lokacije click-ova](assets/img/heatmap/Create_scr.png)
+</div>
+</td>
+</tr>
+</table>
+
+Na ovoj slici se jasno vidi da su korisnici identifikovali kako se koristi interfejs za kreiranje zadatka. Pored toga jasno se vidi da su gotovo svi korisnici promenili naslov i opis zadatka koji kreiraju.
  
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+
+### <font size="6">Navigation Test</font>
+
+<table>
+<tr>
+<td>
+<div align="center" class="impl-img">
+![Slika 13.1 - Heatmap glavnog menija](assets/img/heatmap/Menu_plot.png)
+</div>
+</td>
+<td>
+<div align="center" class="impl-img">
+![Slika 13.2 - Lokacije click-ova](assets/img/heatmap/Menu_scr.png)
+</div>
+</td>
+</tr>
+</table>
+
+Na navigacionom testu vidimo da je najveće interesovanje korisnika privukao ekran Overview, List i Settings a da ni jedan od ispitanika nije koristio Groups. Takođe se da primetiti da u ovom kontekstu heatmap ne daje bas precizne rezultate jer bi se iz heatmape zaključilo da se Groups zapravo najposećeniji ekran, što definitivno nije.
+
+<table>
+<tr>
+<td>
+<div align="center" class="impl-img">
+![Slika 14.1 - Heatmap ekrana za pregled](assets/img/heatmap/Overview_plot.png)
+</div>
+</td>
+<td>
+<div align="center" class="impl-img">
+![Slika 14.2 - Lokacije click-ova](assets/img/heatmap/Overview_scr.png)
+</div>
+</td>
+</tr>
+</table>
+
+Na slikama 14 (iznad) vidimo da su korisnici uspešno identifikovali dugmad za navigaciju meseci kao i za navigaciju tipa pregleda. Doduše neki od korisnika su pokušali da pristupe izvršenim i neizvršenim zadacima koji nisu interaktivni.
+
+### <font size="6">Five Second Test</font>
+
 "Five Second Test" sadrži pitanja sledećeg tipa:
 
 1. Da li biste koristili ovu aplikaciju? 
@@ -576,6 +667,17 @@ Neki od testova koje ćemo primenjivati na ovom projektu koji su deo heurističk
 4. Da li biste svakodnevno koristili ovu aplikaciju? 
 5. Da li je ova aplikacija poboljšanje u odnosu na Vaš trenutni način rešavanja problema?
 
+\
+
+|   |   1   |  2 |  3 |  4 |  5 |
+|---|-------|----|----|----|----|
+| 1 | Mozda | Da | Da | Ne | Da |
+| 2 | Mozda | Ne | Ne | Ne | Ne |
+| 3 |   Da  | Da | Da | Ne | Ne |
+| 4 |   Da  | Da | Da | Da | Da |
+
+Na prikazanim rezultatima vidimo da većina korisnika nema nameru da svakodnevno koristi aplikaciju što ukazuje na to da aplikacija nije dovoljno prosta i da verovatno unosi dodatno trenje pri izvršavanju obaveza. Takođe vidimo da jedan broj ljudi kojima bi aplikacija pomogla i onima kojima ne bi tako da možemo da zaključimo da neki od ispitanika imaju već optimizovan način rešavanja problema. Najvažnija posledica ovog testa je da smo dobili pozitivne rezultate kada se radi o pitanju da li bi korisnici koristili aplikaciju. Iz preostale dve kolone vidimo da je interfejs dobar ali da ima mesta za poboljšanje odnosno u kombinaciji sa odgovorima iz poslednje kolone možemo da zaključimo da aplikacija ima previše opcija i da kompleksnost sprečava ljude da se duže posvete aplikaciji.
+
 </font>
 
  
@@ -583,7 +685,7 @@ Neki od testova koje ćemo primenjivati na ovom projektu koji su deo heurističk
  
 <font size="5">
 
-U toku razvoja ove aplikacije upotrebljena su sva znanja stečena na predmetu Interakcija čovek- računar. Od ideje do gotove aplikacije smo došli korišćenjem nekih od standardnih metoda kako razvoja tako i analize i testiranja. Kao što smo i na samom početku projekta naglasili, a kroz sam projekat i pokazali, uspeh aplikacije ne zavisi samo od kvaliteta koda već i od drugih faktora. Šanse za uspeh aplikacije na tržištu su znatno povećane jasnim određivanjem ciljne grupe. Analizom i testiranjem smo razvoj naše aplikacije usmerili prema zahtevima ciljne grupe. Sprovođenjem testova kako u ranoj tako i u kasnijim fazama razvoja, analizom i obradom dobijenih podataka poboljšali smo dizajn i unapredili aplikaciju.
+U toku razvoja ove aplikacije upotrebljena su sva znanja stečena na predmetu IČR. Od ideje do gotove aplikacije smo došli korišćenjem nekih od standardnih metoda kako razvoja tako i analize i testiranja. Kao što smo i na samom početku projekta naglasili, a kroz sam projekat i pokazali, uspeh aplikacije ne zavisi samo od kvaliteta koda već i od drugih faktora. Šanse za uspeh aplikacije na tržištu su znatno povećane jasnim određivanjem ciljne grupe. Analizom i testiranjem smo razvoj naše aplikacije usmerili prema zahtevima ciljne grupe. Sprovođenjem testova kako u ranoj tako i u kasnijim fazama razvoja, analizom i obradom dobijenih podataka poboljšali smo dizajn i unapredili aplikaciju.
 
 Upotrebljavajući znanja stečena na predmetu kroz razvoj aplikacije u ovom projektu došli smo do zaključka da su svi delovi razvoja neophodni, od istraživanja preko analize do testiranja svaka
 
@@ -592,6 +694,14 @@ Ovaj projekat je pokazao da su znanja stečena na predmetu IČR neophodna za raz
 
 </font>
 
-<!-- # <span class="section-header">Reference</span>
+# <span class="section-header">Reference</span>
 
-/ -->
+<font size="5">
+
+1. Nick Babich, *A Comprehensive Guide To Mobile App Design*, Posećeno: 30. Jun, 2020, [Online], Dostupno na: smashingmagazine.com/2018/02/comprehensive-guide-to-mobile-app-design
+
+2. Danny Halarewich, *Reducing Cognitive Overload For A Better User Experience*, Posećeno: 30. Jun, 2020, [Online], Dostupno na: smashingmagazine.com/2016/09/reducing-cognitive-overload-for-a-better-user-experience
+
+3. Katarina Kaplarski, *Materijali za predavanja IT370*
+
+</font>

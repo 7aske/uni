@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Student</title>
+</h:head>
+<h:body>
+    <h:form>
+        <h:panelGrid columns="2">
+            <h:outputLabel for="index" value="Index"/>
+            <h:inputText id="index" value="#{student.index}"/>
+            <h:outputLabel for="name" value="Name"/>
+            <h:inputText id="name" value="#{student.name}"/>
+            <h:outputLabel for="status" value="Status"/>
+            <h:inputText id="status" value="#{student.status}"/>
+            <h:outputLabel for="city" value="City"/>
+            <h:inputText id="city" value="#{student.city}"/>
+            <h:outputLabel for="street" value="Street"/>
+            <h:inputText id="street" value="#{student.street}"/>
+            <h:outputLabel for="zipcode" value="Zipcode"/>
+            <h:inputText id="zipcode" value="#{student.zipcode}"/>
+            <h:outputLabel for="phone_numbers" value="Phone Numbers"/>
+            <h:inputText id="phone_numbers" value="#{student.phone_numbers}"/>
+            <h:outputLabel for="role" value="Role"/>
+            <h:inputText id="role" value="#{student.role}"/>
+            <h:panelGroup/>
+
+            <h:selectOneRadio value="#{student.traditional}">
+                <f:selectItem itemValue="true" itemLabel="Traditional"/>
+                <f:selectItem itemValue="false" itemLabel="Internet"/>
+            </h:selectOneRadio>
+            <h:commandButton value="Crate JSON object"
+                             action="#{studentController.generateJson()}"/>
+        </h:panelGrid>
+    </h:form>
+</h:body>
+</html> 
+

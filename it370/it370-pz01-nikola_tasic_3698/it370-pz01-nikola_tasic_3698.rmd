@@ -17,6 +17,9 @@ css: "assets/css/style.css"
   font-style: italic;
   color: #94052d !important;
 }
+.impl-img img {
+  width: 350px;
+}
 ```
 \
 \
@@ -270,3 +273,325 @@ Ciljne grupe ove aplikacije mogu da pripadaju gotovo bilo kom životnom dobu ali
 
 Kao što je već pomenuto targetirani su pojedinci koji imaju problema sa organizacijom vremena da li zbog lične nemogućnosti da se sami organizuju ili zbog jednostavno prevelike količine obaveza koje imaju pred sobom.
 </font>
+
+# <span class="section-header">Implementacija i testiranje</span>
+
+## <span class="section-sub-header">Implementacija</span>
+
+<font size="5">
+Mockup ove aplikacije je odrađen u Invision okurženju. U nastavku ćemo proći kroz najosnovnije ekrane koji su dostupni korisniku.
+
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+
+### <font size="6">Login</font>
+
+<div align="center" class="impl-img">
+![Slika 1 - Login ekran](assets/img/karma/SignIn.png)
+</div>
+
+\
+
+Na slici 1 vidimo login ekran aplikacije. Nema previše neuobičajnih elemenata na ovoj strani tako da idemo dalje ka registraciji kojoj se može pristupiti dodirom na tekst "Sign up". Napominjemo da ovo nije početni ekran aplikacije iz razloga koje smo naveli u segmentu gde smo opisivali rezultate istraživanja.
+
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+
+### <font size="6">Registracija</font>
+
+<div align="center" class="impl-img">
+![Slika 2 - Registracija](assets/img/karma/SignUp.png)
+</div>
+
+\
+
+Slika 2 prikazuje ekran za registraciju (Sign Up) sa najosnovnijim podacima. Korisnik pruža samo osnovne podatke o sebi.
+
+
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+
+### <font size="6">Početni ekran</font>
+
+<div align="center" class="impl-img">
+![Slika 3 - Početni ekran (Home)](assets/img/karma/Home.png)
+</div>
+
+\
+
+Slika 3 prikazuje početni ekran koji pokazuje datum i u gornjem desnom uglu trenutnu temperaturu. Korisnik dalje korišćenje aplikacije nastavlja vertikalnim povlačenjem ekrana i dodirom na ikonicu menija u gornjem levom uglu.
+
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+
+### <font size="6">Glavni Meni</font>
+
+<div align="center" class="impl-img">
+![Slika 4 - Glavni meni](assets/img/karma/Menu.png)
+</div>
+
+\
+
+Kao što vidimo na slici 4 se nalazi glavni meni aplikacije sa svim dostupnim funkcionalnostima.
+
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+
+### <font size="6">Kategorije</font>
+
+<div align="center" class="impl-img">
+![Slika 5 (Categories)](assets/img/karma/Categories.png)
+</div>
+
+\
+
+Ovde vidimo neke od dodatih kategorija. Kao što smo naveli korisnik ima mogućnosti veće personalizacije tek da se uloguje jer želimo da te podatke sačuvamo i sinhronizujemo sa više uređaja.
+
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+
+### <font size="6">Kreiranje i lista zadataka</font>
+
+<table>
+<tr>
+<td align="center">
+
+<div align="center" class="impl-img">
+![Slika 6 - Kreiranje zadataka (Create Task)](assets/img/karma/Create.png)
+</div>
+</td>
+<td align="center">
+<div align="center" class="impl-img">
+![Slika 7 - Lista zadataka (Lists)](assets/img/karma/List.png)
+</div>
+</td>
+</table>
+</tr>
+
+\
+
+Na ekranu na slici 6 vidimo postavku forme za kreiranje zadatka. Korisnik ovde bira opcije kao što su: 
+
+* Naslov
+* Opis
+* Predviđeni rok izvršenja zadatka
+* Kategoriju
+* Prioritet
+* Labele
+
+Po unosu zadatak se dodaje na listu zadataka (Slika 7). Na navedenoj slici je prikazana lista zadataka za kategoriju "Work".
+
+\
+\
+\
+\
+\
+\
+\
+\
+
+### <font size="6">Mesečni pregled</font>
+
+<div align="center" class="impl-img">![Slika 8 - Mesečni pregled (Overview)](assets/img/karma/Overview.png)</div>
+
+\
+
+Slika 8 prikazuje mesečni pregled izvršenih i zakasnelih zadataka takođe. Korisnik može pored trenutnog meseca da pogleda stanja prethodnih meseci.
+
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+
+### <font size="6">Profil</font>
+
+<div align="center" class="impl-img">
+![Slika 9 - Pregled profila korisnika (Profile)](assets/img/karma/Profile.png)
+</div>
+
+\
+
+Na ovom ekranu prikazanom na slici 9 vidimo pregled profila korisnika. Takođe prikazani su najskoriji zadaci kao i pregled zadataka za trenutni mesec (izvršeni na vreme i neizvršeni na vreme). Pored tih informacija vidimo koliko je "Karma" poena korisnik ostvario izvršavanjem zadataka na vreme.
+
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+
+### <font size="6">Podešavanja</font>
+
+<div align="center" class="impl-img">
+![Slika 10 - Podešavanja (Settings)](assets/img/karma/Settings.png)
+</div>
+
+\
+
+Slika 10 prikazuje ekran na kome imamo pristup izmeni osnovnih podataka. Pored izmene podataka imamo i opciju uključivanja i isključivanja e-mail i notifikacija telefona.
+
+</font>
+
+## <span class="section-sub-header">Testiranje</span>
+
+<font size="5">
+
+Kontinualno testiranje aplikacije u svakoj iteraciji razvoja je ključ uspešnosti ovog projekta. Na osnovu prethodnih analiza ciljnih grupa možemo relativno lako do prvog prototipa aplikacije. Prvi prototip je u suštini aplikacija izrađena na osnovnu potreba i sposobnosti analiziranih ciljnih grupa. Po razvoju prvog prototipa menja se sam pristup jer počevši s ovom verzijom će se primenjivati Test-Driven Development odnosno TDD. TDD predstavlja model razvoja koji na kraju svake nove iteracije (verzije) proizvoda primenjuje isti set evaluacija od strane ciljnih grupa kako bi se on što bolje prilagodio njihovim potrebama i sposobnostima. Analiza rezultata dobijenih ovim testiranjem znatno povećava efikasnost razvoja aplikacije jer direktno ukazuje na probleme u dizajnu ili korisničkom iskustvu. 
+
+\
+\
+\
+\
+
+Neki od testova koje ćemo primenjivati na ovom projektu koji su deo heurističke analize su:
+
+* Five Second Test
+* Click Test (Heatmap)
+* Navigation Test (Heatmap)
+
+*Five Second Test* predstavlja test dizajna korisničkog interfejsa gde korisnik ima priliku da samo 5 sekundi posmatra interfejs i kasnije na osnovu tog iskustva diskutuje. Ovakav test se odnosi eksluzivno na dizajn aplikacije jer ne pruža korisniku mogućnost da interaguje sa istom.
+
+*Click Test* predstavlja testiranje akcija koje korisnik koristi u toku rada sa aplikacijom. Na osnovu ovog testa se generiše *heatmap* koji predstavlja informaciju o tome gde je korisnik pritiskao/kliktao najčešće dok je koristio aplikaciju.
+
+*Navigation Test* služi da nam da uvid u to kroz koje korake je korisnik prolazio dok je prelazio sa jednog ekrana naše aplikacije na drugi. Pomoću ovog tipa testova možemo dobiti uvid u to koliko je lako odnosno teško koristiti aplikaciju.
+
+
+ 
+"Five Second Test" sadrži pitanja sledećeg tipa:
+
+1. Da li biste koristili ovu aplikaciju? 
+2. Da li bi Vam ova aplikacija olakšala svakodnevno rešavanje obaveza?
+3. Da li bi Vam ova aplikacija uštedela vreme? 
+4. Da li biste svakodnevno koristili ovu aplikaciju? 
+5. Da li je ova aplikacija poboljšanje u odnosu na Vaš trenutni način rešavanja problema?
+
+</font>
+
+ 
+# <span class="section-header">Zaključak</span>
+ 
+<font size="5">
+
+U toku razvoja ove aplikacije upotrebljena su sva znanja stečena na predmetu Interakcija čovek- računar. Od ideje do gotove aplikacije smo došli korišćenjem nekih od standardnih metoda kako razvoja tako i analize i testiranja. Kao što smo i na samom početku projekta naglasili, a kroz sam projekat i pokazali, uspeh aplikacije ne zavisi samo od kvaliteta koda već i od drugih faktora. Šanse za uspeh aplikacije na tržištu su znatno povećane jasnim određivanjem ciljne grupe. Analizom i testiranjem smo razvoj naše aplikacije usmerili prema zahtevima ciljne grupe. Sprovođenjem testova kako u ranoj tako i u kasnijim fazama razvoja, analizom i obradom dobijenih podataka poboljšali smo dizajn i unapredili aplikaciju.
+
+Upotrebljavajući znanja stečena na predmetu kroz razvoj aplikacije u ovom projektu došli smo do zaključka da su svi delovi razvoja neophodni, od istraživanja preko analize do testiranja svaka
+
+ 
+Ovaj projekat je pokazao da su znanja stečena na predmetu IČR neophodna za razvoj aplikacije za koju želimo biti konkurentna na tržištu.
+
+</font>
+
+<!-- # <span class="section-header">Reference</span>
+
+/ -->

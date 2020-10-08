@@ -1,6 +1,25 @@
-/cs101/test0/test0/nbproject/private/
-/cs101/test0/test0/build/
-/cs101/test0_nb/nbproject/private/
-/cs101/test0_nb/build/
-/cs101/task0/nbproject/private/
-/cs101/task0/build/
+build
+out
+cmake-build-debug
+dist
+
+.idea
+.vscode
+.vs
+
+*.class
+
+venv
+node_modules
+__pycache__
+
+# MS and Libre office backup
+.~*
+
+# Powerdesigner backupfiles
+*.oob
+*.eab
+*.rqb
+*.pjb
+
+*.vpp.lck

@@ -1,0 +1,61 @@
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js'></script>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js'></script>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js'></script>
+        <script src='RestClientProizvodnaJedinica.js'></script>
+    </head>
+    <body>
+        <div id='header'></div>
+
+        <div id='sidebar'></div>
+
+        <div id='content'></div>
+
+
+        <!-- Templates -->
+        <script type='text/template' id='tpl-create'>
+            <!--
+            Put your controls to create new entity here.
+
+            Class 'new' is used to listen on events in JS code.
+            -->
+            <button class='new'>Create</button>
+        </script>
+
+        <script type='text/template' id='tpl-proizvodnajedinica-list-item'>
+            <!-- modify output display name for item here or change displayName in the JS model code -->
+            <a href='#<%= idproizvodnajedinica %>'><%= displayName %></a>
+        </script>
+
+        <script type='text/template' id='tpl-proizvodnajedinica-details'>
+            <div>
+            <label>Id:</label>
+            <input type='text' id='idproizvodnajedinica' name='id' value='<%= typeof(idproizvodnajedinica)!== "undefined" ? idproizvodnajedinica : "" %>'  />
+            <!--
+            Put your editing controls for model
+            attribute data (text fields, ...) here
+            <label>ukupankapacitetproizvodnje:</label>
+            <input type='text' id='ukupankapacitetproizvodnje' name='ukupankapacitetproizvodnje' value='<%= ukupankapacitetproizvodnje %>'/><label>naziv:</label>
+            <input type='text' id='naziv' name='naziv' value='<%= naziv %>'/><label>mesto:</label>
+            <input type='text' id='mesto' name='mesto' value='<%= mesto %>'/>-->
+            <!--
+            Put your controls to create new entity here.
+            Classes 'save' and 'delete' are used to listen on events in JS code.
+            -->
+            <button  class='save'>Save</button>
+            <button  class='delete'>Delete</button>
+            </div>
+        </script>
+
+
+    </body>
+</html>

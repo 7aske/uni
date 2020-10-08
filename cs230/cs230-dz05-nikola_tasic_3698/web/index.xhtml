@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <title>Registration</title>
+</h:head>
+<h:body>
+    <h3>Registration form</h3>
+    <h:form class="form-group">
+        <h:panelGrid columns="3" columnClasses="rightalign,leftalign,leftalign">
+            <h:outputLabel value="Study type: " for="studyType"/>
+            <h:selectOneMenu id="studyType" label="Study type"
+                             value="#{registrationBean.studyType}">
+                <f:selectItem itemLabel="Choose study type:" itemValue="" noSelectionOption="true"
+                              itemDisabled="true"/>
+                <f:selectItem itemLabel="Traditional" itemValue="Traditional"/>
+                <f:selectItem itemLabel="Online" itemValue="Online"/>
+            </h:selectOneMenu>
+            <h:message for="studyType"/>
+            <h:outputLabel value="Faculties: " for="faculty"/>
+            <h:selectOneMenu id="faculty" label="Faculties"
+                             value="#{registrationBean.faculty}">
+                <f:selectItem itemLabel="Choose faculty" itemValue="" noSelectionOption="true" itemDisabled="true"/>
+                <f:selectItem itemLabel="FIT" itemValue="FIT"/>
+                <f:selectItem itemLabel="FAM" itemValue="FAM"/>
+                <f:selectItem itemLabel="FDU" itemValue="FDU"/>
+            </h:selectOneMenu>
+            <h:message for="faculty"/>
+
+            <h:outputLabel value="First name:" for="firstName"/>
+            <h:inputText id="firstName" label="First name"
+                         required="true"
+                         value="#{registrationBean.firstName}"/>
+            <h:message for="firstName"/>
+
+            <h:outputLabel value="Last name:" for="lastName"/>
+            <h:inputText id="lastName" label="Last name"
+                         required="true"
+                         value="#{registrationBean.lastName}"/>
+            <h:message for="lastName"/>
+
+            <h:outputLabel for="age" value="Age:"/>
+            <h:inputText id="age" label="Starost" size="2"
+                         value="#{registrationBean.age}"/>
+            <h:message for="age"/>
+
+            <h:outputLabel value="Email:" for="email"/>
+            <h:inputText id="email" label="Email"
+                         validator="emailValidator"
+                         required="true"
+                         value="#{registrationBean.email}"/>
+            <h:message for="email"/>
+
+            <h:panelGroup/>
+            <h:commandButton id="registration" value="registration"
+                             action="confirm"/>
+        </h:panelGrid>
+    </h:form>
+</h:body>
+</html>
+

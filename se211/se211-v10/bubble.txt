@@ -1,0 +1,15 @@
+begin
+
+read arr
+
+for i in range len(arr) do
+    for j in range len(arr) - i - 1 do
+        if arr[j] < arr[j+1] then
+            swap(arr[j], arr[j+1])
+        endif
+    done
+done    
+
+print arr
+
+end

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_7.xsd"
+             version="7">
+
+    <module id="cs230-v01-Web">
+        <web>
+            <web-uri>web.war</web-uri>
+            <context-root>cs230-v01Web</context-root>
+        </web>
+    </module>
+</application>

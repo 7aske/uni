@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+    <title>Confirm </title>
+</h:head>
+<h:body>
+    <c:if test="#{messageModel.message eq 'Python' or messageModel.message eq 'Java'}">
+        <h2>Wrong asnwer. Try again. Redirecting...</h2>
+        <meta http-equiv="refresh" content="2;url=index.xhtml"/>
+    </c:if>
+    <c:if test="#{messageModel.message eq 'C' }">
+        <h2>Answer is correct!</h2>
+    </c:if>
+</h:body>
+</html>
+

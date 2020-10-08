@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:jsf="http://xmlns.jcp.org/jsf" xml:lang="en">
+    <head>
+        <title>Create Internet Student</title>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    </head>
+    <body>
+        <form method="POST" action="" jsf:prependId="false">
+        <table class="table">
+                <tr>
+                    <td>First Name: </td>
+                    <td>
+                        <input type="text" jsf:id="ime" jsf:value="#{internetStudent.firstName}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Last Name: </td>
+                    <td>
+                        <input type="text" jsf:id="prezime" jsf:value="#{internetStudent.lastName}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Email: </td>
+                    <td>
+                        <input type="text" jsf:id="email" jsf:value="#{internetStudent.email}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Course:  </td>
+                    <td>
+                        <input type="text" jsf:id="smer" jsf:value="#{internetStudent.course}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="Confirm" jsf:action="#{internetStudentController.navigateToInternetStudents()}"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>
+

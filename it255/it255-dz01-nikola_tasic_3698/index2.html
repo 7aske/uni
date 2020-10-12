@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Title of the document</title>
+	</head>
+	<style>
+.flex {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+body, html {
+	text-align:center;
+	padding: 0;
+	margin: 0;
+	width: 600px;
+}
+header, footer {
+	height: 50px;
+	margin-left: 3em;
+	width: calc(600px - 3em);
+}
+
+main {
+	display: flex;
+}
+section {
+	height: 200px;
+}
+
+section {
+	margin-left: 3em;
+	width: 600px;
+	line-height: 1.5em;
+	box-sizing: border-box;
+	background-color: yellow;
+}
+
+aside {
+	position: absolute;
+	top:0;
+	height: 300px;
+	background-color: grey;
+	width: 3em;
+}
+
+h1 {
+	width: 100%;
+	background-color: red;
+	margin: 0;
+	height: 1em;
+}
+
+header {
+	background-color: red;
+}
+
+footer {
+	background-color: orange;
+}
+
+	</style>
+	<body>
+		<header class="flex">
+			&lt;header&gt;
+		</header>
+		<main>
+			<section>
+				&lt;content&gt;
+			</section>
+		</main>
+		<footer class="flex">
+			&lt;footer&gt;
+		</footer>
+		<aside class="flex">
+				&lt;menu&gt;
+		</aside>
+	</body>
+</html>

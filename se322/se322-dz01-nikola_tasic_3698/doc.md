@@ -10,7 +10,7 @@
 
 ## *SE322: INŽENJERSTVO ZAHTEVA*
 
-## Domaći zadatak: 00
+## Domaći zadatak: 01
 
 </div>
 
@@ -29,7 +29,7 @@ Ime i prezime: **Nikola Tasić**
 
 Broj indeksa: **3698**
 
-Datum izrade: **12.10.2020**
+Datum izrade: **13.10.2020**
 
 ---
 
@@ -54,25 +54,37 @@ Za dodeljeni sistem, osmislite i odredite:
 3.  Podsisteme
 4.  Ograničenja kojima je rešenje izloženo
 
-#### 1. 
+#### 1. Poslovna prilika
+
+Razvija se sistem za potrebe lanca restorana brze hrane. Obzirom na trenutnu situaciju u jeku globalne pandemije firma 'Firma' je odlučila da svoje poslovanje digitalizuje i u nadi da će sačuvati svoje klijente. 'Firma' se bavi pripremom brze hrane i želi da sistemom ima detaljniji uvid u načine same pripreme, distribucije i finansijskih podataka vezanih za svoje proizvode. Pored toga deo tih informacija biće dostupne klijentima radi lične sigurnosti i poverenja. Takođe aplikacija će imati funkcionalnosti vezane za ljudske resurse.
+
 #### 2. Korisnici i stejkholderi
 
 Korisnici:
+
 *  Klijenti restorana
 *  Zaposleni(Staff)
 *  HR Služba
 *  Finansijska služba
 
 Stejkholderi:
+
 *  Eksterni:
-	*  Regulativno telo vlade
-	*  Mobilni operateri ?
+	*  Dobavljači
+	*  Klijenti
 
 *  Interni:
 	*  Menadžment
 
-#### 3.
+#### 3. Moduli
 
-#### 4. 
+Moduli:
 
+*  Evidencija(hrana/prodaja/meni/priprema)
+*  HR
+*  Izveštaji/Analiza(HR/Prodaja)
+
+#### 4. Ograničenja
+
+*  Zakonske regulative
 

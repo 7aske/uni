@@ -2,6 +2,7 @@ build
 out
 cmake-build-debug
 dist
+target
 
 .idea
 .vscode

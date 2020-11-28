@@ -64,7 +64,7 @@ Za dodeljeni sistem, osmislite i odredite:
 
 ### 1. Poslovna prilika
 
-Sistem se razijva za potrebe javnog gradkog prevoza. U jeku svetske pandemije
+Sistem se razvija za potrebe javnog gradskog prevoza. U jeku svetske pandemije
 kritično je u svim sferama života dovesti do povećanja sigurnosti ljudi. Ovaj
 sistem će ako bude razvijen pomoći da se smanji kontakt između vozača
 autobusa/konduktera i putnika u autobusu beskontaktnom kupovinom karata koju
@@ -105,4 +105,5 @@ Moduli:
 ### 4. Ograničenja
 
 *  Zakonske regulative vezane za JGP
+
 

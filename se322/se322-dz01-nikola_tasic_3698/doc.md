@@ -6,14 +6,15 @@
 
  <div align="center">
  
-## Prolećni semetar, 2020/21
+# Prolećni semetar, 2020/21
 
-## *SE322: INŽENJERSTVO ZAHTEVA*
+# *SE322: INŽENJERSTVO ZAHTEVA*
 
-## Domaći zadatak: 01
+# Domaći zadatak: 01
 
 </div>
 
+\
 \
 \
 \
@@ -29,21 +30,28 @@ Ime i prezime: **Nikola Tasić**
 
 Broj indeksa: **3698**
 
-Datum izrade: **13.10.2020**
+Datum izrade: **28.11.2020**
+
 
 ---
 
 ### Sistem
 
-Poslovni sistem lanca restorana za prodaju i pripremu brze hrane očekuje se da podrži:
 
-*  Evidenciju menija
-*  Evidenciju procedure za pripremu hrane iz menija
-*  Evidenciju cenovnika i specijalnih cenovnika
-*  Evidenciju prodaje
-*  Upravljanje radom i ljudskim resursima
-*  Analizu rada i ljudskih resursa
-*  Analizu prodaje
+Mobilna aplikacija za prodaju autobuskih karata očekuje se da podrži:
+
+* Pregled reda vožnje za određenu autobusku stanicu
+
+* Registraciju korisnika
+
+* Rezervaciju autobuskih karata
+
+* Prodaju autobuskih karata
+
+* Ostvarenje popusta i pogodnosti
+
+* Praćenje istorije korišćenja međugradskog autobuskog prevoza
+
 
 ### Tekst zadatka:
 
@@ -54,37 +62,47 @@ Za dodeljeni sistem, osmislite i odredite:
 3.  Podsisteme
 4.  Ograničenja kojima je rešenje izloženo
 
-#### 1. Poslovna prilika
+### 1. Poslovna prilika
 
-Razvija se sistem za potrebe lanca restorana brze hrane. Obzirom na trenutnu situaciju u jeku globalne pandemije firma 'Firma' je odlučila da svoje poslovanje digitalizuje i u nadi da će sačuvati svoje klijente. 'Firma' se bavi pripremom brze hrane i želi da sistemom ima detaljniji uvid u načine same pripreme, distribucije i finansijskih podataka vezanih za svoje proizvode. Pored toga deo tih informacija biće dostupne klijentima radi lične sigurnosti i poverenja. Takođe aplikacija će imati funkcionalnosti vezane za ljudske resurse.
+Sistem se razijva za potrebe javnog gradkog prevoza. U jeku svetske pandemije
+kritično je u svim sferama života dovesti do povećanja sigurnosti ljudi. Ovaj
+sistem će ako bude razvijen pomoći da se smanji kontakt između vozača
+autobusa/konduktera i putnika u autobusu beskontaktnom kupovinom karata koju
+ovaj sistem pruža. Konudkteri će i dalje imati posao time sto će preko
+aplikacije imati uvid u tretnutno stanje u autobusu. Takođe sistem može
+podržati neku vrstu Early alert sistema koji ce pomoći u borbi protiv
+pandemije.
 
-#### 2. Korisnici i stejkholderi
+### 2. Korisnici i stejkholderi
 
 Korisnici:
 
-*  Klijenti restorana
-*  Zaposleni(Staff)
-*  HR Služba
+*  Putnici
+*  Kondukteri
 *  Finansijska služba
 
 Stejkholderi:
 
 *  Eksterni:
-	*  Dobavljači
-	*  Klijenti
+	*  Vozači
+	*  Kondukteri
+	*  Putnici
 
 *  Interni:
-	*  Menadžment
+	*  GSP
 
-#### 3. Moduli
+
+### 3. Moduli
 
 Moduli:
 
-*  Evidencija(hrana/prodaja/meni/priprema)
-*  HR
-*  Izveštaji/Analiza(HR/Prodaja)
+*  Evidencija
+*  Prodaja
+*  Finansije(popusti)
+*  Izveštaji
+*  Analiza
 
-#### 4. Ograničenja
+### 4. Ograničenja
 
-*  Zakonske regulative
+*  Zakonske regulative vezane za JGP
 

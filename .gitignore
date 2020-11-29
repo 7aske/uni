@@ -17,10 +17,12 @@ __pycache__
 # MS and Libre office backup
 .~*
 
-# Powerdesigner backupfiles
+# Powerdesigner backup files
 *.oob
 *.eab
 *.rqb
 *.pjb
 
+# Visaul Paradigm backup files
+*.vpp.bak_????
 *.vpp.lck

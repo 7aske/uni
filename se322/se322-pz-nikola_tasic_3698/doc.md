@@ -9,13 +9,16 @@
 
 Usled trenutnih Poslovni zahtevi svetskih zdravstvenih okolnosti u vezi sa pandemijom virusa Covid-19 došlo se do ideje o razvijanju sistema koji ce olakšati komunikaciju sa zdravstvenim radnicima i širenje tačnih informacija i preporuka vezanih za pandemiju i zdravlje generalno.
 
+
 ### 1.2. Poslovna prilika
 
 Problem koji ovaj sistem pokušava da reši je kruženje često netačnih informacija vezanih za zdravlje koje nastaju usled jednostavnog nedostatka komunikacije sa lekarima. Taj problem je inače zastupljen u društvu ali sada ga je pogotovo važno rešiti ili makar pomoći pri rešavanju. Postojećih rešenja već ima u vidu informacionih web sajtova i foruma koji su sumnjive validnosti. Sistem koji se razvija bi pružio interaktivnu komunikaciju sa lekarima u vidu online predavanja preko video strima(stream) sa četom(chat) na nedeljnom nivou. Sav online emitovan video materijal biće skladišten tako da korisnici imaju mogućnost da u bilo kom trenutku odgledaju propuštena predavanja ponovo. Ovakav vid komunikacije, obzirom na to da se radi o živoj komunikaciji sa stručnim lekarom, pružio to da se korisnici bezbednije osećaju povodom informacije koje dobijaju vezano za svoje probleme.
 
+
 ### 1.3. Poslovni ciljevi
 
 Obzirom na to da je predlog ovog sistema nezavisan u smislu da iza njega ne stoji konkretna firma pružio bi plodnu osnovnu za razvoj start-up kompanije koja bi se bavila inicijalnim razvojem i održavanjem. Između ostalog jedan od ciljeva je smanjiti opterećenje zdravstvenog sistema tako što će se korisnici informisati van samih zdravstvenih ustanova što primarno smanjuje gužve a sekundarno podstakao kruženje ispravnih informacija u društvu.
+
 
 ### 1.4. Metrike uspeha
 
@@ -35,9 +38,13 @@ RI-2 društveni rizici - moguće je potencijalno loše prihvatanje ovakvog siste
 
 RI-3 etički rizici - svi problemi vezani za nepoštovanje Kodeksa medicinske etike Lekarske komore
 
+
+
 ### 1.7. Poslovne pretpostavke i zavisnosti
 
 AS-1 Pretpostavka je da će se prilikom emitovanja sadržaja očuvati privatnost svih onih koji su postavili pitanja stručnim licima.
+
+
 
 ## 2. Obim i ograničenja
 
@@ -69,13 +76,19 @@ FE-3.3 Gledanje prethodnih predavanja
 
 FE-3.4 Učestvovanje u četu tokom uživo predavanja
 
+
+
 ### 2.2. Obim inicijalnog objavljivanja
 
 Inicijalno objavljivanje softvera će sadržati sve gorenavedene stavke izuzev četovanja zbog procene da je se proizvod funkcionalan i bez te funkcionalnosti a pritom se usled kratkog roka izrade projekta može dosta uštedeti na vremenu.
 
+
+
 ### 2.3. Opseg naknadnih izdanja
 
 Prva sledeća implementirana funkcionalnost biće čet ukoliko on bude izostavljen iz inicijalnog objavljivanja. U poglavlju o viziji proizvoda je pominjan dodatak sistema za online preglede koji sada u ovom kontekstu može biti smatran kao potencijalno naknadno izdanje. Nijedno naknadno izdanje nije striktno definisano i zavisi od odluka u toku razvoja sistema.
+
+
 
 ## 3. Poslovni kontekst
 
@@ -118,11 +131,16 @@ Najveća promena tima tima: 6 programera
 
 Trošak
 
+
 ### 3.3. Razmatranja primene
 
 Korisnici sistemu mogu da pristupaju sa bilo kog uređaja koji ima veb pretraživač. Lekari koji drže predavanja svoja predavanja snimaju uživo sa koristeći svoj PC računar sa instaliranom veb kamerom. Infrastruktura sistema je zamišljena tako da sa lakoćom može da podrži predviđeni broj konkurentnih korisnika s tim da ukoliko dođe do povećanja broja korisnika tehnologije korišćenje za razvoj sistema omogućavaju lako horizontalno skaliranje. Infrastruktura za skaldištenje video zadržaja takođe je pogodna za horizontalno skaliranje ako za to dođe potreba.
 
+
+
+
 # Opis uslova korišćenja
+
 
 ## UC-1 Kreiranje objave na forumu
 
@@ -292,3 +310,22 @@ Korisnici sistemu mogu da pristupaju sa bilo kog uređaja koji ima veb pretraži
 
 ## UC-6 Komentarisanje na predavanju
 
+
+# SRS Dokument
+
+## 1. Uvod
+
+### 2.2 Klase i karakteristike korisnika
+
+Korisnici ovog softvera su lekari i obični građani koji žele da dobiju više informacija o temama veznim za medicinu i zdravlje.
+
+### 2.3 Operativno okruženje
+
+Softver ce biti raspoređen na više servera tako da bi se lakse distribuiralo opterećenje. Verzije samih operativnih sistema i baza podataka korišćenih na serverima zavisiće o trenutnih raspoloživih LTS(long time support) verzija u trenutku implementiranja softvera. Serveri koji će biti korišćeni su klijentski server na kome će raditi klijentska web aplikacija, streaming server na kome ce biti API vezan za streaming klijente i server za transkodiranje web video streamova. Klijenske aplikacije pored web klijenta za korisnike uključuje mobilna aplikacija i streaming desktop klijent za lekare.
+
+
+### 2.4 Ograničenja u projektovanju
+
+
+Problemi vezni za pravnu osnovu postojanja ovakvog sistema mogu da se pojave pri nedostatku prava ili neispunjavanja uslova za masovno emitovanje materijala koji je direktno vezan za zdravstvo.  Moguće je potencijalno loše prihvatanje ovakvog sistema u društvu ukoliko ne postoji jasna naznaka u validnosti informacija i stručnosti kadra koji te informacije prezentuje.  Svi problemi vezani za nepoštovanje Kodeksa medicinske etike Lekarske komore
+Što se tiče nedostataka u tehnologijama i programskim jezicima oni su birani tako da mogu da podrže i sadrže sve potrebne funkcionalnosti koje ovaj sistem treba da ima.

@@ -16,6 +16,7 @@ __pycache__
 
 # MS and Libre office backup
 .~*
+~*.docx
 
 # Powerdesigner backup files
 *.oob

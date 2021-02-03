@@ -13,6 +13,7 @@ build
 out
 cmake-build-debug
 dist
+target
 
 .idea
 .vscode
@@ -28,9 +29,14 @@ __pycache__
 .~*
 
 # Powerdesigner backupfiles
+~*.docx
+
+# Powerdesigner backup files
 *.oob
 *.eab
 *.rqb
 *.pjb
 
+# Visaul Paradigm backup files
+*.vpp.bak_????
 *.vpp.lck

@@ -1,0 +1,10 @@
+.idea
+target
+out
+
+#powerdesigner
+*.cdb
+*.pdb
+*.pjb
+
+*.log

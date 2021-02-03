@@ -52,13 +52,15 @@ Repository with home assignments, projects and other university related stuff.
     * [project](https://github.com/7aske/uni/blob/second-year/it370/it370-pz01-nikola_tasic_3698/it370-pz01-nikola_tasic_3698.pdf)  
 - [SE211](https://github.com/7aske/uni/blob/second-year/se211) - Software construction
     * [docs](https://github.com/7aske/uni/blob/second-year/se211/se211-pz01-nikola_tasic_3698/se211-pz01-nikola_tasic_3698.pdf)
-    * [project](https://github.com/7aske/rexif2)
+    * [pres](https://github.com/7aske/uni/blob/second-year/se211/se211-pz01-nikola_tasic_3698/se211-projektni_zadatak_rexif2.pptx)
+    * [project](https://github.com/7aske/uni/blob/second-year/se211/se211-pz01-nikola_tasic_3698/rexif2)
 - MA202 - Mathematics 2
 
 ### Semester 5
 
 - [SE311](https://github.com/7aske/uni/blob/third-year/se311) - Software architecture
   * [project](https://github.com/7aske/uni/blob/third-year/se311/se311-pz-nikola_tasic_3698)
+  * [pres](https://github.com/7aske/uni/blob/third-year/se311/se311-pz-nikola_tasic_3698/se322-pz-nikola_tasic_3698-pres.pptx)
   * [docs](https://github.com/7aske/uni/blob/third-year/se311/se311-pz-nikola_tasic_3698/se311-pz-nikola_tasic_3698-askdoc.pdf)
 - [SE321](https://github.com/7aske/uni/blob/third-year/se321) - Quality assurance, testing and maintenance of software 
   * [project](https://github.com/7aske/uni/tree/third-year/se321/se321-pz-nikola_tasic_3698)

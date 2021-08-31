@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#e23e57</color>
+    <color name="primary_accent_dark">#88304e</color>
+    <color name="secondary">#355c7d</color>
+    <color name="primary_dark">#522546</color>
+    <color name="backdrop">#311d3f</color>
+    <color name="black">#121212</color>
+    <color name="bg_drawer">#212121</color>
+    <color name="white">#eeeeee</color>
+    <color name="light_grey">#999999</color>
+    <color name="error">#AC0D0D</color>
+    <color name="success">#01937C</color>
+</resources>

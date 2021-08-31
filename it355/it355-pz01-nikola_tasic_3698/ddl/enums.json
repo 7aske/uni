@@ -1,0 +1,24 @@
+{
+  "enums": [
+    {
+      "className": "ContactType",
+      "tables": ["contact"],
+      "column": "contact_type",
+      "values": [
+        {
+          "ADDRESS": "address"
+        },
+        {
+          "PHONE": "PHONE"
+        },
+        {
+          "EMAIL": "EMAIL"
+        },
+        {
+          "WEBSITE": "WEBSITE"
+        }
+      ],
+      "comment": "Contact type. Email, phone, address..."
+    }
+  ]
+}

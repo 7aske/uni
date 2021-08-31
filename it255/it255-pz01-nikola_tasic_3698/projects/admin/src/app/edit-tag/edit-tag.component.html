@@ -1,0 +1,26 @@
+<div class="container">
+	<form [formGroup]="tagForm" (submit)="saveOrUpdate()">
+		<div class="row">
+			<div class="input-field col s12 m12 l6 xl3">
+				<select>
+					<option value="" disabled selected>Select a tag</option>
+					<option *ngFor="let tag of tags" value="{{tag.id}}">{{tag.name}}</option>
+				</select>
+				<label>Tags</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12 m12 l6 xl3">
+				<input formControlName="name" [value]="tag?.name" type="text">
+				<label>Name</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12">
+				<button class="btn theme-primary" type="submit">Save</button>
+				<button class="btn grey" type="button" (click)="resetForm()">Reset</button>
+				<button class="btn theme-error" type="button" (click)="delete()">Delete</button>
+			</div>
+		</div>
+	</form>
+</div>

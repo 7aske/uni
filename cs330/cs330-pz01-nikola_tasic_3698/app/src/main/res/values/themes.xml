@@ -1,0 +1,31 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Duncan" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_accent_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/primary</item>
+        <item name="colorSecondaryVariant">@color/primary_accent_dark</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorHint">@color/light_grey</item>
+        <item name="android:windowBackground">@color/black</item>
+        <item name="android:colorBackground">@color/black</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="android:editTextColor">@color/white</item>
+        <!-- Panel attributes -->
+        <item name="android:panelBackground">@color/black</item>
+        <item name="android:panelColorBackground">@color/black</item>
+        <item name="android:panelColorForeground">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:panelTextAppearance">?android:attr/textAppearanceInverse</item>
+        <!-- Context menu -->
+        <item name="android:itemBackground">@color/bg_drawer</item>
+    </style>
+</resources>

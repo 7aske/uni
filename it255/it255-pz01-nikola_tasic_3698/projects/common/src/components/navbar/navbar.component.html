@@ -1,0 +1,10 @@
+<nav class="theme-grey" id="navbar">
+	<div class="nav-wrapper container">
+		<a href="{{blogUrl}}" class="brand-logo">Blog</a>
+		<ul id="nav-mobile" class="right hide-on-med-and-down">
+			<li><a *ngIf="!loggedIn" href="{{loginUrl}}">Login</a></li>
+			<li><a *ngIf="loggedIn" href="{{adminUrl}}">Admin</a></li>
+			<li><a *ngIf="loggedIn" (click)="logout()">Logout</a></li>
+		</ul>
+	</div>
+</nav>

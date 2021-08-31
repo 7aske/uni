@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/main_menu_add_new_server"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_baseline_add_24"
+        android:title="Add server" />
+    <item android:id="@+id/main_menu_add_new_group"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_baseline_playlist_add_24"
+        android:title="Add group" />
+</menu>

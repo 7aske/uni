@@ -1,0 +1,21 @@
+%define write   0x4
+%define stdout  0x1
+%define _exit   0x1
+%define syscall 0x80
+
+          global    _start
+
+          section   .text
+_start:   mov       eax, write              ; system call for write
+          mov       ebx, stdout             ; file handle 1 is stdout
+          mov       ecx, msg                ; address of string to output
+          mov       edx, msg_len            ; number of bytes
+          int 		syscall
+
+exit:	  mov       eax, _exit               ; system call for exit
+          mov       ebx, 0x0                ; exit code 0
+          int 		syscall
+
+          section   .data
+msg:      db        "Nikola Tasic", 10, "3698", 10, "3. godina", 10, 0
+msg_len:  equ 		$ - msg

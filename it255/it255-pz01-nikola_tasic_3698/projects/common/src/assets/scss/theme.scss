@@ -1,0 +1,184 @@
+$theme-black: #232931;
+$theme-grey: #393e46;
+$theme-grey-light: #7e8795;
+$theme-primary: #4ecca3;
+$theme-primary-dark: #3ea183;
+$theme-primary-light: #94d7c1;
+$theme-white: #eeeeee;
+$theme-red: #d72323;
+
+$theme-text: $theme-white;
+$theme-text-disabled: $theme-white;
+$theme-background: $theme-black;
+$theme-background-darker: darken($theme-black, 2%);
+$theme-error: $theme-red;
+
+$font-primary: Lato;
+
+* {
+	color: $theme-text;
+}
+
+html, body {
+	background-color: $theme-background;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+@mixin color($color-value) {
+	color: $color-value !important;
+}
+
+@mixin bg-color($color-value) {
+	background-color: $color-value !important;
+}
+
+@mixin border-color($color-value) {
+	border-color: $color-value !important;
+}
+
+.theme-primary-text {
+	@include color($theme-primary);
+}
+
+.theme-primary-border {
+	@include border-color($theme-primary);
+}
+
+.theme-primary {
+	@include bg-color($theme-primary);
+}
+
+.theme-black-text {
+	@include color($theme-black);
+}
+
+.theme-black-border {
+	@include border-color($theme-black);
+}
+
+.theme-black {
+	@include bg-color($theme-black);
+}
+
+.theme-grey-text {
+	@include color($theme-grey);
+}
+
+.theme-grey-border {
+	@include border-color($theme-grey);
+}
+
+.theme-grey {
+	@include bg-color($theme-grey);
+}
+
+.theme-grey-light-text {
+	@include color($theme-grey-light);
+}
+
+.theme-grey-light-border {
+	@include border-color($theme-grey-light);
+}
+
+.theme-grey-light {
+	@include bg-color($theme-grey-light);
+}
+
+.theme-white-text {
+	@include color($theme-white);
+}
+
+.theme-white-border {
+	@include border-color($theme-white);
+}
+
+.theme-white {
+	@include bg-color($theme-white);
+}
+
+.theme-error-text {
+	@include color($theme-red);
+}
+
+.theme-error-border {
+	@include border-color($theme-red);
+}
+
+.theme-error {
+	@include bg-color($theme-red);
+}
+
+.btn-flat {
+	color: $theme-primary;
+
+	&:hover {
+		background-color: $theme-primary !important;
+	}
+}
+
+.btn {
+	background-color: $theme-primary-dark;
+	color: $theme-text;
+
+	&:hover {
+		background-color: $theme-primary;
+		color: white !important;
+	}
+
+}
+
+.btn-theme {
+	background-color: $theme-primary;
+
+	&:hover {
+		color: $theme-primary;
+		background-color: $theme-grey;
+		border-bottom: 2px solid $theme-primary;
+	}
+}
+
+.ngx-pagination {
+	li.disabled {
+		&, & span {
+			color: $theme-grey-light !important;
+		}
+	}
+
+	li.ng-star-inserted {
+		border-radius: 10px !important;
+	}
+
+	a.ng-star-inserted {
+		color: $theme-white !important;
+
+		&:hover {
+			&, span {
+				color: $theme-grey !important;
+				border-radius: 10px !important;
+			}
+		}
+	}
+
+	.current {
+		border-radius: 10px !important;
+		background: $theme-primary !important;
+	}
+}
+
+::-webkit-scrollbar {
+	width: .5em;
+}
+
+::-webkit-scrollbar-track {
+	background-color: $theme-background-darker;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: $theme-primary;
+}
+
+::selection {
+	background-color: $theme-primary-light;
+	color: $theme-black;
+}

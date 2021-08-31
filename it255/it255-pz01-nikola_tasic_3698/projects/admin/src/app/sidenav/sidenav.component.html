@@ -1,0 +1,20 @@
+<ul id="admin-sidenav" class="sidenav">
+	<li>
+		<div class="user-view">
+			<div class="background">
+				<!--<img src="images/office.jpg">-->
+			</div>
+			<a href="#user"><img class="circle" src="assets/img/profile.png"></a>
+			<a href="#name"><span class="name">{{user?.firstName}} {{user?.lastName}}</span></a>
+			<a href="#email"><span class="email">{{user?.email}}</span></a>
+		</div>
+	</li>
+	<li><a routerLink="edit" class="sidenav-close"><i class="material-icons">add_to_photos</i>New Post</a></li>
+	<li>
+		<div class="divider"></div>
+	</li>
+	<li><a routerLink="" class="sidenav-close"><i class="material-icons">library_books</i>Posts</a></li>
+	<li><a routerLink="categories" class="sidenav-close"><i class="material-icons">format_list_bulleted</i>Categories</a></li>
+	<li><a routerLink="tags" class="sidenav-close"><i class="material-icons">label</i>Tags</a></li>
+</ul>
+<a href="#" data-target="admin-sidenav" class="sidenav-trigger right btn-large btn-flat"><i class="material-icons">menu</i></a>

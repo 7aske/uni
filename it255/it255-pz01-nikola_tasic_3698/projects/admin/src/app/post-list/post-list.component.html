@@ -1,0 +1,48 @@
+<div class="pl-2 pr-2">
+	<div class="admin-post-list">
+		<nav>
+			<div class="nav-wrapper container">
+				<ul class="right">
+					<li>
+						<a routerLink="edit" tooltip="New post">
+							<i class="material-icons left theme-black-text">add_to_photos</i>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<ul class="collection">
+			<li class="admin-post-list-item collection-header">
+				<div class="row">
+					<div class="col s4 m6 l2">
+						Title
+					</div>
+					<div class="col s2 hide-on-med-and-down">
+						Slug
+					</div>
+					<div class="col s2 hide-on-med-and-down">
+						Author
+					</div>
+					<div class="col s2 hide-on-med-and-down">
+						Category
+					</div>
+					<div class="col s2 m2 l1">
+						Status
+					</div>
+					<div class="col s2 m2 l1">
+						Updated
+					</div>
+					<div class="col s2 m2 l2">
+						Actions
+					</div>
+				</div>
+			</li>
+			<admin-post-list-item *ngFor="let post of posts | paginate: { itemsPerPage: 10, currentPage: page }"
+			                      (onDelete)="onDelete($event)"
+			                      [post]="post">
+			</admin-post-list-item>
+		</ul>
+		<pagination-controls [autoHide]="false" [responsive]="true" (pageChange)="page = $event"></pagination-controls>
+	</div>
+</div>
+<common-confirm-dialog></common-confirm-dialog>

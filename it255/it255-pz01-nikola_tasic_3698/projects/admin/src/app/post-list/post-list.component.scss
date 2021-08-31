@@ -1,0 +1,59 @@
+@import "projects/common/src/assets/scss/theme";
+
+.admin-post-list {
+	nav {
+		transition: all 500ms;
+		margin-left: 0;
+		margin-right: 0;
+		background-color: $theme-grey;
+		height: 3.5em;
+		border-radius: 3px;
+
+		ul li {
+			height: 3.5em !important;
+
+			a {
+				i {
+					color: $theme-primary !important;
+					margin: 0!important;
+				}
+				top: -5px;
+				position: relative;
+			}
+			&:hover {
+				color: $theme-primary;
+				background-color: $theme-black;
+				border-bottom: 2px solid $theme-primary;
+			}
+		}
+
+		.sidenav-trigger {
+			display: inline !important;
+		}
+	}
+
+	.admin-post-list-item {
+		padding-left:  1em !important;
+		padding-right: 1em !important;
+		i {
+			margin-right: 0.5em;
+		}
+		&.collection-header {
+			background-color: $theme-grey;
+			border-bottom: 2px solid $theme-primary-light;
+		}
+
+		.row {
+			margin-bottom: 0 !important;
+		}
+
+		a {
+			color: $theme-primary !important;
+
+			&:hover {
+				color: $theme-primary-light;
+				text-decoration: underline;
+			}
+		}
+	}
+}

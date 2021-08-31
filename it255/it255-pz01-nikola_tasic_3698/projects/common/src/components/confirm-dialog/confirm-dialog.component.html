@@ -1,0 +1,10 @@
+<div *ngIf="dialog" class="modal-overlay" style="z-index: 1002; display: block; opacity: 0.5;"></div>
+<div *ngIf="dialog" class="modal open" tabindex="-1" role="dialog" style="z-index: 1003; display: block; opacity: 1; top: 10%; transform: scaleX(1) scaleY(1);">
+	<div class="modal-content">
+		<p>{{dialog.text}}</p>
+	</div>
+	<div *ngIf="dialog?.type == 'confirm'" class="modal-footer">
+		<button (click)="dialog.confirm()" class="modal-close btn mr-2">Confirm</button>
+		<button (click)="dialog.reject()" class="modal-close btn theme-error theme-white-text">Cancel</button>
+	</div>
+</div>

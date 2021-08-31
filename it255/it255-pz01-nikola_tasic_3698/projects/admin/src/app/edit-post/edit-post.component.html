@@ -1,0 +1,68 @@
+<div id="admin-post-edit" class="container">
+	<form [formGroup]="postForm" (submit)="onSubmit()">
+		<div class="row">
+			<div class="col s12 m12 l8 offset-l2">
+				<div class="row">
+					<div class="input-field col s12 m12">
+						<input formControlName="title" type="text" class="validate">
+						<label>Title</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12 m12 l6">
+						<div class="input-field">
+							<input formControlName="slug" type="text" class="validate">
+							<label>Slug</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<div class="input-field">
+							<textarea formControlName="excerpt" class="materialize-textarea"></textarea>
+							<label>Excerpt</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<div class="input-field">
+							<div class="chips chips-autocomplete">
+								<input type="text">
+							</div>
+							<label>Tags</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<div class="input-field">
+							<select formControlName="category" id="categorySelect">
+								<option value="" disabled>Select a category</option>
+								<option *ngFor="let categ of categories" [value]="categ.id">{{categ.name}}</option>
+							</select>
+							<label>Category</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12 m12 l4 post-edit-controls">
+				<div class="row">
+					<div class="col s6 m6 l12">
+						<button type="submit" class="btn" name="action">save
+							<i class="material-icons right">send</i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			{{postBody}}
+			<simplemde formControlName="body">
+			</simplemde>
+		</div>
+	</form>
+</div>
+<common-scroll-to-float target="#navbar"></common-scroll-to-float>

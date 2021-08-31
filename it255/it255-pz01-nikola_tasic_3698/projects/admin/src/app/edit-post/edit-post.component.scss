@@ -1,0 +1,141 @@
+@import "projects/common/src/assets/scss/theme";
+.post-edit-controls {
+	text-align: center;
+	button {
+		width: 150px;
+		margin-bottom: .5em;
+	}
+}
+
+
+	.CodeMirror {
+		border-radius: 0;
+		border: none;
+		caret-color: $theme-white !important;
+	}
+
+	.CodeMirror-cursor {
+		border-left-color: $theme-white;
+	}
+
+	span.CodeMirror-selectedtext, div.CodeMirror-selected {
+		background-color: $theme-primary;
+		border: none;
+	}
+
+	span.cm-tab {
+		background-color: $theme-black;
+	}
+
+	.editor-toolbar {
+
+		border: none;
+		border-top-right-radius: 5px;
+		border-top-left-radius: 5px;
+		background-color: $theme-primary;
+
+		button {
+			//color: $theme-white;
+			border: none;
+			border-radius: 0;
+
+			&.active, &:hover {
+				background-color: $theme-black;
+				color: $theme-primary-light;
+			}
+		}
+
+		i.separator {
+			background-color: $theme-black;
+			border-left: 1px solid $theme-black;
+			border-right: 1px solid $theme-black;
+		}
+	}
+
+	.editor-preview {
+		color: $theme-white;
+		background-color: $theme-black;
+
+		h1, h2, h3, h4, h5, h6 {
+			color: $theme-primary;
+		}
+
+		h1 {
+			font-size: 2.9em;
+		}
+
+		h2 {
+			font-size: 2.6em;
+		}
+		h3 {
+			font-size: 2.2em;
+		}
+		h4 {
+			font-size: 1.8em;
+		}
+		h5 {
+			font-size: 1.6em;
+		}
+		h6 {
+
+		}
+		pre {
+			padding-left: .5em;
+			background-color: $theme-grey;
+			overflow-x: auto;
+		}
+
+		a {
+			color: $theme-primary !important;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+
+		th, tr, td {
+			border-color: $theme-grey;
+		}
+
+		img {
+			max-width: 100%;
+		}
+		border: none;
+		border-radius: 0;
+	}
+
+	.CodeMirror {
+		background-color: $theme-grey;
+		color: $theme-white;
+
+	}
+
+.input-select {
+	label {
+		color: $theme-primary;
+	}
+	select {
+		// A reset of styles, including removing the default dropdown arrow
+		appearance: none;
+		// Additional resets for further consistency
+		background-color: transparent;
+		padding: 0 1em 0 0;
+		margin: 0;
+		width: 100%;
+		font-family: inherit;
+		font-size: inherit;
+		cursor: inherit;
+		line-height: inherit;
+		border: none !important;
+		display: block !important;
+		outline: none;
+		&:focus, &:active{
+			border: none !important;
+		}
+	}
+	option {
+		background-color: $theme-background-darker;
+		color: $theme-text;
+		border: none!important;
+	}
+}

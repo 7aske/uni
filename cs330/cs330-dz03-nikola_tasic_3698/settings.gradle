@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name = "CS330-dz03-nikola_tasic_3698"

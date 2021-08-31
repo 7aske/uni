@@ -1,0 +1,346 @@
+@import "theme";
+
+
+nav {
+	box-shadow: none;
+}
+
+.collection {
+	background-color: $theme-background;
+	border: none;
+
+	.collection-header {
+		color: $theme-white;
+		background-color: $theme-background;
+		border-bottom: 4px solid $theme-grey;
+	}
+
+	.collection-item {
+		background-color: $theme-background;
+		border-bottom: 2px solid $theme-grey;
+
+		&:last-of-type {
+			border-bottom: none;
+		}
+	}
+}
+
+.select-wrapper {
+	.caret {
+		path:first-of-type {
+			fill: $theme-white;
+		}
+	}
+}
+
+.dropdown-content {
+	li {
+		background-color: $theme-grey !important;
+
+		span {
+			color: $theme-white !important;
+		}
+
+		&:hover {
+			background-color: $theme-primary-light;
+
+			span {
+				color: $theme-grey;
+			}
+		}
+
+		.highlight {
+			color: $theme-primary !important;
+		}
+	}
+
+	li.selected, li:active, li:focus {
+		background-color: $theme-primary !important;
+
+		&:hover {
+			background-color: $theme-primary-light;
+
+			span {
+				color: $theme-grey !important;
+			}
+		}
+	}
+}
+
+.chips {
+	.chip {
+		background-color: $theme-primary;
+		color: $theme-white;
+		cursor: pointer;
+		user-select: none;
+	}
+}
+
+.chips + label {
+	transform: translateY(-14px) scale(0.8) !important;
+}
+
+.input-field .chips {
+	input[type=text]:focus {
+		color: $theme-white !important;
+		border-bottom: none !important;
+		box-shadow: none !important;
+	}
+}
+
+.chips .input:not(:disabled) {
+	color: $theme-white !important;
+	border-bottom: none !important;
+	box-shadow: none !important;
+}
+
+.chips input {
+	color: $theme-white !important;
+	border-bottom: none !important;
+	box-shadow: none !important;
+}
+
+.chips input {
+	&:focus, &:active {
+		color: $theme-white !important;
+		border-bottom: none !important;
+		box-shadow: none !important;
+	}
+}
+
+.chips.focus {
+	border-bottom: 1px solid $theme-primary !important;
+	box-shadow: 0 1px 0 0 $theme-primary !important;
+}
+
+label {
+	color: $theme-primary;
+}
+
+.chips + label {
+	color: $theme-primary !important;
+}
+
+ul.pagination li {
+	&.active {
+		background-color: $theme-primary-light;
+
+		button, a {
+			font-weight: bold;
+			color: $theme-grey !important;
+		}
+	}
+
+
+	button, a {
+		&:hover {
+			background-color: $theme-primary;
+		}
+
+		font-weight: bold;
+	}
+
+	height: 100%;
+}
+
+input::placeholder {
+	color: $theme-grey;
+}
+
+input {
+	&[type="submit"] {
+		background-color: $theme-primary;
+
+		&:hover {
+			background-color: $theme-primary-light;
+			color: $theme-grey;
+		}
+	}
+
+	color: $theme-white;
+}
+
+
+.input-label {
+	font-weight: bold;
+	color: $theme-primary;
+}
+
+input[type="checkbox"] + span::after {
+	border-color: $theme-primary;
+	border-radius: 0;
+	//border-width: 3px;
+	//background-color: $theme-primary !important;
+}
+
+input[type="checkbox"].filled-in:checked + span:not(.lever):after {
+	background-color: $theme-primary;
+	color: $theme-primary;
+	border-color: transparent;
+}
+
+input[type="checkbox"].filled-in:checked + span:not(.lever):before {
+	border-color: transparent;
+}
+
+input[type="checkbox"] + span,
+input[type="checkbox"],
+input[type="radio"] + span,
+input[type="radio"] {
+	&:focus,
+	&:active,
+	&::selection {
+		background-color: $theme-primary;
+	}
+}
+
+.input-checkbox {
+	font-weight: bold;
+	color: $theme-primary;
+
+	input {
+		border-color: $theme-primary;
+	}
+
+	[type="radio"]:not(:checked) + span:before {
+		border-radius: 0;
+		border-color: $theme-grey !important;
+		background-color: $theme-grey !important;
+	}
+
+	[type="radio"]:checked + span:before {
+		border-radius: 0;
+		border-color: $theme-grey !important;
+		background-color: $theme-grey !important;
+	}
+
+	[type="radio"]:checked + span:after {
+		border-color: $theme-grey !important;
+		background-color: $theme-primary !important;
+	}
+
+	[type="checkbox"] + span:after {
+		border-radius: 0;
+		border-color: $theme-primary !important;
+		//background-color: $theme-grey !important;
+		//color: $theme-grey !important;
+	}
+}
+
+.input-field {
+	input[type="text"],
+	input[type="text"]:disabled,
+	input[type="password"],
+	input[type="email"],
+	textarea {
+		box-sizing: border-box;
+		padding-left: 0.5em;
+		margin-top: 0.5em;
+		color: white;
+		border-bottom: 1px solid $theme-text-disabled;
+		//background-color: $theme-grey;
+	}
+
+
+	input[type="text"]:disabled {
+		color: $theme-text-disabled;
+	}
+
+	/* label color */
+	input[type="text"]:disabled + label {
+		color: $theme-text-disabled;
+	}
+
+	label {
+		//font-weight: bold;
+		color: $theme-primary;
+	}
+
+	/* label focus color */
+	input[type="text"]:focus + label,
+	input[type="text"]:focus:disabled + label,
+	input[type="password"]:focus + label,
+	input[type="email"]:focus + label,
+	textarea:focus + label {
+		color: $theme-primary !important;
+	}
+
+	/* label underline focus color */
+	input[type="text"]:focus,
+	input[type="text"]:focus:disabled,
+	input[type="password"]:focus,
+	input[type="email"]:focus,
+	textarea:focus {
+		border-bottom: 1px solid $theme-primary !important;
+		box-shadow: 0 1px 0 0 $theme-primary !important;
+	}
+
+	/* valid color */
+	input[type="text"].valid,
+	input[type="text"].valid:disabled,
+	input[type="password"].valid,
+	input[type="email"].valid,
+	textarea.valid {
+		//border-bottom: 1px solid #000;
+		//box-shadow: 0 1px 0 0 #000;
+	}
+
+	/* invalid color */
+	input[type="text"].invalid,
+	input[type="text"].invalid:disabled,
+	input[type="password"].invalid,
+	input[type="email"].invalid,
+	textarea.invalid {
+		//border-bottom: 1px solid #000;
+		//box-shadow: 0 1px 0 0 #000;
+	}
+
+	/* icon prefix focus color */
+	.prefix.active {
+		color: $theme-primary;
+	}
+}
+
+textarea {
+	color: $theme-white;
+}
+
+.card {
+	background-color: $theme-grey;
+
+	.card-image {
+		text-align: center;
+	}
+
+	.card-content {
+		color: $theme-white;
+	}
+}
+
+.modal {
+	background-color: $theme-grey;
+	color: $theme-white;
+
+	&, .modal-content {
+		width: 80vw;
+	}
+;
+
+	.modal-footer, .modal-content {
+		background-color: $theme-grey;
+	}
+}
+
+@media screen and (max-width: 993px) {
+
+	.modal {
+		&, .modal-content {
+			height: 80vh;
+		}
+	}
+	.container {
+		padding-left: .1em;
+		padding-right: .1em;
+	}
+
+}

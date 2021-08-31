@@ -1,0 +1,10 @@
+common-scroll-to-float {
+	position: fixed !important;
+	bottom: 5em;
+	right: 5em;
+}
+
+:host {
+	width: 100px;
+	height: 100px;
+}

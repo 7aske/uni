@@ -1,0 +1,18 @@
+<div class="container">
+	<common-scroll-to-float [target]="'#navbar'"></common-scroll-to-float>
+	<div class="row">
+		<div class="row"></div>
+		<a class="btn" routerLink="..">Back</a>
+	</div>
+	<div class="row">
+		<h3>{{post?.title}}</h3>
+		<h6 class="theme-grey-light-text">Posted by: <span class="theme-primary-text" *ngIf="post">{{post.user?.displayName}}</span>
+		</h6>
+		<h6 class="theme-grey-light-text">Posted at: <span class="theme-white-text">{{post?.createdDate | date}}</span>
+		</h6>
+		<div class="mt-4">
+			<span class="blob" *ngFor="let tag of post?.tags">{{tag.name}}</span>
+		</div>
+		<markdown [data]="post?.body"></markdown>
+	</div>
+</div>

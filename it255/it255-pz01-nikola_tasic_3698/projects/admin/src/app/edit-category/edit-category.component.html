@@ -1,0 +1,26 @@
+<div class="container">
+	<form [formGroup]="categoryForm" (submit)="saveOrUpdate()">
+		<div class="row">
+			<div class="input-field col s12 m12 l6 xl3">
+				<select>
+					<option value="" disabled selected>Select a category</option>
+					<option *ngFor="let categ of categories" value="{{categ.id}}">{{categ.name}}</option>
+				</select>
+				<label>Categories</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12 m12 l6 xl3">
+				<input formControlName="name" [value]="category?.name" type="text">
+				<label>Name</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col s12">
+				<button class="btn theme-primary" type="submit">Save</button>
+				<button class="btn grey" type="button" (click)="resetForm()">Reset</button>
+				<button class="btn theme-error" type="button" (click)="delete()">Delete</button>
+			</div>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,309 @@
+{
+	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+	"version": 1,
+	"cli": {
+		"packageManager": "yarn"
+	},
+	"schematics": {
+		"@schematics/angular:component": {
+			"style": "scss"
+		},
+		"@schematics/angular:class": {
+			"skipTests": true
+		},
+		"@schematics/angular:directive": {
+			"skipTests": true
+		},
+		"@schematics/angular:guard": {
+			"skipTests": true
+		},
+		"@schematics/angular:interceptor": {
+			"skipTests": true
+		},
+		"@schematics/angular:module": {
+			"skipTests": true
+		},
+		"@schematics/angular:pipe": {
+			"skipTests": true
+		},
+		"@schematics/angular:service": {
+			"skipTests": true
+		},
+		"@schematics/angular:application": {
+			"strict": true
+		}
+	},
+	"newProjectRoot": "projects",
+	"projects": {
+		"blog": {
+			"projectType": "application",
+			"root": "projects/blog",
+			"sourceRoot": "projects/blog/src",
+			"prefix": "blog",
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:browser",
+					"options": {
+						"outputPath": "dist/blog",
+						"index": "projects/blog/src/index.html",
+						"main": "projects/blog/src/main.ts",
+						"polyfills": "projects/blog/src/polyfills.ts",
+						"tsConfig": "projects/blog/tsconfig.app.json",
+						"aot": true,
+						"assets": [
+							"projects/blog/src/favicon.ico",
+							"projects/blog/src/assets"
+						],
+						"styles": [
+							"node_modules/materialize-css/dist/css/materialize.min.css",
+							"projects/common/src/assets/scss/responsive.scss",
+							"projects/common/src/assets/scss/materialize.scss",
+							"projects/common/src/assets/scss/helpers.scss",
+							"projects/common/src/assets/scss/theme.scss",
+							"projects/common/src/styles.scss",
+							"projects/blog/src/styles.scss"
+						],
+						"scripts": []
+					},
+					"configurations": {
+						"production": {
+							"fileReplacements": [
+								{
+									"replace": "projects/blog/src/environments/environment.ts",
+									"with": "projects/blog/src/environments/environment.prod.ts"
+								},
+								{
+									"replace": "projects/common/src/environments/environment.ts",
+									"with": "projects/common/src/environments/environment.prod.ts"
+								}
+							],
+							"optimization": true,
+							"outputHashing": "all",
+							"sourceMap": false,
+							"namedChunks": false,
+							"extractLicenses": true,
+							"vendorChunk": false,
+							"buildOptimizer": true,
+							"budgets": [
+								{
+									"type": "initial",
+									"maximumWarning": "500kb",
+									"maximumError": "1mb"
+								},
+								{
+									"type": "anyComponentStyle",
+									"maximumWarning": "2kb",
+									"maximumError": "4kb"
+								}
+							]
+						}
+					}
+				},
+				"serve": {
+					"builder": "@angular-devkit/build-angular:dev-server",
+					"options": {
+						"browserTarget": "blog:build"
+					},
+					"configurations": {
+						"production": {
+							"browserTarget": "blog:build:production"
+						}
+					}
+				}
+			}
+		},
+		"common": {
+			"projectType": "application",
+			"root": "projects/common",
+			"sourceRoot": "projects/common/src",
+			"prefix": "common",
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:browser",
+					"options": {
+						"outputPath": "dist/common",
+						"index": "projects/common/src/index.html",
+						"main": "projects/common/src/main.ts",
+						"polyfills": "projects/common/src/polyfills.ts",
+						"tsConfig": "projects/common/tsconfig.app.json",
+						"aot": true,
+						"assets": [
+							"projects/common/src/favicon.ico",
+							"projects/common/src/assets"
+						],
+						"styles": [
+							"projects/common/src/styles.scss"
+						],
+						"scripts": []
+					},
+					"configurations": {
+						"production": {
+							"fileReplacements": [
+								{
+									"replace": "projects/common/src/environments/environment.ts",
+									"with": "projects/common/src/environments/environment.prod.ts"
+								}
+							],
+							"optimization": true,
+							"outputHashing": "all",
+							"sourceMap": false,
+							"namedChunks": false,
+							"extractLicenses": true,
+							"vendorChunk": false,
+							"buildOptimizer": true
+						}
+					}
+				},
+				"serve": {
+					"builder": "@angular-devkit/build-angular:dev-server",
+					"options": {
+						"browserTarget": "common:build"
+					},
+					"configurations": {
+						"production": {
+							"browserTarget": "common:build:production"
+						}
+					}
+				}
+			}
+		},
+		"login": {
+			"projectType": "application",
+			"root": "projects/login",
+			"sourceRoot": "projects/login/src",
+			"prefix": "login",
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:browser",
+					"options": {
+						"outputPath": "dist/login",
+						"index": "projects/login/src/index.html",
+						"main": "projects/login/src/main.ts",
+						"polyfills": "projects/login/src/polyfills.ts",
+						"tsConfig": "projects/login/tsconfig.app.json",
+						"aot": true,
+						"assets": [
+							"projects/login/src/favicon.ico",
+							"projects/login/src/assets"
+						],
+						"styles": [
+							"node_modules/materialize-css/dist/css/materialize.min.css",
+							"projects/common/src/assets/scss/responsive.scss",
+							"projects/common/src/assets/scss/materialize.scss",
+							"projects/common/src/assets/scss/helpers.scss",
+							"projects/common/src/assets/scss/theme.scss",
+							"projects/common/src/styles.scss",
+							"projects/login/src/styles.scss"
+						],
+						"scripts": [
+							"node_modules/materialize-css/dist/js/materialize.min.js"
+						]
+					},
+					"configurations": {
+						"production": {
+							"fileReplacements": [
+								{
+									"replace": "projects/login/src/environments/environment.ts",
+									"with": "projects/login/src/environments/environment.prod.ts"
+								},
+								{
+									"replace": "projects/common/src/environments/environment.ts",
+									"with": "projects/common/src/environments/environment.prod.ts"
+								}
+							],
+							"optimization": true,
+							"outputHashing": "all",
+							"sourceMap": false,
+							"namedChunks": false,
+							"extractLicenses": true,
+							"vendorChunk": false,
+							"buildOptimizer": true
+						}
+					}
+				},
+				"serve": {
+					"builder": "@angular-devkit/build-angular:dev-server",
+					"options": {
+
+
+						"browserTarget": "login:build"
+					},
+					"configurations": {
+						"production": {
+							"browserTarget": "login:build:production"
+						}
+					}
+				}
+			}
+		},
+		"admin": {
+			"projectType": "application",
+			"root": "projects/admin",
+			"sourceRoot": "projects/admin/src",
+			"prefix": "admin",
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:browser",
+					"options": {
+						"outputPath": "dist/admin",
+						"index": "projects/admin/src/index.html",
+						"main": "projects/admin/src/main.ts",
+						"polyfills": "projects/admin/src/polyfills.ts",
+						"tsConfig": "projects/admin/tsconfig.app.json",
+						"aot": true,
+						"assets": [
+							"projects/admin/src/favicon.ico",
+							"projects/admin/src/assets"
+						],
+						"styles": [
+							"node_modules/simplemde/dist/simplemde.min.css",
+							"node_modules/materialize-css/dist/css/materialize.min.css",
+							"projects/common/src/assets/scss/responsive.scss",
+							"projects/common/src/assets/scss/materialize.scss",
+							"projects/common/src/assets/scss/helpers.scss",
+							"projects/common/src/assets/scss/theme.scss",
+							"projects/common/src/styles.scss",
+							"projects/admin/src/styles.scss"
+						],
+						"scripts": [
+							"node_modules/materialize-css/dist/js/materialize.min.js"
+						]
+					},
+					"configurations": {
+						"production": {
+							"fileReplacements": [
+								{
+									"replace": "projects/admin/src/environments/environment.ts",
+									"with": "projects/admin/src/environments/environment.prod.ts"
+								},
+								{
+									"replace": "projects/common/src/environments/environment.ts",
+									"with": "projects/common/src/environments/environment.prod.ts"
+								}
+							],
+							"optimization": true,
+							"outputHashing": "all",
+							"sourceMap": false,
+							"namedChunks": false,
+							"extractLicenses": true,
+							"vendorChunk": false,
+							"buildOptimizer": true
+						}
+					}
+				},
+				"serve": {
+					"builder": "@angular-devkit/build-angular:dev-server",
+					"options": {
+						"browserTarget": "admin:build"
+					},
+					"configurations": {
+						"production": {
+							"browserTarget": "admin:build:production"
+						}
+					}
+				}
+			}
+		}
+	},
+	"defaultProject": "blog"
+}

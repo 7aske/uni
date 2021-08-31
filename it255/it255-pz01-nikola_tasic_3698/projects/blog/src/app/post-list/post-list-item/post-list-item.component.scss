@@ -1,0 +1,37 @@
+@import "projects/common/src/assets/scss/theme";
+
+h4 {
+	a {
+		color: $theme-primary;
+		text-decoration: underline;
+	}
+
+	small {
+		margin-left: 0.5em;
+		font-size: 0.6em;
+		color: $theme-grey-light;
+	}
+
+}
+
+:host > div {
+	position: relative;
+}
+
+.category {
+	a {
+		color: $theme-primary;
+
+		&:hover {
+			color: $theme-primary-light;
+		}
+	}
+
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+hr {
+	margin-top: 2em;
+}

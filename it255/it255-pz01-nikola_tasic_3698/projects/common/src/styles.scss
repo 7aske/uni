@@ -1,0 +1,23 @@
+@import "projects/common/src/assets/scss/theme";
+@import '~ngx-toastr/toastr';
+
+body {
+}
+
+hr {
+	border-color: $theme-grey;
+	border-style: double;
+}
+
+a {
+	&:hover {
+		color: $theme-primary-light !important;
+	}
+}
+
+.blob {
+	background-color: $theme-primary;
+	padding: .2em .5em;
+	border-radius: 10px;
+	margin-right: .2em;
+}

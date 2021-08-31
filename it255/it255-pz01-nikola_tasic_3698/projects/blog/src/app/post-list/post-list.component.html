@@ -1,0 +1,21 @@
+<div class="container">
+	<h1>Blog</h1>
+	<p class="flow-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid consequatur distinctio
+		ducimus error eveniet
+		facilis, fuga impedit iste maxime minus perspiciatis quam quas saepe tenetur ullam vitae, voluptas voluptate.
+		Libero.
+	</p>
+
+	<ng-container *ngIf="posts.length > 0; else noPosts">
+		<blog-post-list-item
+				*ngFor="let post of posts | paginate: { itemsPerPage: 5, currentPage: page }"
+				[post]="post">
+		</blog-post-list-item>
+	</ng-container>
+
+	<ng-template #noPosts>
+		<blog-post-list-skeleton *ngFor="let _ of [0,1,2,3,4];"></blog-post-list-skeleton>
+	</ng-template>
+
+	<pagination-controls [autoHide]="true" [responsive]="true" (pageChange)="page = $event"></pagination-controls>
+</div>

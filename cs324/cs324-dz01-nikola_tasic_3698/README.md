@@ -1,5 +1,7 @@
 # CS324 DZ01
 
+![Python CLI](./cli.png)
+
 Program pisan u python-u:
 
 ```python

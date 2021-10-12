@@ -48,23 +48,23 @@ crack47:wwwwww:572:577::/home/crack47:/bin/bash
 
 1.
 
-	a) Ne znam. Par puta mi je krešovao računar u toku razbijanja.
-	b) 39
-	c) Sve razbijene su bile mahom proste
-	d) Većina
-	e) U razbijenim samo par
-	f) Kraće
+a) Ne znam. Par puta mi je krešovao računar u toku razbijanja.
+b) 39
+c) Sve razbijene su bile mahom proste
+d) Većina
+e) U razbijenim samo par
+f) Kraće
 
 2.
 
-	d) 11
+d) 11
 
 3. 
 
-	Cain i Abel program nije dostupan na Linux-u koji koristim. Ekvivalent za to je Wireshark koliko sam mogoao
-	da proučim. On se koristi za analizu mreže i podataka koji kroz mrežu prolaze.
+Cain i Abel program nije dostupan na Linux-u koji koristim. Ekvivalent za to je Wireshark koliko sam mogoao
+da proučim. On se koristi za analizu mreže i podataka koji kroz mrežu prolaze.
 
-	![](./2021-10-13-005917_926x495_scrot.png)
-	![](./2021-10-13-010143_926x495_scrot.png)
+![](./2021-10-13-005917_926x495_scrot.png)
+![](./2021-10-13-010143_926x495_scrot.png)
 
 

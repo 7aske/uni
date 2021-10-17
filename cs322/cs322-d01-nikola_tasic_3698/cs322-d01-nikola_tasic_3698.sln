@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cs322-d01-nikola_tasic_3698", "cs322-d01-nikola_tasic_3698.csproj", "{EE64B57F-2B04-439F-A3CB-950405F85494}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE64B57F-2B04-439F-A3CB-950405F85494}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE64B57F-2B04-439F-A3CB-950405F85494}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE64B57F-2B04-439F-A3CB-950405F85494}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE64B57F-2B04-439F-A3CB-950405F85494}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

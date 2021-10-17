@@ -3,6 +3,7 @@ out
 cmake-build-debug
 dist
 target
+bin
 
 .idea
 .vscode

@@ -1,9 +1,0 @@
-Y:\home\nik\.local\src\uni\cs322\cs322-d01-nikola_tasic_3698\bin\Debug\cs322_d01_nikola_tasic_3698.exe.config
-Y:\home\nik\.local\src\uni\cs322\cs322-d01-nikola_tasic_3698\bin\Debug\cs322_d01_nikola_tasic_3698.exe
-Y:\home\nik\.local\src\uni\cs322\cs322-d01-nikola_tasic_3698\bin\Debug\cs322_d01_nikola_tasic_3698.pdb
-Y:\home\nik\.local\src\uni\cs322\cs322-d01-nikola_tasic_3698\obj\Debug\cs322-d01-nikola_tasic_3698.csproj.AssemblyReference.cache
-Y:\home\nik\.local\src\uni\cs322\cs322-d01-nikola_tasic_3698\obj\Debug\cs322_d01_nikola_tasic_3698.Properties.Resources.resources
-Y:\home\nik\.local\src\uni\cs322\cs322-d01-nikola_tasic_3698\obj\Debug\cs322-d01-nikola_tasic_3698.csproj.GenerateResource.cache
-Y:\home\nik\.local\src\uni\cs322\cs322-d01-nikola_tasic_3698\obj\Debug\cs322-d01-nikola_tasic_3698.csproj.CoreCompileInputs.cache
-Y:\home\nik\.local\src\uni\cs322\cs322-d01-nikola_tasic_3698\obj\Debug\cs322_d01_nikola_tasic_3698.exe
-Y:\home\nik\.local\src\uni\cs322\cs322-d01-nikola_tasic_3698\obj\Debug\cs322_d01_nikola_tasic_3698.pdb

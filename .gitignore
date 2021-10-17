@@ -3,7 +3,10 @@ out
 cmake-build-debug
 dist
 target
+
+# C# build files
 bin
+cs322/**/obj
 
 .idea
 .vscode

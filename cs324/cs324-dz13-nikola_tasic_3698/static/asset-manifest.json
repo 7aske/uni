@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "http://localhost:5000/static/static/css/main.502cceed.chunk.css",
+    "main.js": "http://localhost:5000/static/static/js/main.4faf90cb.chunk.js",
+    "main.js.map": "http://localhost:5000/static/static/js/main.4faf90cb.chunk.js.map",
+    "runtime-main.js": "http://localhost:5000/static/static/js/runtime-main.603b8c59.js",
+    "runtime-main.js.map": "http://localhost:5000/static/static/js/runtime-main.603b8c59.js.map",
+    "static/css/2.db5c7b54.chunk.css": "http://localhost:5000/static/static/css/2.db5c7b54.chunk.css",
+    "static/js/2.63aa1436.chunk.js": "http://localhost:5000/static/static/js/2.63aa1436.chunk.js",
+    "static/js/2.63aa1436.chunk.js.map": "http://localhost:5000/static/static/js/2.63aa1436.chunk.js.map",
+    "index.html": "http://localhost:5000/index.html",
+    "static/css/2.db5c7b54.chunk.css.map": "http://localhost:5000/static/static/css/2.db5c7b54.chunk.css.map",
+    "static/css/main.502cceed.chunk.css.map": "http://localhost:5000/static/static/css/main.502cceed.chunk.css.map",
+    "static/js/2.63aa1436.chunk.js.LICENSE.txt": "http://localhost:5000/static/static/js/2.63aa1436.chunk.js.LICENSE.txt",
+    "static/media/index.scss": "http://localhost:5000/static/static/media/FiraCode-Medium.99cd5a59.ttf",
+    "static/media/cv_nikola_tasic.bff52626.pdf": "http://localhost:5000/static/static/media/cv_nikola_tasic.bff52626.pdf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.603b8c59.js",
+    "static/css/2.db5c7b54.chunk.css",
+    "static/js/2.63aa1436.chunk.js",
+    "static/css/main.502cceed.chunk.css",
+    "static/js/main.4faf90cb.chunk.js"
+  ]
+}

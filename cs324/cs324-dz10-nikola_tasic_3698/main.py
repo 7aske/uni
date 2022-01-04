@@ -15,9 +15,9 @@ def main():
 	# 	subjects["Ocena"].append(int(grade))
 
 	# df = pd.DataFrame(data)
-	# df.to_csv("data.csv")
+	# df.to_csv("Student_izvestaj.csv")
 
-	data = pd.read_csv("data.csv")
+	data = pd.read_csv("Student_izvestaj.csv")
 
 	counted = Counter(data["Ocena"])
 
@@ -57,7 +57,7 @@ def main():
 	plt.plot(range(len(data["Ocena"])), avg_grades, "g-", label="Prosek")
 	plt.plot(range(len(data["Ocena"])), data["Ocena"], "ro", label="Ocena")
 
-	plt.savefig("fig.png")
+	plt.savefig("Student_izvestaj.png")
 	plt.show()
 
 

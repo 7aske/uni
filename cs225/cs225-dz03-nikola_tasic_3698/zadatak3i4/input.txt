@@ -1,0 +1,111 @@
+Nikola
+Tasić
+Hi, my name is Nikola. I’m a
+nerd and an aspiring software
+engineer specializing in the
+development of web systems.
+Among the wide spectrum of my
+interests, I would emphasize
+backend web development, devops, Linux systems and clean
+reusable architectures. I base
+my knowledge off of late Richard
+Feynman’s quote ‘‘What I cannot
+create, I do not understand.’’
+which can be observed on my
+github/website. Also, Robert C.
+Martin had an enormous influence
+on me with his book Clean Code
+which felt eye-opening and
+relatable on numerous levels. I
+think I am honest, enthusiastic,
+easy to work with, more than
+eager to learn more and also
+willing to think outside the box
+to solve any problem. Also, I am
+a big advocate for open-source
+software. Besides programming,
+I’m interested in space
+exploration and documentary
+photography.
+
+Education
+●
+
+●
+
+2018 - present - Student at
+Metropolitan University, Faculty
+of Information Technologies,
+software engineering department.
+2017 - multiple web development
+courses
+
+Contact
+
++381 (060) 451 - 4036
+nik@7aske.com
+ntasic7@gmail.com
+
+Skills
+Languages: Java, JavaScript(TypeScript), NodeJS,
+Bash, Python, C, Go, Rust.
+Technologies/Frameworks: Git, Spring Boot, Flask,
+ReactJS, Angular, Express.js, Docker, Flyway,
+Swagger, Junit, Pyunit, Nginx, Linux, MySQL,
+Postgres, MongoDB, *NIX CLI.
+
+Experience
+
+Backend developer
+April 2021 - July 2021
+Backend and architectural engineer of a employee
+management system with analytics for a local
+massage centre.
+Backend developer
+Dec 2020 - Jun 2021
+Co-developed and managed a real estate
+advertising system for a domestic real estate
+business.
+Full-stack developer
+Feb 2020 - Aug 2020
+Developed and deployed a web system consisting of
+a website, webshop and a blog for a local massage
+centre.
+Software development intern
+2019 - present
+Intern at Metropolitan University Faculty of
+Information Technologies involved in development
+of service oriented modular informational systems
+using mostly Angular, React, Spring Boot and
+Flask. Experience in setting up production
+environments on various Linux servers. Took part
+in a great deal of problem solving and debugging
+of production systems. Experience in database
+design, backup and migrations mostly MySQL but
+also NoSQL databases such as MongoDB. Mostly
+focused on developing clean backend API's with
+complex database structure.
+
+Pet projects
+
+springstrap (TypeScript) springstrap.7aske.com
+Utility for generating complete REST CRUD Spring
+Boot applications from database schemas.
+grain (Java) github.com/7aske/grain
+Zero dependency web framework based on Spring.
+rgs (Rust) github.com/7aske/rgs
+
+linkedin.com/in/7aske
+
+CLI tool for batch git repository management,
+synchronization and information.
+
+github.com/7aske
+
+xinp (C) github.com/7aske/xinp
+
+7aske.com
+
+Xserver scriptable and customizable input box.
+
+

@@ -1,10 +1,6 @@
-<center>
-![](img/logo.png)
-Jesenji semetar, 2021/22
 # IT381 Projektni zadatak
-## Konfiguracija Linux veb servera za potrebe hostovanja vebsajta
-</center>
 
+Jesenji semetar, 2021/22
 
 Predmet: **CS225: Operativni sistemi**
 
@@ -18,6 +14,7 @@ Broj indeksa: **3698**
 
 Datum izrade: **21.01.2022.**
 
+## Konfiguracija Linux veb servera za potrebe hostovanja vebsajta
 
 ## 0. Apstrakt
 
@@ -39,70 +36,52 @@ Jedan od najvećih revolucija u vebu u skorije vreme jeste kontejnerizacija koju
 
 Posle logovanja na DigitalOcean potrebno je kreirati takozvani "Droplet" koji predstavlja vps koji će hostovati našu aplikaciju ili sajt.
 
-<center>
 ![](img/do-1.png)
 <small>Sl. 1 - Kreiranje dropleta</small>
-</center>
 
 Biramo Ubuntu bilo koje LTS(long term support) verzije jer je on jedan od najbezbednijih generičkih opcija za serverski operativni sistem. Biramo opciju za shared CPU koja je jedan od razloga zašto su cene toliko niske.
 
-<center>
 ![](img/do-2.png)
 <small>Sl. 2 - Kreiranje dropleta - odabir sistema</small>
-</center>
 
 Naredna opcija je biranje hardvera - tu možemo izabrati šta god u zavisnosti od naših potreba. Za hostovanje običnog veb sajta dovoljno je izabrati najjeftiniju opciju.
 
-<center>
 ![](img/do-3.png)
 <small>Sl. 3 - Kreiranje dropleta - odabir hardvera</small>
-</center>
 
 Što se tiče lokacije servera bitno je naravno izabrati server koji je relativno blizu targetirane publike. To za prezentacione sajtove nije od neke preterane važnosti ali ping(latencija) do servera može uticati na iskustvo tokom konfigurisanja samog servera. Takođe treba imati na umu kakvi su zakoni koji se tiču privatnosti informacija na internetu u različitim državama u kojima možemo hostovati server.
 
 Naredne opcije od nas zahtevaju da konfigurišemo autentikaciju sa serverom. Ovde imamo dve opcije SSH Key i Password. Password je najjednostavnija opcija ali relativno nebezbedna. S obizrom na to da se fokusiramo na bezbednost odabraćemo SSH Key opciju. SSH Key opcija je klasična autentikacija privatnim i javnim RSA ključem. Da omogućili ovaj vid autentikacije moramo priložiti javni RSA ključ koji će se koristiti za autentikaciju. Za generisanje ključa nam je potreban ssh klijent koji se na Windows operativnim sistemima može naći u Sekciji Options and Features dok na Linux operativnom sistemu se može instalirati preko podrazumevanog package managera.
 
-<center>
 ![](img/do-4.png)
 <small>Sl. 4 - Kreiranje dropleta - autentikacija</small>
-</center>
 
 SSH RSA ključ se može lako kreirati. Naravno, za to je potreban OpenSSH klijent. Na Windows operativnom sistemu on je dostupan u Apps -> Apps & Features -> Optional features. Za Unix bazirane operativne sisteme on je dostupan za instaliranje preko podrazumevanog package manager-a ako već nije instaliran. Kreiranje javnog i privatnog ključa se vrši komandom `ssh-keygen`. `ssh-keygen` posle pokretanja će nas pitati gde želimo da sačuvamo ključ. Pritiskom na dugme enter podvrđujemo podrazumevanu lokaciju `$HOME/.ssh/id_rsa`. Možemo a i ne moramo izabrati šifru za RSA ključ. Posle izvršetka komande imamo dva fajla u navedenom SSH folderu: `id_rsa` i `id_rsa.pub`. `id_rsa` je naš privatni ključ i on nikako ne sme biti deljen drugim korisnicima jer se može koristiti od strane malicionzih korisnika za impersonizaiciju. `id_rsa.pub` je javni ključ koji DigitalOcean očekuje.
 
-<center>
 ![](img/ssh-1.png)
 <small>Sl. 5 - Droplet autentikacija - SSH ključ 1</small>
-</center>
 
 Sledeći korak je kopiranje RSA javnog ključa na DigitalOcean. `id_rsa.pub` fajl možemo otvoriti bilo kog tekstualnog editora ili izlistati sadržaj direktno u terminalu i odatle kopirati u veb formu.
 
-<center>
 ![](img/ssh-2.png)
 <small>Sl. 6 - Droplet autentikacija - SSH ključ 2</small>
-</center>
 
 Za kraj možemo opciono odabrati ime dropleta. Klikom na dugme "Create" završavamo konfiguraciju i DigitalOcean će kreirati instancu servera sa konfigurisanim parametrima za nas. Taj proces može da potraje par minuta i kada bude bio gotov umesto progress bar-a dobićemo IP adresu servera na koju se možemo povezati preko konfigurisanog SSH-a.
 
-<center>
 ![](img/do-6.png)
 <small>Sl. 7 - Finalizacija</small>
-</center>
 
 ## 3. Konfiguracija servera
 
 Sada kada je droplet kreiran i kada smo dobili javnu IP adresu možemo mu direktno pristupiti. Koristeći OpenSSH klijent iz terminala možemo pistupiti serveru. OpenSSH predstavlja direktnu enkriptovanu vezu sa serverom. Autentikacija prilikom ove konekcije može da se ostvari na više načina. Podrazumevani način je jednostavna username i password autentikacija koja se smatra relativno nesigurnom. Obzirom da se fokusiramo na sigurnost iz tog razloga je odabrana autentikacija prvatnim i javnim RSA ključem. Pri ovakvoj vrsti razmene informacija obe strane razmenjuju svoje javne ključeve i njih koriste da enkriptuju podatke koje će razmenjivati. Podatak enkriptovan javnim ključem klijenta A može biti dekpriptovan samo privatnim ključem istog klijenta. Na taj način se ostvaruje sigurna komunikacija. Takođe prilikom login-a dolazi do provere identiteta javnim javnim ključem.
 
-<center>
 ![](img/server-2.png)
 <small>Sl. 9 - Login 1</small>
-</center>
 
 Na server se povezujemo kao **root** koji je podrazumevani super-user korisnik za Unix operativne sisteme. Posle uspešnog logina dočekaće nas podrazumevani ispis osnovnih sistemskih informacija kao što su zauzeće procesora, memorije i diska.
 
-<center>
 ![](img/server-2.png)
 <small>Sl. 10 - Login 2</small>
-</center>
 
 Sledeći koraci koje ćemo preduzeti su inicijalna konfiguracija sistema i insalacija potrebnih paketa i programa za postavljanje prezentacionog sajta. Prva stvar koju ćemo uraditi je ažuriranje sistema. Ažuriranjem paketa na sistemu dobavljamo njihove najnovije verzije sa najnovijim funkcionalnostima ali pre svega najnovije sigurnosne ispravke koje povećavaju bezbednost sistema.
 
@@ -218,10 +197,8 @@ vim /var/www/html/website/index.html
 
 Kada smo kompletirali i taj korak vreme je da testiramo naš server tako što ćemo iz browsera posetiti IP adresu servera na koji upravo konfigurišemo.
 
-<center>
 ![](img/nginx-1.png)
 <small>Sl. 11 - Hello World!</small>
-</center>
 
 Pre nego što se krenemo sa konfiguracijom domena odradićemo dodaten sigurnosne konfiguracije servera.
 
@@ -317,25 +294,19 @@ S ovim je osnovna firewall konfiguracija podešena.
 Svaki vebsajt bi trebalo da ima svoj domen. Domen omogućava lako dobijanje HTTPS sertifikata koji omogućavaju enkriptovanu komunikaciju između servera i klijenta. Domeni se uglavnom plaćaju godišnjom supskripcijom kod nekog od provajera. Odabir provajdera za ovaj rad, Namecheap, je vođen ličnim iskustom i cenom usluga. Nećemo zalaziti u detalje kupovine domena već samo u njegovu konfiguraciju. Da bi kada posetimo registrovani domen browser znao na koju IP adresu treba poslati zahtev je zadužen DNS server. Svaki provajder domena ima svoj DNS server koji može da se konfiguriše sa samog korisničkog naloga. Primer konfiguracije domena za Namecheap izgleda ovako:
 
 
-<center>
 ![](img/domain-1.png)
 <small>Sl. 12 - Dashboard</small>
-</center>
 
 Klikom na dugme **Manage** pa na tab **Advanced DNS** dobijamo interfejs za konfiguraciju. Na ovom interfejsu potrebno je reći serveru koja je IP adresa koja odgovara domenu koji smo registrovali(ili drugi DNS server koji zna koja je IP adresa). U našem slučaju potrebno je registrovati '@ A Record'. Ovo znači registrujemo informaciju na kojoj IP adresi se nalazi osnovni domen - u ovom slučaju gde se nalazi adresa `7aske.com`. A Record oznacava da je to domen za ipv4. Takođe možemo primetiti podešavanje TTL. TTL ili 'time to live' možemo podesiti na 1min za vreme testiranja servera. Ako želimo da naš server ima pod-domene koji se nalaze na istom Dropletu možemo kreirati i '* A Record' koji u suštini glasi - svi pod-domeni ovog domena se nalaze na ovoj IP adresi.
 
-<center>
 ![](img/domain-2.png)
 <small>Sl. 13 - Konfiguracija domena</small>
-</center>
 
 Posle ove konfiguracije nakon 30min do 1 sata posećivanjem adrese <http://7aske.com> dobićemo našu početnu stranu.
 
 
-<center>
 ![](img/domain-4.png)
 <small>Sl. 14 - Hello World 2</small>
-</center>
 
 ## 8. Vebsajt
 
@@ -371,10 +342,8 @@ Komandom `certbot --nginx` pokrećemo certbot-a i govorimo mu da koristi nginx z
 
 Certbot će takođe predložiti domene koji su dostupni za generisanje sertifikata koja ćemo oba izabrati. Nakon potvrde certbot će generisati sertifikate i automatski izmeniti nginx konfiguraciju tako da se sav http saobraćaj redirektuje na https kodom koji smo izabrali (301 - permanetno, 302 - privremeno). 
 
-<center>
 ![](img/https-1.png)
 <small>Sl. 15 - HTTPS</small>
-</center>
 
 Nakon ove konfiguracije možemo se uveriti da je zaista došlo do promene u konfiguracionom fajlu za nginx:
 
@@ -417,8 +386,6 @@ server {
 I za kraj možemo posetiti <https://7aske.com> da se uverimo da sve funkcioniše.
 
 
-<center>
 ![](img/https-2.png)
 <small>Sl. 16 - HTTPS podešen</small>
-</center>
 

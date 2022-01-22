@@ -81,3 +81,14 @@ Repository with home assignments, projects and other university related stuff.
 - [SE325](https://github.com/7aske/uni/tree/master/se325) - Project management
   * [project 1](https://github.com/7aske/uni/tree/master/se325/se325-pz01-nikola_tasic_3698)
   * [project 2](https://github.com/7aske/uni/tree/master/se325/se325-pz02-nikola_tasic_3698)
+
+### Semester 7
+
+- [CS322](https://github.com/7aske/uni/tree/master/cs322) - C# Programming language
+  * [project](https://github.com/7aske/uni/tree/master/cs322/cs322-pz-nikola_tasic_3698)
+- [CS324](https://github.com/7aske/uni/tree/master/cs324) - Scripting languages
+  * [project](https://github.com/7aske/uni/tree/master/cs324/cs324-pz-nikola_tasic_3698)
+- [CS220](https://github.com/7aske/uni/tree/master/cs220) - Operating systems
+  * [project](https://github.com/7aske/uni/tree/master/cs220/cs220-pz-nikola_tasic_3698)
+- [IT381](https://github.com/7aske/uni/tree/master/it381) - Protection and information security
+  * [project](https://github.com/7aske/uni/tree/master/it381/it381-pz-nikola_tasic_3698)

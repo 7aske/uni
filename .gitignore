@@ -40,3 +40,7 @@ __pycache__
 # Visaul Paradigm backup files
 *.vpp.bak_????
 *.vpp.lck
+
+# C#
+cs322/**/bin
+cs322/**/obj

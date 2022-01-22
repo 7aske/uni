@@ -1,0 +1,45 @@
+﻿@page
+@model IndexModel
+@{
+    var ctx = new DataContext();
+    var songs = ctx.Songs;
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <form action="/songs" method="post">
+        <input type="hidden" name="id">
+        <div>
+            <label for="artist">
+                Artist:
+                <input name="artist" id="artist">
+            </label>
+        </div>
+        <div>
+            <label for="name">
+                Name:
+                <input name="name" id="name">
+            </label>
+        </div>
+        <div>
+            <input type="submit">
+        </div>
+    </form>
+    <br/>
+    <hr/>
+    @{
+        foreach (var song in songs) {
+            <div>
+                <form action="/songs" method="post">
+                    <input type="hidden" name="id" value="@song.id">
+                    <input name="artist" id="artist" value="@song.artist">
+                    <input name="name" id="name" value="@song.name">
+                    <input type="submit" value="Update">
+                </form>
+                <form method="post" action="/songs/delete/@song.id">
+                    <input value="Remove" type="submit">
+                </form>
+            </div>
+        }
+    }
+</div>

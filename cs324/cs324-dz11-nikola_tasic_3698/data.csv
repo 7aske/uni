@@ -1,0 +1,151 @@
+StudentID,Univerzitet,NivoStudija,StudijskiProgram,Trajanje
+1,Univerzitet EDUCONS,BAS,Menadzment,5
+2,Univerzitet Singidunum,DAS,Menadzment,3
+3,Univerzitet Singidunum,DAS,Informacione Tehnologije,3
+4,Univerzitet Metropolitan,DAS,Softversko inzenjerstvo,4
+5,Univerzitet EDUCONS,BAS,Softversko inzenjerstvo,5
+6,Univerzitet u Nisu,BAS,Menadzment,4
+8,Univerzitet Singidunum,BAS,Ostalo,4
+7,Univerzitet Singidunum,BAS,Informacione Tehnologije,6
+9,Univerzitet Singidunum,DAS,Ostalo,3
+10,Univerzitet Singidunum,MAS,Informacione Tehnologije,2
+11,Univerzitet Singidunum,MAS,Ostalo,3
+12,Univerzitet u Kragujevcu,BAS,Softversko inzenjerstvo,5
+13,Univerzitet Singidunum,BAS,Ostalo,4
+14,Univerzitet EDUCONS,BAS,Menadzment,5
+15,Univerzitet u Nisu,MAS,Softversko inzenjerstvo,2
+16,Univerzitet Singidunum,BAS,Menadzment,5
+17,Univerzitet Singidunum,MAS,Informacione Tehnologije,1
+18,Univerzitet u Kragujevcu,BAS,Softversko inzenjerstvo,5
+19,Univerzitet u Beogradu,BAS,Informacione Tehnologije,6
+20,Univerzitet Singidunum,DAS,Menadzment,4
+21,Univerzitet u Beogradu,MAS,Menadzment,5
+22,Univerzitet Singidunum,BAS,Softversko inzenjerstvo,4
+23,Univerzitet u Beogradu,MAS,Ostalo, 1
+24,Univerzitet EDUCONS,BAS,Ostalo,6
+25,Univerzitet EDUCONS,DAS,Softversko inzenjerstvo,4
+26,Univerzitet Singidunum,DAS,Ostalo,4
+27,Univerzitet u Beogradu,BAS,Menadzment,6
+28,Univerzitet u Kragujevcu,BAS,Ostalo,6
+29,Univerzitet Metropolitan,DAS,Softversko inzenjerstvo,5
+30,Univerzitet u Nisu,BAS,Softversko inzenjerstvo,5
+31,Univerzitet u Nisu,MAS,Softversko inzenjerstvo,1
+32,Univerzitet Singidunum,MAS,Informacione Tehnologije,2
+33,Univerzitet u Kragujevcu,DAS,Softversko inzenjerstvo,6
+34,Univerzitet Singidunum,BAS,Informacione Tehnologije,4
+35,Univerzitet EDUCONS,MAS,Softversko inzenjerstvo,3
+36,Univerzitet u Kragujevcu,BAS,Menadzment,4
+37,Univerzitet u Kragujevcu,DAS,Softversko inzenjerstvo,5
+38,Univerzitet Metropolitan,BAS,Informacione Tehnologije,5
+39,Univerzitet Singidunum,BAS,Informacione Tehnologije,6
+40,Univerzitet Metropolitan,BAS,Menadzment,5
+41,Univerzitet Metropolitan,BAS,Informacione Tehnologije,6
+42,Univerzitet Singidunum,BAS,Informacione Tehnologije,5
+43,Univerzitet u Nisu,MAS,Informacione Tehnologije,2
+44,Univerzitet Singidunum,MAS,Softversko inzenjerstvo,1
+45,Univerzitet u Beogradu,MAS,Softversko inzenjerstvo,1
+46,Univerzitet u Beogradu,BAS,Softversko inzenjerstvo,4
+47,Univerzitet u Nisu,DAS,Softversko inzenjerstvo,4
+48,Univerzitet u Beogradu,BAS,Softversko inzenjerstvo,4
+49,Univerzitet u Nisu,BAS,Menadzment,6
+50,Univerzitet Metropolitan,BAS,Softversko inzenjerstvo,4
+51,Univerzitet Singidunum,MAS,Softversko inzenjerstvo,1
+52,Univerzitet u Nisu,BAS,Ostalo,5
+53,Univerzitet EDUCONS,BAS,Informacione Tehnologije,6
+54,Univerzitet EDUCONS,BAS,Menadzment,5
+55,Univerzitet Metropolitan,BAS,Informacione Tehnologije,4
+56,Univerzitet EDUCONS,MAS,Informacione Tehnologije,1
+57,Univerzitet EDUCONS,BAS,Ostalo,5
+58,Univerzitet u Beogradu,BAS,Ostalo,4
+59,Univerzitet Metropolitan,MAS,Softversko inzenjerstvo,1
+60,Univerzitet Singidunum,BAS,Ostalo,6
+61,Univerzitet u Kragujevcu,BAS,Softversko inzenjerstvo,5
+62,Univerzitet EDUCONS,BAS,Menadzment,4
+63,Univerzitet u Kragujevcu,BAS,Menadzment,4
+64,Univerzitet Singidunum,BAS,Informacione Tehnologije,4
+65,Univerzitet Metropolitan,BAS,Ostalo,5
+66,Univerzitet Metropolitan,MAS,Softversko inzenjerstvo,1
+67,Univerzitet Singidunum,BAS,Informacione Tehnologije,5
+68,Univerzitet Singidunum,BAS,Menadzment,5
+69,Univerzitet u Nisu,BAS,Menadzment,5
+70,Univerzitet Singidunum,BAS,Informacione Tehnologije,5
+71,Univerzitet Singidunum,DAS,Informacione Tehnologije,5
+72,Univerzitet EDUCONS,DAS,Ostalo,6
+73,Univerzitet Singidunum,BAS,Informacione Tehnologije,4
+74,Univerzitet EDUCONS,DAS,Ostalo,4
+75,Univerzitet u Kragujevcu,BAS,Informacione Tehnologije,4
+76,Univerzitet u Beogradu,BAS,Informacione Tehnologije,5
+77,Univerzitet Metropolitan,DAS,Informacione Tehnologije,6
+78,Univerzitet u Beogradu,MAS,Softversko inzenjerstvo,1
+79,Univerzitet Singidunum,DAS,Softversko inzenjerstvo,5
+80,Univerzitet Metropolitan,BAS,Softversko inzenjerstvo,5
+81,Univerzitet EDUCONS,BAS,Informacione Tehnologije,4
+82,Univerzitet u Nisu,BAS,Ostalo,6
+83,Univerzitet u Kragujevcu,BAS,Menadzment,5
+84,Univerzitet Singidunum,BAS,Ostalo,4
+85,Univerzitet u Kragujevcu,BAS,Softversko inzenjerstvo,5
+86,Univerzitet Singidunum,MAS,Ostalo,2
+87,Univerzitet Metropolitan,BAS,Menadzment,5
+88,Univerzitet Metropolitan,BAS,Ostalo,5
+89,Univerzitet Singidunum,BAS,Ostalo,6
+90,Univerzitet EDUCONS,BAS,Ostalo,4
+91,Univerzitet Singidunum,BAS,Softversko inzenjerstvo,5
+92,Univerzitet u Kragujevcu,DAS,Menadzment,5
+93,Univerzitet Singidunum,BAS,Informacione Tehnologije,5
+94,Univerzitet u Kragujevcu,MAS,Ostalo,3
+95,Univerzitet Singidunum,BAS,Ostalo,4
+96,Univerzitet u Kragujevcu,BAS,Ostalo,4
+97,Univerzitet Metropolitan,DAS,Softversko inzenjerstvo,5
+98,Univerzitet Singidunum,BAS,Softversko inzenjerstvo,6
+99,Univerzitet u Nisu,BAS,Informacione Tehnologije,6
+100,Univerzitet u Beogradu,BAS,Ostalo,6
+101,Univerzitet u Kragujevcu,BAS,Ostalo,5
+102,Univerzitet u Beogradu,BAS,Informacione Tehnologije,5
+103,Univerzitet Singidunum,BAS,Softversko inzenjerstvo,5
+104,Univerzitet Singidunum,BAS,Menadzment,4
+105,Univerzitet EDUCONS,DAS,Menadzment,4
+106,Univerzitet Singidunum,BAS,Ostalo,4
+107,Univerzitet Metropolitan,BAS,Informacione Tehnologije,4
+108,Univerzitet Singidunum,BAS,Menadzment,5
+109,Univerzitet u Kragujevcu,BAS,Menadzment,6
+110,Univerzitet Metropolitan,BAS,Ostalo,5
+111,Univerzitet Singidunum,MAS,Menadzment,3
+112,Univerzitet u Kragujevcu,BAS,Menadzment,4
+113,Univerzitet u Beogradu,BAS,Ostalo,4
+114,Univerzitet Metropolitan,MAS,Informacione Tehnologije,3
+115,Univerzitet Singidunum,DAS,Ostalo,5
+116,Univerzitet u Nisu,BAS,Informacione Tehnologije,4
+117,Univerzitet Singidunum,BAS,Menadzment,5
+118,Univerzitet EDUCONS,MAS,Softversko inzenjerstvo,2
+119,Univerzitet Singidunum,BAS,Softversko inzenjerstvo,6
+120,Univerzitet Singidunum,BAS,Ostalo,4
+121,Univerzitet u Kragujevcu,BAS,Softversko inzenjerstvo,4
+122,Univerzitet Singidunum,BAS,Informacione Tehnologije,6
+123,Univerzitet u Beogradu,BAS,Informacione Tehnologije,5
+124,Univerzitet u Kragujevcu,BAS,Softversko inzenjerstvo,6
+125,Univerzitet Metropolitan,BAS,Softversko inzenjerstvo,4
+126,Univerzitet EDUCONS,BAS,Informacione Tehnologije,5
+127,Univerzitet Singidunum,MAS,Informacione Tehnologije,2
+128,Univerzitet u Kragujevcu,BAS,Menadzment,4
+129,Univerzitet Singidunum,MAS,Softversko inzenjerstvo,3
+130,Univerzitet Singidunum,MAS,Informacione Tehnologije,1
+131,Univerzitet Metropolitan,DAS,Ostalo,6
+132,Univerzitet u Kragujevcu,DAS,Menadzment,5
+133,Univerzitet Singidunum,BAS,Ostalo,5
+134,Univerzitet Singidunum,BAS,Ostalo,6
+135,Univerzitet Singidunum,BAS,Informacione Tehnologije,6
+136,Univerzitet Singidunum,BAS,Softversko inzenjerstvo,5
+137,Univerzitet u Nisu,BAS,Informacione Tehnologije,4
+138,Univerzitet Singidunum,DAS,Informacione Tehnologije,6
+139,Univerzitet u Kragujevcu,BAS,Informacione Tehnologije,4
+140,Univerzitet Singidunum,BAS,Menadzment,5
+141,Univerzitet Metropolitan,MAS,Softversko inzenjerstvo,2
+142,Univerzitet u Kragujevcu,MAS,Informacione Tehnologije,3
+143,Univerzitet Singidunum,BAS,Ostalo,6
+144,Univerzitet u Beogradu,DAS,Menadzment,3
+145,Univerzitet u Nisu,BAS,Softversko inzenjerstvo,5
+146,Univerzitet EDUCONS,BAS,Softversko inzenjerstvo,5
+147,Univerzitet Singidunum,BAS,Softversko inzenjerstvo,4
+148,Univerzitet EDUCONS,BAS,Softversko inzenjerstvo,5
+149,Univerzitet u Beogradu,MAS,Softversko inzenjerstvo,2
+150,Univerzitet Singidunum,DAS,Menadzment,3

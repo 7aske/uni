@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>blog_backend</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
+        <PackageReference Include="MySql.EntityFrameworkCore" Version="6.0.0-preview3.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="blog-backend\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="blog-backend\appsettings.json" />
+      <_ContentIncludedByDefault Remove="blog-backend\bin\Debug\net6.0\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="blog-backend\bin\Debug\net6.0\appsettings.json" />
+      <_ContentIncludedByDefault Remove="blog-backend\bin\Debug\net6.0\blog-backend.deps.json" />
+      <_ContentIncludedByDefault Remove="blog-backend\bin\Debug\net6.0\blog-backend.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="blog-backend\obj\blog-backend.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="blog-backend\obj\Debug\net6.0\staticwebassets.build.json" />
+      <_ContentIncludedByDefault Remove="blog-backend\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="blog-backend\obj\project.packagespec.json" />
+      <_ContentIncludedByDefault Remove="blog-backend\Properties\launchSettings.json" />
+    </ItemGroup>
+
+</Project>

@@ -2,7 +2,7 @@
 
 Jesenji semetar, 2021/22
 
-Predmet: **CS225: Operativni sistemi**
+Predmet: **IT381: Zaštita i bezbednost informacija**
 
 Profesor: **Milena Bogdanović**
 

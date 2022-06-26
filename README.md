@@ -92,3 +92,11 @@ Repository with home assignments, projects and other university related stuff.
   * [project](https://github.com/7aske/uni/tree/master/cs225/cs225-pz-nikola_tasic_3698)
 - [IT381](https://github.com/7aske/uni/tree/master/it381) - Protection and information security
   * [project](https://github.com/7aske/uni/tree/master/it381/it381-pz-nikola_tasic_3698)
+
+### Semester 8
+
+- [IT390](https://github.com/7aske/uni/tree/master/it390) - Professional practice and ethics
+  * [project 1](https://github.com/7aske/uni/tree/master/it390/it390-pz01-nikola_tasic_3698)
+  * [project 2](https://github.com/7aske/uni/tree/master/it390/it390-pz02-nikola_tasic_3698)
+- [NT310](https://github.com/7aske/uni/tree/master/nt310) - Professional communication
+  * [project](https://github.com/7aske/uni/tree/master/nt310/nt310-pz01-nikola_tasic_3698)

@@ -100,3 +100,9 @@ Repository with home assignments, projects and other university related stuff.
   * [project 2](https://github.com/7aske/uni/tree/master/it390/it390-pz02-nikola_tasic_3698)
 - [NT310](https://github.com/7aske/uni/tree/master/nt310) - Professional communication
   * [project](https://github.com/7aske/uni/tree/master/nt310/nt310-pz01-nikola_tasic_3698)
+- [SE490](https://github.com/7aske/uni/tree/master/se490) - Internship
+  * [report](https://github.com/7aske/uni/tree/master/se490/se490-izvestaj_o_obavljenoj_strucnoj_praksi-nikola_tasic_3698.pdf)
+  * [evaluation](https://github.com/7aske/uni/tree/master/se490/se490-evaluacija_performanse_studenta-nikola_tasic_3698.pdf)
+  * [journal](https://github.com/7aske/uni/tree/master/se490/se490-dnevnik_strucne_prakse-nikola_tasic_3698.pdf)
+- [SE495](https://github.com/7aske/uni/tree/master/se495) - Thesis
+  * [P11 F01](https://github.com/7aske/uni/tree/master/se495/P11_F01-Izrada-zavrsnog-rada-OAS-NikolaTasic_3698_SI.pdf)

@@ -472,11 +472,484 @@ Zaključak je da je najbolje koristiti umetanje kroz konstruktor, ali da se u ne
 
 ## MVC arhitektura
 
+Predstavili smo osnovnu specifikaciju komunikacije koju će naš framework i aplikacija koja je napisana u njemu koristiti. Naredni korak je predstaviti arhitekturu aplikacije odnosno arhitekturalni šablon (eng. *pattern*) koji ćemo koristiti. Arhitekturalni pattern predstavlja skup pravila za struktuiranje i organizaciju projekta. Pored toga arhitekturalni pattern sadrži i skup pravila koje definišu tok podataka u projektu. Arhitekturalni šabloni su proistekli iz višedecenijskog iskustva u rešavanju sličnih problema i predstavljaju osnovu za razvoj projekta. Ovo kao i framework sam po sebi olakšava developerima rad na projektu jer definiše pravila za organizaciju istog. 
+
+Za aplikaciju smo odabrali MVC arhitekturu/šablon zbog svoje popularnosti i jednostavnosti. MVC je skraćenica za **Model-View-Controller**. Ova arhitektura je jedna od najčešćih arhitektura u web aplikacijama. Osnovni principi ove arhitekture su:
+
+* **Model** - predstavlja podatke i logiku aplikacije. Model je uvek nezavisan od View-a i Controller-a. Model može da se koristi i u drugim aplikacijama.
+
+* **View** - predstavlja prikaz podataka. View je uvek nezavisan od Model-a i Controller-a. View može da se koristi i u drugim aplikacijama.
+
+* **Controller** - predstavlja logiku aplikacije. Controller je uvek nezavisan od Model-a i View-a. Controller može da se koristi i u drugim aplikacijama.
+
+![MVC arhitektura](./assets/mvc.jpg)
+<div align="center">
+Sl. 6 - <i>MVC arhitektura</i>
+</div>
+
+MVC arhitektura se trudi da odvoji logiku aplikacije od prikaza podataka. Ovo omogućava da se aplikacija lakše razvija i održava. Moderni MVC radni okviri prate ovaj šablon i time omogućavaju developerima da pišu čist i struktuiran kod. Ovo im pomaže da beneficiraju od svih nivoa modularnosti.
+
+Tok komunikacije u MVC arhitekturi je sledeći:
+
+1. Klijent (pretraživač) šalje zahtev serveru.
+
+2. Server prima zahtev i prosleđuje ga Controller-u.
+
+3. Controller obradjuje zahtev i poziva odgovarajući Model.
+
+4. Model vrši potrebne izmene ili komunikaciju sa bazom i vraća Controller-u podatke.
+
+5. Controller vrši potrebne izmene i vraća View-u.
+
+6. View vrši potrebne izmene i vraća klijentu.
+
+7. Klijent (pretraživač) prikazuje podatke.
+
+### Struktura projekta
+
+Projekti koji prate MVC arhitekturu su često i monolitni po dizajnu tako ćemo predstaviti jedan monolitni projekat po MVC arhitekturi kao primer:
+
+```
+src
+├───controller
+|   └───UserController.java
+├───model
+|   └───User.java
+└───view
+    └───user
+        └───index.html
+
+```
+
+Ovo je najčešća struktura MVC projekata. Jedna iteracije ove strukture je uvođenje i servisnog layer-a koji je zadužen za domensku logiku dok je model layer zadužen isključivo za komunikaciju sa bazom.
+
+```
+Browser
+↑    ↓
+|    UserController.java
+|    ↓              ↑ ↓
+index.html        User.java
+                    ↑ ↓
+                  Database
+```
+
+Ovakav pristup omogućava lakši razvoj aplikacija jer se prati modularno struktuiranje klasa u projektu. Svi klase zadužene za controller layer se nalaze u controller paketu, view klase u view paketu itd.
+
 ## Kreiranje templating jezika
+
+Obradili smo većinu koncepata za koje će radni okvir biti zadužen da apstrahuje. Preostala su nam dva koncepta: *view templating* i komunikacija sa bazom. U ovom poglavlju obradićemo *view templating* odnosno kreiranje templating jezika koji će nam omogućiti da kreiramo dinamičke strane generisane na serveru (eng. *server-side redndered*).
+
+### Templating jezici
+
+Templating jezici se koriste na serveru za prikaz dinamičkih stranica. Bez templejtinga ne bismo mogli da na jednostavan način u bilo koju stranu ubacimo dinamičke podatke. Na primer: zamislimo da imamo prodavnicu koja ima proizvode. Mi ne možemo bez prethodnog poznavanja broja proizvoda kreirati statičku stranicu. U najgorem slučaju i možemo ručno napisati HTML strane za svaki od proizvoda, ali šta ćemo kada se doda novi proizvod ili pak promeni cena nekog proizvoda. U takvim situacijama na scenu stupa *view templating*. Templating jezik/sistem se sastoji iz dva dela:
+
+1. **Templating engine** - engine koji generiše dinamičke stranice na osnovu template-a i podataka.
+
+2. **Template** - template je fajl koji sadrži statički deo stranice i specijalne tagove koji se koriste za dinamičko popunjavanje strane podacima.
+
+Templating enigne popunjava template sa podacima i vraća rezultujući fajl klijentu. Templating engine može da koristi različite template jezike. Da bi lakše objasnili šta je templating jezik navešćemo popularne primere istih. Navešćemo primere 4 različita pristupa templejtingu u 3 različita programska jezika:
+
+1. **Jinja2** - Python templating jezik
+
+```jinja2
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Flask Jinja2 Example</title>
+    </head>
+    <body>
+        <h1>Flask Jinja2 Example</h1>
+        <p>Hello, {{ name }}.</p>
+        {{ for item in items }}
+            <p>{{ item }}</p>
+        {{ endfor }}
+    </body>
+</html>
+```
+Jinja2 zasniva na sintaksi koja je slična Pythonu. Ovaj templating jezik je popularan u Python okruženju. Koristi `{{` i `}}` za indikovanje template blokova.
+
+
+2. **Handlebars** - JavaScript templating jezik
+
+```handlebars
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Handlebars Example</title>
+    </head>
+    <body>
+        <h1>Handlebars Example</h1>
+        <p>Hello, {{name}}.</p>
+        {{#each items}}
+            <p>{{this}}</p>
+        {{/each}}
+    </body>
+</html>
+```
+
+Handlebars je templating jezik koji je popularan u JavaScript okruženju. Takođe kao i **Jinja2** koristi `{{` i `}}` za indikovanje template blokova. Handlebars jezik je sličan Mustache jeziku.
+
+3. **JSP** - Java templating jezik
+
+```jsp
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JSP Example</title>
+    </head>
+    <body>
+        <h1>JSP Example</h1>
+        <p>Hello, <%= name %>.</p>
+        <% for (String item : items) { %>
+            <p><%= item %></p>
+        <% } %>
+    </body>
+</html>
+```
+
+JSP je templating jezik koji je popularan u Java okruženju. Ovaj templating jezik koristi `<%` i `%>` za indikovanje template blokova. U JSP blokovima koji se inače zovu *skriptleti* (eng. *scriptlets*) možemo da pišemo gotovo sve funkcionalnosti Java programskog jezika. JSP je, iako relativno zastareo, veoma moćan jezik.
+
+4. **Thymeleaf** - Java templating jezik
+
+```thymeleaf
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Thymeleaf Example</title>
+    </head>
+    <body>
+        <h1>Thymeleaf Example</h1>
+        <p th:text="'Hello, ' + ${name} + '.'"></p>
+        <p th:each="item : ${items}">
+            <span th:text="${item}"></span>
+        </p>
+    </body>
+</html>
+```
+
+Thymeleaf je templating jezik koji je popularan u Java okruženju i prirodni naslednik JSP-a. Ovaj templating jezik koristi `th:` za indikovanje template blokova. Thymeleaf se umnogome razlikuje od prethodnih template jezika u tome što se bez problema može interpretirati kao čista HTML strana jer su sve njegove funkcionalnosti u strane "markirane" kao HTML5 atributi. Ovo može da bude od velike pomoći prilikom razvoja dizajna stranice jer ne moramo da imamo funkcionalni backend aplikaciju da bismo prikazali sam HTML sadržaj.
+
+### Templating engine
+
+Templating engine je program koji se koristi za generisanje dinamičkih stranica na osnovu template-a i podataka. Templating engine može da koristi različite template jezike. Templating engine se sastoji iz dva dela:
+
+1. **Prevodilac** - (eng. *compiler*) prevodilac koji parisra (prevodi) template i generiše apstraktno sintaksno stablo - AST (eng. *abstract syntax tree*) template-a. Template parser se sastoji iz dva dela:
+
+    1. **Lexer** - lexer koji parsira template i generiše tokene. Tokeni su strukture koje sadrže informacije o tipu tokena i njegovoj vrednosti. Primer tokena je `{{` koji označava početak template bloka ili `if` koji označava if petlju.
+
+        Lexer za zadatak ima da tekst template-a pretvori u tokene koji imaju veću semantičku vrednosti. Na primer sledeće parče koda:
+        ```
+        if (user == null) {
+            return "Hello, guest.";
+        } else {
+            return "Hello, " + user;
+        }
+        ```
+        bi se leksiralo u tokene:
+        ```
+        IF, LPAREN, IDENTIFIER, EQUAL, NULL, RPAREN, LBRACE,
+            RETURN, STRING, SEMICOLON,
+        RBRACE, ELSE, LBRACE,
+            RETURN, STRING, PLUS, IDENTIFIER, SEMICOLON,
+        RBRACE
+        ```
+
+        Ovakav format podataka je mnogo lakši za parsiranje u AST u sledećem koraku.
+
+    2. **Parser** - sam parser koji parsira tokene i generiše AST. AST je struktura koja sadrži informacije o strukturi jezika. AST čvor uglavnom ima vrednost i levu i desnu stranu.
+
+        Parser ima za zadatak da tokene na osnovu pravila sintakste programskog jezika kreira AST koje odgovara prosleđenim tokenima. Ako dođe do nepoklapanja pravila jezika sa očekivanim tokenima u toku parsiranja stabla nastaju tzv. sintaksne greške koje programer mora da ispravi.
+
+        Prethodni primer bi se parsirao na sledeći način parsirao u AST:
+        ```
+        # skratili smo neka od imena čvorova radi preglednosti
+
+                     IF
+                    /|\
+                   / | \ 
+                  /  |  \ 
+                 /   EQ  \
+                /   /  \  \
+               / IDEN  NULL\
+              /             \
+             BLOCK          BLOCK
+              |              |
+             RET            RET
+              |              |
+             STR            ADD
+                           /   \
+                         STR   IDEN
+        ```
+
+        Ovakva struktura je manje-više spremna da bude interpretirana i evaluirana u sledećem koraku.
+
+2. **Interpretator** - interpretator (eng. *interpreter*) evaluira AST generisano u koraku kompajliranja i na osnovu njega generiše dinamičku stranu.
+    
+    Interpretator uzima početni čvor AST-a i redom po pravilima svakog čvora evaluira njegovu vrednost. Na primer, ako se u AST-u nađe čvor `ADD` interpretator će evaluirati vrednost njegovih levog i desnog čvora i zatim će izračunati njihovu vrednost - to će biti vrednost `ADD` čvora. Ako se u AST-u nađe čvor `IF` interpretator će evaluirati vrednost njegovog uslova i zatim će evaluirati vrednost njegovog bloka ako je uslov ispunjen. Finalni razultat ove interpretacije, u slučaju template engine-a biće validan HTML string koje će biti vraćen klijentu.
+
+    Interpretator je najbitniji deo templating engine-a jer je on onaj koji evaluira AST i generiše dinamičku stranicu. Interpretator je najčešće implementiran kao rekurzivna funkcija koja prolazi kroz AST i evaluira njegove čvorove. Interpretator pored evaluacije vodi računa o konceptima programskog jezika kao što su globalne i lokalne promenljive, uvoz klasa i fajlova itd. Više o svim ovim konceptima govorićemo kada budemo obrđivali njihovu implementaciju u radnom okviru.
 
 ## ORM i komunikacija sa bazom
 
+Na kraju, dolazimo do poslednje stavke koju ćemo teorijski obraditi. To je pojam ORM-a i komunikacije sa bazama podataka. Komunikacija sa bazom podataka je jedan od integralnih delova svake web aplikacije. Osim prezentacionih sajtova gotovo svaki sistem ima neki vid čuvanja (eng. *persistence*) podataka. Operacije na bazom podataka mogu biti obavljene na dva načina: direktno koristeći driver/biblioteku ili putem ORM-a koji apstrahuje sve operacije nad bazom u pozive metoda nad objektima/strukturama u jeziku u kome je implementiran.
+
+### Direktan pristup
+
+Kod direktnog pristupa bazi mi uglavnom ručno pišemo i popunjavamo upite ka samoj bazi. Primer ovog pristupa bio bi JDBC u Javi:
+
+```java
+// konekcija na bazu
+Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/mydb", "user", "password");
+
+// kreiranje upita
+PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE id = ?");
+stmt.setInt(1, 1);
+
+// izvršavanje upita
+ResultSet rs = stmt.executeQuery();
+
+// čitanje rezultata
+while (rs.next()) {
+    System.out.println(rs.getString("name"));
+}
+```
+
+Ovaj pristup ima nekoliko nedostataka. Ručno popunjavanje upita je veoma neefikasno i često dovodi do SQL injection napada. Kod se često duplira i kod kompleksnijih upita kod često bude teško održiv. Takođe, prilikom promene bilo koje od klasa za koje imamo napisane upite postoji velika šansa da ćemo morati većinu njih da ponovo napišemo. Takođe, bez dodatne konfiguracije upiti ne podležu sintaksnim proverama tako da bez integracionih testova greške u upitima ćemo otkriti tek u runtime-u. Kada su u pitanju performanse direktan pristup bazi i maksimalna fleksibilnost u kreiranju upita može da bude pogodna. Često se ORM pristup izbegava kod kompleksnih upita ili se pribegava pristupu kreiranja pogleda (eng. *view*).
+
+### ORM pristup
+
+**Object-relational mapping** ili ORM je pristup gde biblioteka pruža zajednički interfejs ka bilo kojoj podržanoj bazi podataka kroz klase/strukture u tom jeziku za koji je pisana. Primer ORM-a u Java programskom jeziku je **Hibernate**. Hibernate, ili bilo koji drugi ORM, koristi izmene nad objektima modelskih klasa da kreira upite koji će ekvivalentni red u bazi izmeniti u skladu sa izmenama na objektu. Iz toga proizilazi da je objekat mapiran u bazi podataka, odnosno tako dolazimo do *objektno-relacionog* mapiranja. S obzirom na to da se ORM često konfiguriše na osnovu runtime inspekcije podataka (pričali smo o Reflection) dolazi do problema sa performansama koje nekad mogu biti razlog zašto nekad ne želimo da koristimo ORM.
+
+Primer korišćenja ORM-a u Javi:
+
+```java
+// kreiranje sesije
+
+Session session = HibernateUtil.getSessionFactory().openSession();
+session.beginTransaction();
+
+// kreiranje objekta
+User user = new User();
+user.setName("John Doe");
+user.setAge(25);
+
+// čuvanje objekta u bazi
+session.save(user);
+
+// čitanje objekta iz baze
+User user = (User) session.get(User.class, 1);
+
+// izmena objekta
+user.setName("Jane Doe");
+
+// čuvanje izmena
+session.update(user);
+
+// brisanje objekta
+session.delete(user);
+
+// zatvaranje sesije
+session.getTransaction().commit();
+session.close();
+```
+
+Kao što vidimo ORM pruža veoma jednostavan i fleksibilan pristup radu sa bazom podataka. Vidimo da ne moramo da imamo bilo kakvu informaciju o tome koja je baza podataka u pitanju jer će ORM generisati sve upite prilikom obavljanja operacija. Ukoliko se koristi ORM pristup, često se koristi i *migration* alat koji omogućava da se model baze podataka nesmetano modifikuje u skladu sa modifikacijom klasa, u ORM terminologiji - entiteta (eng. *entity*). Neki od poznatijih Java migracionih alata su **Flyway** i **Liquibase**. Oni omogućavaju verzioniranje modela baze time što se svaka izmena baze beleži kroz migracione skripte. Na taj način postiže to da je model baze uvek ponovljiv i na novim mašinama i serverima na kojim se vrši deployment aplikacije.
+
+### Query builder pristup
+
+Još jedan od pristupa za komunikaciju sa bazom podataka je *query builder* pristup. Ovaj pristup leži negde između pisanja upita i korišćenja ORM-a. Kod korišćenja query buildera imamo benefite validacije upita jer koristimo dinamički interfejs (neka vrsta DSL-a) i benefite performansi koje nam daje korišćenje upita.
+
+Primer korišćenja **Querydsl** query buildera u Javi:
+
+```java
+// kreiranje upita
+JPAQuery query = new JPAQuery(em);
+QUser user = QUser.user;
+List<User> users = query.from(user).where(user.name.eq("John Doe")).list(user);
+
+// izmena user-a
+JPAUpdateClause update = new JPAUpdateClause(em, user);
+update.where(user.name.eq("John Doe")).set(user.name, "Jane Doe").execute();
+
+// brisanje user-a
+JPADeleteClause delete = new JPADeleteClause(em, user);
+delete.where(user.name.eq("John Doe")).execute();
+```
+
+### Zaključak
+
+Koji god pristup izaberemo moramo imati na umu koje zahteve imamo koji se tiču performansi, obim i kompleksnost modela, održavanje itd. ali u većini slučajeva ORM je sasvim zadovoljavajuće rešenje koje umnogome olakšava razvoj web aplikacija.
+
+Sada kada imamo teorijsku osnovu šta sve jedan radni okvir treba da pokrije možemo da krenemo sa objašnjenjem kako je svaki od tih koncepata implementiran u **Grain** radnom okviru.
+
 # Studija slučaja
+
+## Grain
+
+**Grain** je radni okvir koji je nastao kao rezultat potrebe za jednostavnim i fleksibilnim alatom za razvoj web aplikacija. Uz pomoć **Grain** radnog okvira možemo da razvijamo web aplikacije u **Java** programskom jeziku koje lako mogu da budu proširene bilo kojim drugim bibliotekama jer Grain framework sam po sebi podržava **dependency injection**. Grain radnom okviru je velika inspiracija **Spring** i **Spring Boot**, što ćemo videti u narednim primerima. Primeri će se sastojati od proširenja koncepta koji je opisan u poglavlju gde smo obrađivali teorijsku postavku, primera u Grain radnom okviru, primera u Spring Boot-u i opisa implementacije.
+
+## HTTP
+
+Prva i osnovna funkcionalnost web okvira je da ima mogućnost kreiranja servera odnosno proces koji može da razmenjuje informacije HTTP protokolom. Za potrebe ove funkcionalnosti proces mora da ima mogućnost da otvori osluškujući (eng. *listening*) *socket* na *host* računaru. Zatim da čita podatke koji stižu na taj socket u neblokirajućem (eng. *non-blocking*) režimu - što će reći paralelno koristeći više niti (eng. *thread*). Pročitane podatke mora parsirati u HTTP zahtev i imati mogućnost da HTTP odgovor upiše nazad.
+
+### Primer
+
+Implementacija osnovnog HTTP servera koji vraća bazični odgovor na HTTP zahtev:
+
+```java
+@SpringBootApplication
+public class HttpServerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(HttpServerApplication.class, args);
+    }
+
+    @Controller
+    @RequestMapping("/")
+    public class HttpServerController {
+        @GetMapping
+        public @ResponseBody String index() {
+            return "Hello World!";
+        }
+    }
+}
+```
+
+Nakon startovanja ove Spring Boot aplikacije ukoliko u pretraživaču odemo na `http://localhost:8080` dobićemo odgovor `Hello World!`. Vidimo da postoji veoma malo koda koji mora biti napisan da bi se dobila ova bazična funkcionalnost. Neki delovi koda mogu i da budu obrisani ali su ostavljeni zbog čitljivosti.
+
+Ekvivalentna implementacija u Grain radnom okviru:
+
+```java
+public class HttpServerApplication extends GrainApp {
+    public static void main(String[] args) {
+        GrainAppRunner.run(HttpServerApplication.class);
+    }
+
+    @Controller
+    @RequestMapping("/")
+    public class HttpServerController {
+        @GetMapping
+        public String index() {
+            return "Hello World!";
+        }
+    }
+}
+```
+
+Možemo da vidimo da su implementacije ove funkcionalnosti veoma slične u oba radna okvira. Kao i kod Spring aplikacije odlaskom na `http://localhost:8080` dobićemo odgovor `Hello World!`.
+
+### Implementacija
+
+U nastavku ćemo detaljnije objasniti kako je implementirana osnovna funkcionalnost HTTP servera u Grain radnom okviru. Iako je ovo veoma bazična funkcionalnost, da bi došli od `GrainAppRunner.run()` do `Hello World!` u pretraživaču moramo da konfigurišemo nekoliko podsistema.
+
+Prilikom startovanja aplikacije `GrainAppRunner` kreira i konfiguriše instancu klase `GrainApp` odnosno korisničke klase koja nasleđuje `GrainApp`.
+
+Koraci inicijalizacije su sledeći:
+
+1. Kreiranje `Configuration` objekta i učitavanje konfiguracije
+
+    `Configuration` objekat sadrži sve ključ-vrednost parove koji predstavljaju kofiguraciona podešavanja za framework. On je neophodan za inicijalizaciju aplikacije jer postoje parametri koji utiču na istu.
+
+    1.0. Učitavanje aktivnih profila - profili su podešeni koristeći `GRAIN_PROFILES_ACTIVE` environment promenljivu 
+
+    1.1. Učitavanje konfiguracije iz `application.properties` fajla i odgovarajućih `.properties` fajlova na osnovu aktivnog profila.
+
+    1.1. Učitavanje konfiguracije iz okruženja (eng. *environment*). Ova konfiguracija ima prednost u odnosu na `.properties` fajlove.
+
+    ```java
+    String profilesString = Optional.ofNullable(System.getenv(PROFILES_ENV_VARIABLE))
+            .orElse(",");
+
+    // učitavanje profila iz okruženja
+    List<String> profiles = Arrays.stream(profilesString
+                    .split("\\s*,\\s*"))
+            .collect(Collectors.toList());
+
+
+    // učitavanje konfiguracije iz .properties fajlova
+    PropertiesResolver propertiesResolver = new PropertiesResolver(profiles);
+    propertiesResolver.resolve("META-INF/application",
+            properties::load);
+    propertiesResolver.resolve("application",
+            properties::load);
+
+    // učitavanje konfiguracije iz okruženja
+    EnvironmentResolver environmentResolver = new EnvironmentResolver();
+    environmentResolver.resolve(this::set);
+
+    // vraćanje konfiguracije u okruženje (environment)
+    // ovo olakšava pristup konfiguraciji iz drugih delova aplikacije
+    // koji zahtevaju svoje konfiguracione fajlove tako da i one mogu
+    // biti konfigurisane preko .properties fajlova
+    properties.forEach((key, value) ->
+            System.setProperty(key.toString(), value.toString()));
+    ```
+
+2. Kreiranje `ApplicationContext` objekta
+    
+    `ApplicationContext` interfejs predstavlja srž aplikacije. On sadrži `DependencyContainer` koji sadrži sve inicijalizovane komponente koje su kreiranje u toku umetanja zavisnosti. O tome ćemo govoriti u kasnijem poglavlju. Ovaj kontekst objekat ima jednu statičku instancu kojoj se može pristupiti putem `ApplicationContextHolder` singltona. `ApplicationContext` se takođe može ručno instancirati koristeći `ApplicationContextImpl` klasu koja mu je ujedno i jedina implementacija.
+
+    2.1. Odigravanje dependency injection životnog ciklusa - `ApplicationContext` je zadužen za pokretanje dependency injection životnog ciklusa:
+
+    ```java
+    public ApplicationContextImpl(String basePackage, Configuration configuration) {
+        this.basePackage = basePackage;
+        this.configuration = configuration;
+        // kreiramo injector
+        GrainInjector injector = new GrainInjector(configuration);
+
+        // ucitavamo sve klase koje su anotirane sa odgovarajućim anotacijama
+        Set<Class<?>> classes = Arrays.stream(new String[]{GrainApp.getBasePackage(), basePackage})
+            .flatMap(pkg -> new GrainJarClassLoader(pkg)
+                .loadClasses(cl -> !cl.isAnnotation() && isAnnotationPresent(cl, Grain.class))
+                .stream())
+            .collect(Collectors.toCollection(LinkedHashSet::new));
+        // dodajemo sve klase u dependency injection pipeline
+        injector.inject(classes);
+
+        // preuzimamo gotov konfigurisan dependency container
+        // koji je zadužen za čuvanje svih inicijalizovanih komponenti
+        this.dependencyContainer = grainInitializer.getContainer();
+    }
+
+    ```
+3. Otvaranje socket-a za HTTP server
+
+    Socket mora da bude spreman da paralelno obrađuje zahteve. Stoga kreiramo thread-pool koji je zadužen za to.
+
+    ```java
+
+    // kreiramo thread pool koji će biti zadužen za obradu zahteva
+    ExecutorService executor = Executors.newFixedThreadPool(configuration.getInt(ConfigurationKey.SERVER_THREADS));
+
+    // kreiramo server socket
+    try (ServerSocket serverSocket = new ServerSocket(configuration.getInt(ConfigurationKey.SERVER_PORT), -1, InetAddress.getByName(configuration.get(ConfigurationKey.SERVER_HOST)))) {
+
+        // sve dok je aplikacija "running" slušamo zahteve
+        // i izvršavamo ih u thread pool-u
+        while (running) {
+            Socket socket = serverSocket.accept();
+            executor.execute(new RequestHandlerRunnable(context, socket));
+        }
+
+    } catch (UnknownHostException e) {
+        throw new AppInitializationException("Unable to resolve host " + configuration.get(ConfigurationKey.SERVER_HOST), e);
+    } catch (IOException e) {
+        throw new AppInitializationException("Unable to create server socket", e);
+    }
+    ```
+
+    Za opsluživanje zahteva koristimo `RequestHandlerRunnable` koji je zadužen za parsiranje zahteva, pozivanje odgovarajućeg "handlera" i slanje odgovora. Ova klasa naravno implementira `Runnable` interfejs koji joj omugućava da se izvršava na odvojenom thread-u. Više o ovoj klasi ćemo govoriti kada budemo pričali o tome kako se procesuira HTTP zahtev.
+
+Po završetku ovih koraka imamo kreiran HTTP server koji je spreman da sluša zahteve na podrazumevanom port-u 8080.
+
+```log
+17-10-2022 12:37:42.227   DEBUG - [           main] c._.grain.core.component.GrainInjector   : Evaluating @Value annotations
+17-10-2022 12:37:42.227   DEBUG - [           main] c._.grain.core.component.GrainInjector   : Calling lifecycle methods
+17-10-2022 12:37:42.233   DEBUG - [           main] c._.grain.core.component.GrainInjector   : Loaded 51 Grain classes
+17-10-2022 12:37:42.233    INFO - [           main] com._7aske.grain.GrainApp                : Initialized application context
+17-10-2022 12:37:42.233   DEBUG - [           main] com._7aske.grain.GrainAppRunner          : Startup took 1614ms
+17-10-2022 12:37:42.233    INFO - [           main] com._7aske.grain.GrainApp                : Started Grain application on 0.0.0.0:8080
+```
 
 # Primer gotove aplikacije
 

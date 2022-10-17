@@ -57,8 +57,7 @@ Quarkus je Java framework prilagođen za Kubernetes deployment. Glavne tehnologi
 
 ### DropWizard
 
-DropWizard je open-source Java radni okvir za razvoj visoko-performantnih, ops-friendly, RESTful web servisa. DropWizard sa sobom povlači stabilne i zrele java biblioteke iz Java ekosistema u jednostavan, lak paket koji omogućava developerima da se fokusiraju na obavljanje zbog posla.
-
+DropWizard je open-source Java radni okvir za razvoj visoko-performantnih, ops-friendly, RESTful web servisa. DropWizard sa sobom povlači stabilne i zrele Java biblioteke iz Java ekosistema u jednostavan, lak paket koji omogućava developerima da se fokusiraju na obavljanje sbog posla.
 ### Spring Boot
 
 Spring Framework je open-source radni okvir i IoC(inversion of control) kontejner za Java platformu. Jedna od glavnih odlika Spring-a je da se on može koristiti u bilo kojoj Java aplikaciji ali se najčešće koristi za izradu web aplikacija na Java EE (Java Enterprise Edition) platformi. Spring zajedno sa Spring Boot-om je *de facto* standard za izradu web aplikacija.
@@ -950,6 +949,374 @@ Po završetku ovih koraka imamo kreiran HTTP server koji je spreman da sluša za
 17-10-2022 12:37:42.233   DEBUG - [           main] com._7aske.grain.GrainAppRunner          : Startup took 1614ms
 17-10-2022 12:37:42.233    INFO - [           main] com._7aske.grain.GrainApp                : Started Grain application on 0.0.0.0:8080
 ```
+
+### Klasni dijagram toka HTTP zahteva
+
+![Tok HTTP zahteva](./assets/RequestHandlerRunnable.png)
+<div align="center">
+Sl. 7 - <i>Tok HTTP zahteva</i>
+</div>
+
+Na dijagramu vidimo sve klase koje su relevantne za tok jednog HTTP zahteva u Grain radnom okviru. Redom ćemo objasniti koje klase imaju koji svrhu i šta se dešava sa HTTP zahtevom kada on pristigne u aplikaciju.
+
+Inicijalni "accept loop" se nalazi u `GrainApp` klasi i on je odgovoran za prihvatanje zahteva metodom `ServerSocket#accept`. Ova metoda je blokirajuća tako da odmah pri ostvarivanju konekcije obradu zahteva šaljemo u *thread pool* pomoću klase `RequestHandlerRunnable`.
+
+`RequestHandlerRunnable` je klasa koja nasleđuje `Runnable` interfejs i odgovorna je za obradu zahteva. Ovde parsiramo HTTP zahtev koristeći `HttpRequestParser` klasu. Ova klasa je dizajnirana tako da parsira HTTP zahtev po HTTP/1.1 specifikaciji o kojoj smo već govorili.
+
+```java
+// kreiramo buffer za čitanje zahteva
+byte[] byteBuffer = new byte[BYTE_BUF_SIZE];
+
+int n;
+do {
+    // čitamo zahtev
+    n = reader.read(byteBuffer);
+    for (int i = 0; i < n; ++i) {
+        // kopiramo učitane bajtove u StringBuffer zahteva
+        buffer.append((char) byteBuffer[i]);
+    }
+} while (n == byteBuffer.length);
+
+// proveravamo da li za zahtev zavrišava sa CRLF
+int crlfIndex = buffer.indexOf(CRLF);
+if (crlfIndex == -1) {
+    throw new HttpParsingException();
+}
+
+// parsiramo request line
+String requestLineString = buffer.substring(0, crlfIndex);
+String[] requestLineParts = requestLineString.split(" ");
+
+// ako request line nije parsiran kako treba bacamo izuzetak
+if (requestLineParts.length != 3) {
+    throw new HttpParsingException();
+}
+
+// parsirane delove request line-a setujemo u HttpRequest objekat
+request.setMethod(HttpMethod.resolve(requestLineParts[0]));
+request.setPath(requestLineParts[1]);
+request.setVersion(requestLineParts[2]);
+```
+
+Ovo parče koda u `HttpRequestParser` klasi je odgovorno za učitavanje zahteva u memoriju i parsiranje prvog i osnovnog dela svakog HTTP zahteva - *request line*-a. Kao što smo već imali prilike da pomenemo *request line* daje osnosnve informacije o HTTP zahtevu kao što su HTTP metoda, resurs koji je zahtevan i verzija HTTP protokola. Naredni koraci su učitavanje zaglavlja i tela zahteva.
+
+Nakon parsiranja zahtev je dostupan u `RequestHandlerRunnable` klasi i možemo ga proslediti u odgovarajući *handler* koji će obraditi zahtev i vratiti odgovor. Doduše pre nego što dođemo do odluke o tome šta ćemo dalje sa zahtevom moramo da inicijalizujemo sesiju koristeći `SessionInitializer` interfejs i setujemo autentikaciju koristeći `HttpRequestAuthenticationProviderStrategy` interfejs. `SessionInitializer` je interfejs koji po default-u ima samo jednu implementaciju a to je `CookieSessionInitializer` što znači da će on omogućiti radnom okviru da prati sesiju korisnika koristeći HTTP kolačiće. `SessionInitializer` kreira jedinstveni identifikator za svaki kolačić i taj identifikator čuva u memoriji. Na osnovu identifikatora moguće je čuvati i povratiti informacije o korisniku koristeći `SessionStore`. Rekli smo da se podaci i identifikator sesije čuvaju u memoriji - to se dešava zbog toga što je jedina implementacija `SessionStore` interfejsa `InMemorySessionStore`. Jedan od dizajn fokusa u radnom okviru je bio *Dependency Inversion* - jedan od SOLID principa koji nalaže da klase treba da zavise od apstraktnih klasa i interfejsa pre nego od konkretnih klasa. U ovom, kao i mnogim drugim, moguće je implementirati komponentu koja implementira `SessionStore` interfejs i time zamenimo funkcionalnosti čuvanja podataka u memoriji npr. čuvanjem podataka u bazi ili nekom drugom servisu.
+
+Posle inicijalizovanja sesije naredni korak je učitavanje autentikacije. Ovo funkcioniše takođe pomoću `SessionStore` interfejsa u čijoj implementaciji su sačuvani podaci o korisniku koji su vezani za autentifikovanje i autorizovanje. Za konfigurisanje metoda koji koristimo za dobavljanje podataka za autentikaciju koristimo *Strategy* dizajn šablon i interfejs `HttpRequestAuthenticationProviderStrategy`. Više o autentikaciji i autorizaciji u nastavku.
+
+Kada su sesija i autentikacija konfigurisani naredni korak ne pronaći *handler* koji će procesuirati zahtev. Svi dostupni *handler*-i moraju da implementiraju `RequestHandler` interfejs koji otkriva metode kao što su `canHandle` i `handle` koje služe za proveru da li *handler* može da procesuira zahtev i procesuiranje zahteva, respektivno. Dostupni *handler*-i su:
+
+1. `StaticLocationHandler` - *handler* koji služi za obradu statičkih resursa kao što su slike, CSS fajlovi, JavaScript fajlovi, itd.
+
+    `StaticLocationHandler` se koristi sa serviranje statičkih fajlova. Ovaj *handler* sadrži listu lokacija u kojima će pretraživati fajlove koji odgovaraju URL-u zahteva. Implementacija `handle` metode:
+    
+    ```java
+    @Override
+    public void handle(HttpRequest request, HttpResponse response) {
+        // kreiramo apsolutnu putanju do fajla imajući u vidu registrovanu lokaciju
+        // handlera i URL zahteva
+        Path path = Paths.get(location, request.getPath());
+
+        try (InputStream inputStream = getInputStream(path)) {
+            // parsiramo ekstenziju fajla u cilju određivanja MIME tipa
+            response.setHeader(HttpHeaders.CONTENT_TYPE, probeContentTypeNoThrow(path, "text/html"));
+
+            // čitamo sadržaj fajla i upisujemo ga u telo odgovora
+            response.getOutputStream().write(inputStream.readAllBytes());
+
+            // postavljamo status odgovora na 200 OK
+            response.setStatus(HttpStatus.OK);
+
+            request.setHandled(true);
+        } catch (IOException ex) {
+            throw new HttpException.NotFound(request.getPath());
+        }
+    }
+    ```
+
+2. `ControllerMethodHandler` - *handler* koji služi za obradu zahteva pomoću metoda definisanim u kontrolerskim klasama.
+
+    `ControllerMethodHandler` je najkompleksniji od svih handlera. On mora da koristi informacije dobijene putem Reflection-a da bi mogao da zna kako da parsira svaki request. Na osnovu povratne metode u kontroleru možemo da vratimo klijentu različite odgovore: tekst, HTML stranu, JSON itd. Takođe metode kontrolera imaju mogućnost da prime različite vrednosti iz zahteva kao svoje parametre. U zavisnosti od tipa parametra metoda kontrolera može da primi `HttpResponse`, `HttpRequest`, bilo koju vrednost anotiruanu sa `@RequestBody`, mapu header-a itd. Kontroler metoda može biti registrovana za odrđenu putanju korišćenjem `@RequestMapping` anotacije i njenih specijalizacija.
+
+    Implementacija `handle` metode:
+    
+    ```java
+    @Override
+    public void handle(HttpRequest request, HttpResponse response) throws IOException {
+
+        // parsiramo parametre handler metode
+        Parameter[] declaredParams = method.getParameters();
+        Object[] params = new Object[declaredParams.length];
+        for (int i = 0; i < declaredParams.length; i++) {
+            Parameter param = declaredParams[i];
+            if (param.getType().equals(HttpRequest.class)) {
+                params[i] = request;
+            } else if (param.getType().equals(HttpResponse.class)) {
+                params[i] = response;
+            } else if (param.getType().equals(Session.class)) {
+                params[i] = request.getSession();
+            } else if (param.isAnnotationPresent(JsonBody.class)) {
+                params[i] = new JsonDeserializer<>(param.getType()).deserialize((JsonObject) request.getBody());
+            } else if (param.isAnnotationPresent(FormBody.class)) {
+                // ...
+            } else if (param.isAnnotationPresent(RequestParam.class)) {
+                // ...
+            } else if (param.isAnnotationPresent(PathVariable.class)) {
+                // ...
+            } else if (Map.class.isAssignableFrom(param.getType())) {
+                params[i] = ((JsonObject) request.getBody()).getData();
+            }
+        }
+
+        // pozivamo handler metodu sa prilagođenim parametrima
+        Object result = method.invoke(params);
+
+        // upisujemo body odgovora na osnovu povratnog tipa rezultata metode
+        if (result == null) {
+            String requestContentType = request.getHeader(CONTENT_TYPE);
+            response.setHeader(CONTENT_TYPE, requestContentType == null ? HttpContentType.TEXT_PLAIN : requestContentType);
+        } else if (result instanceof View) {
+            viewResolver.resolve((View) result, request, response, request.getSession(), SecurityContextHolder.getContext().getAuthentication());
+        } else if (result instanceof JsonResponse) {
+            response.setStatus(((JsonResponse<?>) result).getStatus());
+            response.getOutputStream().write(((JsonResponse<?>) result).getBody().toJsonString().getBytes());
+            response.addHeaders(((JsonResponse<?>) result).getHeaders());
+        } else if (result instanceof JsonString) {
+            response.getOutputStream().write(((JsonString) result).toJsonString().getBytes());
+            response.setHeader(CONTENT_TYPE, HttpContentType.APPLICATION_JSON);
+        } else if (result instanceof Object[]) {
+            response.getOutputStream().write(new JsonArray((Object[]) result).toJsonString().getBytes());
+            response.setHeader(CONTENT_TYPE, HttpContentType.APPLICATION_JSON);
+        } else if (result instanceof String) {
+            // ...
+        } else {
+            response.getOutputStream().write(result.toString().getBytes());
+        if (response.getHeader(CONTENT_TYPE) == null)
+            response.setHeader(CONTENT_TYPE, HttpContentType.TEXT_PLAIN);
+        }
+
+        request.setHandled(true);
+    }
+    ```
+
+3. `MiddlewareRequestHandler` - *handler* se poziva pre svakog zahteva i služi za proširivanje funkcionalnosti postojećih *handler*-a, proveru podataka iz zahteva itd.
+
+    Middleware ima najprostiju implementaciju od svih handlera. On samo poziva `handle` metodu. Implementacija Middleware-a je u celosti na korisniku. Middleware a i svi ostali *handler*-i mogu da imaju `@Order` anotaciju koja određuje prioritet kada postoje *handler*-i koji imaju istu putanju.
+
+    Implementacija `handle` metode:
+    
+    ```java
+    @Override
+    public void handle(HttpRequest request, HttpResponse response) {
+        handler.handle(request, response);
+    }
+    ```
+
+Kao što smo rekli *handler*-i imaju metodu `canHandle` koja služi za proveru da li *handler* može da obradi zahtev. Pomoću nje pronalazimo odgovarajući *handler* koji u zavisnosti od implementacije obrađuje zahtev. Ukoliko *handler* nije pronađen aplikacija vraća grešku `404`.
+
+## JSON
+
+JSON je jedan od najpopularnijih formata za razmenu podataka, stoga je bilo fundamentalno da Grain framework ima podršku za njega. Već smo obradili njegovu specifikaciju a sada ćemo pokazati kako je JSON parsiranje implementirano u Grain frameworku.
+
+Klasa `JsonParser` u Grain frameworku se koristi za parsiranje JSON stringa u Java objekat. `JsonParser` se trudi ali ne podržava sve stavke iz JSON specifikacije. Na primer, trenutno, ne podržava razmake u ključevima ili eksponencijalnu notaciju za brojeve, ali zato većinu osnovnih funkcionalnosti parsira kako treba. `JsonParser` koristi `StringIterator` koji olakšava parsiranje teksta. Objašnjenje parsiranja JSON string-a biće od koristi kada budemo pričali o leksiranju teksta pri parsiranju template jezika.
+
+JSON objekat se se sastoji iz ključ/vrednost parova od kojih je ključ bilo koji tekst pod navodnicima(") a vrednost jedan od sledećih tipova:
+
+1. `null` - nulta vrednost
+2. `boolean` - `true` ili `false`
+3. `number` - broj
+4. `string` - tekst pod navodnicima
+5. `array` - niz vrednosti
+6. `object` - novi objekat koji se sastoji iz ključ/vrednost parova
+
+Svaki od ovih tipova se može identifikovati na osnovu prvog karaktera u JSON stringu. Ukoliko je prvi karakter `{` onda je u pitanju objekat, `[` niz, `"`, tekst, `t` ili `f` boolean, `n` nula vrednost, a u svim ostalim slučajevima broj. Na ovaj način je implementiran i `JsonParser`. Naravno ne smemo da zaboravimo da između svake pročitane vrednosti ili ključa "progutamo" sav beli prostor (eng. *whitespace*).
+
+```java
+private Object parseValue() {
+    String token = iterator.peek();
+    switch (token) {
+        case "{":
+            return parseObject();
+        case "[":
+            return parseArray();
+        case "\"":
+            return parseString();
+        default:
+            return parseOther();
+    }
+}
+
+private Object parseOther() {
+    iterator.eatWhitespace();
+    String val = iterator.eatWhile(ch -> !ch.isBlank() && !ch.equals(",") && !ch.equals("}") && !ch.equals("]"));
+    if (val.equals("true")) {
+        return Boolean.TRUE;
+    }
+    if (val.equals("false")) {
+        return Boolean.FALSE;
+    }
+    if (val.equals("null")) {
+        return null;
+    }
+    try {
+        double parsed = Double.parseDouble(val);
+        if (parsed == (int) parsed) {
+            // @Warning this may cause issues with large numbers
+            // but removes a lot of headaches with parsing integer types.
+            return Integer.parseInt(val);
+        } else {
+            return parsed;
+        }
+    } catch (NumberFormatException ex) {
+        throw new JsonDeserializationException("Unexpected token '" + val + "' " + iterator.getInfo());
+    }
+}
+```
+
+Ovako parsiran string se čuva kao `JsonObject` ili `JsonArray` objekat koji je spreman da bude konvertovan u bilo koji drugi Java objekat. Na primer parsirani JSON string možemo iskoristiti da popunimo vrednosti atributa bilo koje druge klase uz pomoć `JsonDeserializer` klase. Reflaction API-jem uzimamo vrednost svakog od atributa (*field*) i na osnovu njegovog tipa parsiramo objekat sačuvan u `JsonObject`-u.
+
+```java
+if (Byte.class.isAssignableFrom(field.getType())) {
+    // ...
+} else if (Byte.class.isAssignableFrom(field.getType())) {
+    // ...
+} else if (Integer.class.isAssignableFrom(field.getType())) {
+    // ...
+} else if (Float.class.isAssignableFrom(field.getType())) {
+    // ...
+} else if (Double.class.isAssignableFrom(field.getType())) {
+    // ...
+} else if (Boolean.class.isAssignableFrom(field.getType())) {
+    // ...
+} else if (Long.class.isAssignableFrom(field.getType())) {
+    // ...
+} else if (Character.class.isAssignableFrom(field.getType())) {
+    // ...
+} else if (String.class.isAssignableFrom(field.getType())) {
+    // ...
+} else {
+    // U svim drugim slučajevima rekurzivno pozivamo JsonDeserializer
+}
+```
+
+Performanse i podržanost JSON parsiranja u Grain framework-u nisu idealne ali su dobar proof of concept. U budućnosti ćemo implementirati nešto bolje.
+
+## Umetanje zavisnosti
+
+Umetanje zavisnosti je jedna od najvažnijih funkcionalnosti svakog modernog framework-a i Grain nije izuzetak. Umetanje zavisnosti nam omogućava da klase definišemo i kreiramo deklarativno. Na primer, definisali smo klasu `UserController` koja koristi `UserService`. Samo time što smo `UserService` iskoristili u konstruktoru definisali smo tu klasu kao zavisnost i framework će nam je sam kreirati. Time izbegavamo probleme sa kreiranjem klasa koje mogu da imaju brdo zavisnih klasa - a da ne pričamo o menadžmentu instanci klasa koje veoma brzo postane neodrživo ako se radi ručno. U Grain frameworku umetanje zavisnosti je implementirano preko `DependencyContainer`-a koji u runtime-u konfiguriše sve komponente(komponente su *Client* objekti definisani ovim šablonom). Komponente su u framework-u nazvane i po njemu samom - grainovi od eng. grains. `DependencyContainer` interfejs definiše par javnih metoda koje framework interno koristi:
+
+```java
+public interface DependencyContainer {
+	void registerGrain(Object grain);
+
+	<T> T getGrain(Class<T> clazz);
+
+	Collection<Object> getGrainsAnnotatedBy(Class<? extends Annotation> clazz);
+
+	<T> Optional<T> getOptionalGrain(Class<T> clazz);
+
+	<T> Collection<T> getGrains(Class<T> clazz);
+}
+```
+
+Prilikom kreiranja `ApplicationContext`-a učitavaju se sve klase iz classpath-a koje su anotirane sa anotacijom `@Grain` ili njenim specijalizacijama se ubacuju u `GrainInjector` koji započinje proces umetanja zavisnosti. Proces umetanja zavisnosti u Grain radnom okviru se sastoji iz par koraka koji se ponavljaju za svaku *Client* klasu:
+
+0. Provera `@Condition` uslova
+    
+    `@Condition` anotacija može da sadrži parče koda pisanog u Grain templating jeziku (koji možemo zvati GTL - *Grain Templating Language). Interpretator jezika evaluira kod i u zavisnosti od povratne vrednosti biramo da li ćemo datu klasu uključiti u umetanje.
+
+1. Kreiranje `Injectable` objekata
+
+    `Injectable` objekti su wrapper klase koje pružaju olakšice kada je u pitanju rad sa informacijama o njenim poljima, metodama i konstruktorima. Naravno ovi objekti čuvaju inicijalizovanu komponentu koja će nam kasnije biti dostupna.
+
+2. Umetanje zavisnosti koje su definisane `@Grain` metodama.
+
+    Pored klasa i metode grainova mogu biti anotirane `@Grain` anotacijom. To označava da je ta metoda zapravo *factory metoda* koja definiše novu zavisnost koju možemo umetnuti kao i bilo koju drugu klasu odnosno komponentu. Ovo je idealan način da integrišemo eksterne biblioteke u aplikacije pisane u framework-u. Naravno sve `@Grain` metode mogu kao i klase da imaju `@Condition` anotaciju čiju vrednost proveravamo takođe u ovom koraku.
+
+3. Dodavanje `Injectable`-a u kontejner.
+
+    `DependencyContainer` je zapravio prioritetni red koje je definisan tako da prilikom iteracije kroz njega prvo vraća zavisnosti koje imaju manje direktnih drugih zavisnosti. Na ova način optimizujemo inicijalizaciju i sprečavamo backtracking u tom procesu. `Injectable` klasa razrešava svoje zavisnosti tako što od sopstvenih polja kreira `InejctableReference` objekte koje možemo da tretiramo, za sada, kao "potencijalne objekte". Njihovo razrešenje na realne instance desiće se kasnije ali za sada su nam potrebni samo da imamo informaciju o tome koliko zavisnsoti koja klasa ima.
+
+4. Provera cirkularnih zavisnosti
+
+    Pre nego što krenemo sa inicijalizacijom i umetanjem moramo da proverimo da li je neke od naših zavisnosti kreiraju zatvoreni graf. U ovom slučaju ne možemo ostvariti validnu inicijalizaciju. Rešenje ovog problema je prebacivanje neke zavisnosti iz inicijalizacije preko konstruktora u inicijalizaciju preko polja anotacijom `@Inject`. Inicijalizacija preko polja se dešava kasnije u odnosu na inicijalizaciju preko konstruktora i time se može razrešiti cirkularna zavisnost.
+
+5. Inicijalizacija komponente
+
+    U ovom koraku se kreira instanca komponente na osnovu njenog konstruktora. Imaju prioritet zavisnsoti koje imaju manje drugih zavisnosti. 
+
+    5.1. Prvi korak je kreiranje instance ove klase. Za ovo je potrebno mapiranje parametara konstruktora na inicijalizovane objekte. Zbog inicijalne provere da li je postoje cirkularne zavisnosti - ovo mapiranje će uvek uspeti. Ukoliko je klasa interfejs kreira se proxy intanca koja ima delegate ka *default* metodama tog interfejsa. 
+
+    5.2. Pozivaju se sve `@Grain` metode novonastale instance. Rezultujuci objekti se registruju u `DependencyContainer`-u.
+
+    5.3. Setuju se sva `@Inejct` polja
+
+6. Popunjavaju se sva polja anotirana sa `@Value`
+
+7. Pozivaju se metode životnog ciklusa (eng. *lifecycle*). Ovo su za sada samo metode anotirane sa `@AfterInit`. U ovim metodama svi parametri su razrešeni na komponente.
+
+
+Nakon svih ovih koraka `DependencyContainer` će imati sve inicijalizovane zavisnosti.
+
+Primer jedne komponente je klasa koja omogućava integraciju sa Hibernate ORM:
+
+```java
+@Grain
+public class HibernateConfiguration {
+
+    @Grain
+    public SessionFactory sessionFactory() {
+        org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
+
+        GrainClassLoader grainClassLoader = new GrainJarClassLoader(GrainTestApp.class.getPackageName());
+        grainClassLoader.loadClasses(cl -> cl.isAnnotationPresent(Entity.class))
+            .forEach(configuration::addAnnotatedClass);
+
+        return configuration.buildSessionFactory();
+    }
+}
+```
+
+I upotreba definisane zavisnosnosti u komponenti:
+
+```java
+@Grain
+public class UserRepository extends BaseRepository<User> {
+    public MovieRepository(SessionFactory sessionFactory) {
+        super(sessionFactory, User.class);
+    }
+    // implementation ...
+}
+```
+
+U ovom slučaju `SessionFactory` je umetnut kroz konstruktor klase `MovieRepository`.
+
+Umetanje zavisnosti nije samo mehanizam koji radni okvir pruža developeru već i mehanizam koji je i u srži njega samog. Navešćemo primer autentikacionog servisa:
+
+```java
+@Grain
+public class FormLoginAuthenticationEntryPoint implements AuthenticationEntryPoint {
+    @Inject
+    private UserService userService;
+    @Inject
+    private PasswordEncoder passwordEncoder;
+    @Inject
+    private SessionStore sessionStore;
+
+    @Override
+    public Authentication authenticate(HttpRequest request, HttpResponse response) throws GrainSecurityException {
+    // implementation ...
+    }
+}
+```
+
+Ovde vidimo da `FormLoginAuthenticationEntryPoint` ima par definisanih zavisnosti koje su umetnute od strane radnog okvira. Ovo je podrazumevana implementacija ove funkcionalnosti i može biti promenjena od strane korisnika definisanjem komponente koja implementira isti interfejs. Sistem za umetanje zavisnosti će prioritizirati komponente definisne van paketa radnog okvira. Ovo je dobar uvod naše sledeće poglavlje koje se bavi autentikacijom i autorizacijom.
+
+## Autentikacija i autorizacija
+
+## Templating jezik
+
+## Komunikacija sa bazom podataka
 
 # Primer gotove aplikacije
 

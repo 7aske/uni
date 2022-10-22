@@ -1884,7 +1884,462 @@ Rezultujući template posle evaluacije u slučaju da je korisnik ulogovan izgled
 
 # Primer gotove aplikacije
 
+Primer aplikacije pisane u Grain radnom okviru biće aplikacija za rezervaciju mesta u bioskopu. Aplikacije će omogućiti bioskopima da na svom sajtu imaju interfejs za korisnike preko koga će moći da rezervišu mesta u salama za projekcije. Aplikacija će imati sledeće funkcionalnosti:
+
+* Registracija korisnika
+
+* Prijavljivanje korisnika
+
+* Pregled filmova
+
+* Pregled projekcija
+
+* Rezervacija mesta
+
+* Administracija
+
+Aplikacija će biti dostupna na sledećem URL-u (ukoliko nije ugašen server): [https://cinema.grain.7aske.xyz](http://cinema.grain.7aske.xyz)
+
+## Početna strana
+
+Na početnoj strani će biti prikazani svi trenutno aktivni filmovi zajedno sa svojim projekcijama.
+
+![Početna strana](./assets/app/index.png)
+<div align="center">
+    Sl 10. - <i>Početna strana</i>
+</div>
+
+Kao što vidimo korisnik ima listu filmova i ispod njih listu projekcija.
+
+
+### Implementacija
+
+```java
+@Controller
+@RequestMapping
+@RequiredArgsConstructor
+public class IndexController {
+  private final UserService userService;
+  private final MovieService movieService;
+
+  @GetMapping
+  public View getIndex(@RequestParam(value = "page", defaultValue = "0,3") Pageable page) {
+    TemplateView dataView = new TemplateView("index.gtl");
+    dataView.addAttribute("movies", movieService.findAll(page));
+    return dataView;
+  }
+
+  @GetMapping("/login")
+  public View getLogin() {
+    return new TemplateView("login.gtl");
+  }
+
+  @GetMapping("/register")
+  public View getRegister() {
+    return new TemplateView("register.gtl");
+  }
+
+  @PostMapping("/register")
+  public String postRegister(@FormBody RegisterUserDto user) {
+    userService.register(user);
+    return "redirect:/login?registered";
+  }
+}
+```
+
+Na primeru vidimo implementaciju kontrolera koji pored prikazivanja početne strane ima i endpointe za registraciju i login koji "renderuju" odgovarajuće stranice.
+
+Kontroler u sebi ima umetnute dve zavisnosti: `UserService` za registraciju i `MovieService` za dobavljanje filmova za prikaz na početnoj strani. Takođe, endpoint početne strane ima jedan parametar koji služi za paginaciju.
+
+
+`MovieService` je jednostavan servis koji implementira **CRUD** operacije nad filmovima:
+
+```java
+@Grain
+@RequiredArgsConstructor
+public class MovieServiceImpl implements MovieService {
+  private final MovieRepository movieRepository;
+
+  @Override
+  public Collection<Movie> findAll() {
+    return findAll(null);
+  }
+
+  @Override
+  public Collection<Movie> findAll(Pageable pageable) {
+    return movieRepository.findAll(pageable);
+  }
+
+  @Override
+  public Movie findById(Long id) {
+    return movieRepository.findById(id);
+  }
+  // ... ostale metode
+}
+```
+
+`MovieService` sadrži jednu zavisnost iz *data access* lejera: `MovieRepository`.
+
+```java
+@Grain
+public class MovieRepository extends BaseRepository<Movie> {
+  public MovieRepository(SessionFactory sessionFactory) {
+    super(sessionFactory, Movie.class);
+  }
+
+  public Collection<Movie> search(String search, Pageable pageable) {
+    EntityManager entityManager = getEntityManager();
+    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+    CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
+    Root<Movie> root = cq.from(Movie.class);
+    CriteriaQuery<Movie> where = cq.select(root)
+        .where(cb.or(
+            cb.like(root.get("title"), wrapLike(search)),
+            cb.like(root.get("description"), wrapLike(search)),
+            cb.like(root.get("genre"), wrapLike(search)),
+            cb.like(root.get("director"), wrapLike(search))
+        ));
+    return entityManager.createQuery(where)
+        .setFirstResult(pageable.getPageOffset())
+        .setMaxResults(pageable.getPageSize())
+        .getResultList();
+  }
+
+  private String wrapLike(String str) {
+    return "%" + str + "%";
+  }
+}
+```
+
+U ovoj klasi se nalazi specifična implementacija `BaseRepostory<T>` klase koja je deo integracije za Hibernate bibliotekom. Jedina metoda koja nije klasična **CRUD** operacija jeste `search` metoda koju vidimo u ovoj klasi. Ostale metode se pozivaju direktno iz nad-klase. U klasi `BaseRepository<T>` vidimo generičku implementaciju CRUD operacija za bilo koju entitetsku klasu. Entitetske klase su klase koje manipuliše Hibernate i one su anotirane `@Entity` anotacijom.
+
+```java
+@RequiredArgsConstructor
+public abstract class BaseRepository<E> {
+  private final SessionFactory sessionFactory;
+  private final Class<E> entityClass;
+
+  protected synchronized EntityManager getEntityManager() {
+    return sessionFactory.createEntityManager();
+  }
+
+  public List<E> findAll(@Nullable Pageable pageable) {
+    EntityManager entityManager = getEntityManager();
+    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+    CriteriaQuery<E> cq = cb.createQuery(entityClass);
+    Root<E> root = cq.from(entityClass);
+    CriteriaQuery<E> where = cq.select(root);
+    Query query = entityManager.createQuery(where);
+    if (pageable != null) {
+      query.setFirstResult(pageable.getPageOffset());
+      query.setMaxResults(pageable.getPageSize());
+    }
+    return query.getResultList();
+  }
+
+  public E findById(@NotNull Long id) {
+    EntityManager entityManager = getEntityManager();
+    return entityManager.find(entityClass, id);
+  }
+
+  public E save(@NotNull E entity) {
+    EntityManager entityManager = getEntityManager();
+    entityManager.getTransaction().begin();
+    entityManager.persist(entity);
+    entityManager.getTransaction().commit();
+    return entity;
+  }
+
+  public E update(@NotNull E entity) {
+    EntityManager entityManager = getEntityManager();
+    entityManager.getTransaction().begin();
+    entityManager.merge(entity);
+    entityManager.getTransaction().commit();
+    return entity;
+  }
+
+  public void delete(@NotNull E entity) {
+    EntityManager entityManager = getEntityManager();
+    entityManager.getTransaction().begin();
+    entityManager.remove(entity);
+    entityManager.getTransaction().commit();
+  }
+}
+```
+`SessionFactory` je komponenta takođe definisana kao deo Hibernate integracije.
+
+```java
+@Grain
+public class HibernateConfiguration {
+
+  @Grain
+  public SessionFactory sessionFactory() {
+    org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
+
+    GrainClassLoader grainClassLoader = new GrainJarClassLoader(CinemaApp.class.getPackageName());
+    grainClassLoader.loadClasses(cl -> cl.isAnnotationPresent(Entity.class))
+        .forEach(configuration::addAnnotatedClass);
+
+    return configuration.buildSessionFactory();
+  }
+}
+```
+
+```properties
+# application.properties
+
+application.name=Grain Cinema
+
+security.enabled=true
+
+hibernate.dialect=org.hibernate.dialect.MariaDBDialect
+hibernate.connection.driver_class=org.mariadb.jdbc.Driver
+hibernate.connection.url=jdbc:mariadb://localhost:3306/cinema
+hibernate.connection.username=root
+hibernate.connection.password=toor
+hibernate.hbm2ddl.auto=update
+hibernate.show_sql=true
+```
+
+Ovde vidimo kako na veoma jednostavan način možemo iskoristiti dva mehanizma koje Grain pruža da konfigurišemo Hibernate. Prvi je da je sva konfiguracija pisana u `application.properties` fajlu automatski deo environment-a iz koga Hibernate takođe čita podatke. Drugi je da možemo da iskoristimo `GrainClassLoader` da dinamički pri pokretanju učitamo i konfigurišemo sve entitetske klase. Ovime imamo veoma elegantnu i minimalnističnu Hibernate integraciju.
+
+Template ove strane je `index.gtl` i relativno je jednostavan. U njemu koristimo GTL fragmente koji nam služe kao *reusable* komponente za prikaz kartica sa filmovima:
+
+```html
+<% include "fragments/import.gtl" as Imports; %>
+<% include "fragments/nav.gtl" as Nav; %>
+<% include "fragments/util/pagination.gtl" as Pagination; %>
+<% include "fragments/index/movie-card.gtl" as MovieCard; %>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <% @Imports() %>
+  <title>Grain | Cinema</title>
+</head>
+<body>
+  <% @Nav() %>
+<main id="index-page" class="container">
+  <div class="row mb-0">
+    <% @Pagination() %>
+  </div>
+  <div class="row">
+    <% foreach (movie in movies) @MovieCard(movie=movie); %>
+  </div>
+</main>
+</body>
+</html>
+```
+
+Na vrhu strane vidimo importovanje GTL fragmenata koje koristimo u samoj strani. `foreach` petlja je najjednostavniji način da prikažemo listu elemenata. Takođe, imamo `Pagination` i `Nav` komponente koje se ponavljaju na par strana.
+
+## Rezervacija
+
+Na strani za rezervacije vidimo interfejs gde ulogovani korisnik može da vidi zauzeta mesta, slobodna mesta i mesta koja je on rezervisao različitim bojama.
+
+![Rezervacija](./assets/app/seats.png)
+<div align="center">
+    Sl. 11 - <i>Rezervacija</i>
+</div>
+
+Klikom na slobodno mesto, korisnik može da rezerviše mesto.
+
+
+### Implementacija
+
+Implementacija kontrolera svih strana prati sličan šablon. Developeri koji su radili na Spring projektima primetiće da ima velike sličnosti sa Spring-om.
+
+```java
+@Controller
+@RequestMapping("/screenings")
+@RequiredArgsConstructor
+public class ScreeningController {
+  public final ScreeningService screeningService;
+
+  // prikazivanje strane za rezervaciju
+  @GetMapping("/{id}")
+  public View index(@PathVariable("id") Long id) {
+    TemplateView view = new TemplateView("pages/screening.gtl");
+    view.addAttribute("screening", screeningService.findById(id));
+    return view;
+  }
+
+  // rezervacija mesta
+  @PostMapping("/{id}/reservations/{number}")
+  public String reserve(@PathVariable("id") Long id, @PathVariable("number") Integer number) {
+    screeningService.reserve(id, number);
+    return "redirect:/screenings/" + id;
+  }
+}
+```
+
+Implementacija template-a:
+
+```html
+<% include "fragments/import.gtl" as Imports; %>
+<% include "fragments/nav.gtl" as Nav; %>
+<% include "fragments/index/movie-card.gtl" as MovieCard; %>
+<% include "fragments/util/spinner.gtl" as Spinner; %>
+<% include "fragments/screening/seat.gtl" as Seat; %>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <% @Imports() %>
+  <title>Grain | Cinema</title>
+</head>
+<body>
+<% @Nav() %>
+<main id="screening-page">
+  <div class="row">
+    <div class="col s12 l2"></div>
+    <div class="col s12 l4">
+      <div class="seats-container card">
+        <h2>Seats<span class="free"><% @Spinner() %></span></h2>
+        <div class="seats">
+          <% foreach(seat in range(screening.getRoom().getSeats()) {
+              @Seat(id = screening.id, number = seat + 1, taken = screening.isSeatTaken(seat + 1), self = screening.isSeatTakenBy(seat + 1, #authentication));
+            } %>
+        </div>
+      </div>
+    </div>
+    <div class="col s12 l4">
+      <div class="row pt-2">
+        <% @MovieCard(movie = screening.getMovie(), cols = 's12') %>
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+  // dobavljanje broja dostupnih mesta za prikaz u zaglavlju
+  document.addEventListener("DOMContentLoaded", () => {
+    fetch("/api/screenings/" + ${screening.id} + "/seats")
+      .then(res => res.text())
+      .then(res => {
+        setTimeout(() =>
+          document.querySelector(".free").innerHTML = "("+res+")", 500)
+    });
+  });
+</script>
+<script>
+  // konfigurisanje click listenera za rezervaciju mesta
+  // ovaj listener submit-uje formu koja je render-ovana
+  // u sklopu seat.gtl fragmenta
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".seat form").forEach(seat => {
+      if (!seat.parentElement.classList.contains("taken") || seat.parentElement.classList.contains("self"))
+        seat.addEventListener("click", seat.submit);
+    });
+  });
+</script>
+</body>
+</html>
+```
+
+`Seat` fragment:
+
+```html
+<div class="seat ${taken ? 'taken' : ''} ${self ? 'self' : ''}">
+  <form method="post" action="/screenings/${id}/reservations/${number}">
+    <img src="/scaled.png" alt="Seat ${number}">
+    <span class="number">${number}</span>
+  </form>
+</div>
+```
+
+Ovaj fragment prikazuje mesto. U zavisnosti od prosleđenih parametara, mesto može biti zauzeto, slobodno ili rezervisano od strane korisnika.
+
+Ova strana je malo kompleksnija od drugih i uključuje API poziv koji vraća broj slobodnih mesta za datu projekciju. Naravno, mogli smo ovu vrednost proslediti template-u pre render-ovanja, ali smo odabrali ovakav pristup da bi demonstrirali asinhrone HTTP pozive u Grain radnom okviru.
+
+```java
+@Controller
+@RequestMapping("/api")
+@RequiredArgsConstructor
+public class ApiController {
+  private final ScreeningService screeningService;
+
+  @GetMapping("/screenings/{screeningId}/seats")
+  public String getRemainingSeats(@PathVariable("screeningId") Long id){
+    return String.valueOf(screeningService.getRemainingSeats(id));
+  }
+}
+```
+
+Ovde vidimo implementaciju endpoint-a koji vraća broj slobodnih mesta za datu projekciju.
+
+## Administracija filmova
+
+Administracija filmova omogućava dodavanje novih filmova, izmenu postojećih i brisanje filmova. Ova strana je dostupna samo administratorima odnosno korisnicima sa `ADMIN` rolom.
+
+![Admin - Pregled filmova](./assets/app/movies.png)
+<div align="center">
+    Sl. 12 - <i>Admin - Pregled filmova</i>
+</div>
+
+![Admin - Izmena filma](./assets/app/movie.png)
+<div align="center">
+    Sl. 12 - <i>Admin - Izmena filma</i>
+</div>
+
+Videli smo princip implementacije kontrolera i strana u Grain radnom okviru tako da nećemo ponavljati kod za svaku od strana. Doduše, ono što je sada idealan trenutak za pokazati, kada već pričamo o rolama, jeste *security* konfiguracija:
+
+```java
+@Grain
+public class SecurityConfig implements SecurityConfigurer {
+  private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
+  @Override
+  public void configure(SecurityConfigurationBuilder sec) {
+    logger.debug("Configuring security");
+    sec.withRules()
+        .urlPattern("/screenings/*/reservations/*").authenticated().and()
+        .urlPattern("/admin/**").authenticated().roles("ADMIN")
+        .buildRules();
+  }
+}
+```
+
+Vidimo da je su endpointi koji se odnose na rezervacije dostupni samo prijavljenim korisnicima, dok je administracija, odnosno svi endpointi koji počinju sa `/admin`, dostupna samo administratorima. Svi ostali endpointi su javni.
+
+`UserService` iz Grain radnog okvira je implementiran u `UserService`-u ove aplikacije na sledeći način:
+
+```java
+@Grain
+@RequiredArgsConstructor
+public class UserServiceImpl implements UserService, com._7aske.grain.security.service.UserService {
+  private final PasswordEncoder passwordEncoder;
+  private final UserRepository userRepository;
+
+  @Override
+  public User findByUsername(String s) throws UserNotFoundException {
+    return userRepository.findByUsername(s)
+        .orElseThrow(UserNotFoundException::new);
+  }
+
+  @Override
+  public User register(RegisterUserDto dto) {
+    if (!Objects.equals(dto.getPassword(), dto.getConfirm())) {
+      throw new PasswordsNotMatchingException("Passwords do not match");
+    }
+    User user = new User();
+    user.setUsername(dto.getUsername());
+    user.setPassword(passwordEncoder.encode(dto.getPassword()));
+    user.setRole(Role.USER);
+    return userRepository.save(user);
+  }
+}
+```
+
+Ova komponenta implementira dva servisa pod istim imenom - iz tog razloga jedna od implementacija mora da ima svoj *FQCN* (*fully classified class name*). Ovaj servis je zadužen za dobavljanje korisnika iz baze prilikom login-a.
+
 # Zaključak
+
+U ovom radu bavili smo se kreiranjem radnog okvira u programskom jeziku Java. Imali smo prilike da vidimo i objasnimo veliki broj kompleksnih koncepata koje koristimo na dnevnom nivou u svom poslu. Od osnova HTTP-a, preko umetanja zavisnosti do kreiranja novog programskog jezika. Između ostalog prezentovali smo i realnu aplikaciju koje je kreirana u Grain-u i koja, naravno, može biti postavljena na realan server kome može pristupiti veliki broj klijenata. Mnogi od ovih koncepata su uzimani zdravo za gotovo, ali je veoma korisno izučiti ih i makar delimično ih implementirati radi jos boljeg razumevanja. Kao što je veliki Ričard Fejnman rekao: *What I cannot create, I do not understand*.
 
 # Reference
 
@@ -1903,3 +2358,7 @@ Rezultujući template posle evaluacije u slučaju da je korisnik ulogovan izgled
 7. YouTube, 2014, *Reverse Polish Notation and The Stack - Computerphile*, Computerphile, [https://www.youtube.com/watch?v=7ha78yWRDlE](https://www.youtube.com/watch?v=7ha78yWRDlE)
 
 8. YouTube, 2017, *Parser and Lexer — How to Create a Compiler part 1/5 — Converting text into an Abstract Syntax Tree*, Bitwit, [https://www.youtube.com/watch?v=eF9qWbuQLuw](https://www.youtube.com/watch?v=eF9qWbuQLuw)
+
+9. Univerzitet Metropolitan - Fakultet Informacionih Tehnologija, *Literatura iz predmeta IT355 Veb sistemi 2*, Vladimir Milićević
+
+10. Univerzitet Metropolitan - Fakultet Informacionih Tehnologija, *Literatura iz predmeta CS103 Algoritmi i strukture podataka*, Miljan Milošević

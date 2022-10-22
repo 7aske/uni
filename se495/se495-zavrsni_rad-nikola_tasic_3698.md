@@ -109,10 +109,10 @@ HTTP zahtevi i HTTP odgovori koriste generički format za poruke definisan u [RF
 
 ```
 generic-message = start-line
-                  *(message-header CRLF)
-                  CRLF
-                  [ message-body ]
-start-line      = Request-Line | Status-Line
+          *(message-header CRLF)
+          CRLF
+          [ message-body ]
+start-line    = Request-Line | Status-Line
 ```
 
 Moramo napomenuti da je **CRLF** oznaka za kraj reda standardna na Windows sistemima (*NIX sistemi koriste samo LF, izuzev starijih verzija OS X-a koji koriste CR). CR predstavlja *carriage return* - znak za povratak na početak reda, dok LF predstavlja *line feed* odnosno novi red. Ovi karakteri postoje u svakom tekstu, naravno u zavisnosti od operativnog sistema, s tim što su nevidljivi. Karakter CR je `0D` u heksadecimalnom zapisu i tekstualna reprezantacija mu je `\r`. Karakter LF je `0A` u hexadecimalnom a tekstualno se prikazuje kao `\n`. Ova nomenklatura je konvencija je zaostavština pisaćih mašina.
@@ -133,11 +133,11 @@ Svako polje se sastoji od imena polja koje je praćeno dvotačkom (":") i vredno
 
 ```
 message-header = field-name ":" [ field-value ]
-field-name     = token
-field-value    = *( field-content | LWS )
+field-name   = token
+field-value  = *( field-content | LWS )
 field-content  = <the OCTETs making up the field-value
-                and consisting of either *TEXT or combinations
-                of token, separators, and quoted-string>
+        and consisting of either *TEXT or combinations
+        of token, separators, and quoted-string>
 ```
 
 #### Telo poruke
@@ -152,11 +152,11 @@ Zahtev klijenta ka serveru se sastoji od **linije zahteva** (eng. *Request-Line*
 
 ```
 Request = Request-Line
-          *(( general-header
-           | request-header
-           | entity-header ) CRLF)
-          CRLF
-          [ message-body ]
+      *(( general-header
+       | request-header
+       | entity-header ) CRLF)
+      CRLF
+      [ message-body ]
 ```
 
 Linija zahteva se sastoji iz tri dela: HTTP metode, zahtevanog resursa (URI - uniform resource identifier) i verzije HTTP protokola (HTTP/1.1, HTTP/2, HTTP/3) praćene CRLF-om. Sva tri dela linije zahteva su razdvojeni jednim razmakom (space).
@@ -167,14 +167,14 @@ Request-Line   = Method SP Request-URI SP HTTP-Version CRLF
 Metoda zahteva opisuje koju koja metoda će biti primenjena na resursu identifikovanim od strane *Request-URI*-a. Metode su case-sensitive.
 ```
 Method = "OPTIONS"
-           | "GET"
-           | "HEAD"
-           | "POST"
-           | "PUT"
-           | "DELETE"
-           | "TRACE"
-           | "CONNECT"
-           | extension-method
+       | "GET"
+       | "HEAD"
+       | "POST"
+       | "PUT"
+       | "DELETE"
+       | "TRACE"
+       | "CONNECT"
+       | extension-method
 extension-method = token
 ```
 Sve ove metode sa sobom nose određenu semantiku, ali naravno server može odlučiti da ih po svojoj volji implementira. Dobro je, naravno, pratiti konvenciju i poštovati njihovu ulogu. Nećemo zalaziti detaljno u ulogu svake od ovih metoda ali poenta jeste da npr. treba koristiti GET za dobavljanje podataka, POST za kreiranje, PUT i PATCH za celovito ili parcijalno ažuriranje, DELETE za brisanje i tako dalje. Naravno u specifikaciji stoji da ova metoda može biti proširena bilo kojom metodom - na primer možemo implementirati metodu HELLO koja šalje pozdrav ali to naravno nije u standardu i ni jedan pretraživač neće znati šta da uradi sa njom. Po specifikaciji naravno stoji da server mora da implementira GET i HEAD metode dok su sve druge opcione.
@@ -182,7 +182,7 @@ Sve ove metode sa sobom nose određenu semantiku, ali naravno server može odlu�
 Resurs identifikator predstavlja apsolutnu putanju resursa na serveru. Ovo može biti direktno mapirano u fajl na fajl sistemu ili proizvoljno mapirano na bilo koji drugi resurs u sistemu koji implementira HTTP. Kao što smo rekli, Request-URI služi da identifikuje resurs nad kojim će biti primenjena HTTP metoda.
 
 ```
-Request-URI    = "*" | absoluteURI | abs_path | authority
+Request-URI  = "*" | absoluteURI | abs_path | authority
 ```
 
 Primer Request-Line-a koji dobavlja početnu stranu nekog sajta bi izgledao ovako:
@@ -204,11 +204,11 @@ Posle obrade zahteva server vraća nazad HTTP odgovor. HTTP odgovor izgleda iden
 
 ```
 Response = Status-Line
-          *(( general-header
-           | response-header
-           | entity-header ) CRLF)
-          CRLF
-          [ message-body ]
+      *(( general-header
+       | response-header
+       | entity-header ) CRLF)
+      CRLF
+      [ message-body ]
 ```
 
 Status linija se sastoji iz tri dela: HTTP verzije (HTTP/1.1, HTTP/2, HTTP/3), status koda i tekstom koji opisuje razlog status koda praćenim CRLF-om. Sva tri dela linije zahteva su razdvojeni jednim razmakom (space).
@@ -228,8 +228,8 @@ Status kod je trocifreni broj koji u po specifikaciji ima svoje značenje. Neki 
 Svaki status ima svoj kod i razlog. Razlog je predviđen isključivo za čitanje i razumevanje od strane čoveka dok sam kod čita mašina. Implementacija klijenta nije u obavezi da parsira tekst razlog na bilo koji način.
 
 ```
-Status-Code    =
-    "100"  ; Continue
+Status-Code  =
+  "100"  ; Continue
   | "101"  ; Switching Protocols
   | "200"  ; OK
   | "201"  ; Created
@@ -333,20 +333,20 @@ Primer JSON tipa podatka:
 
 ```json
 {
-    "port": 8080,
-    "routes": [
-        {
-            "path": "/",
-            "method": "GET",
-            "handler": "index"
-        }
-    ],
-    "handlers": {
-        "index": {
-            "type": "file",
-            "path": "index.html"
-        }
+  "port": 8080,
+  "routes": [
+    {
+      "path": "/",
+      "method": "GET",
+      "handler": "index"
     }
+  ],
+  "handlers": {
+    "index": {
+      "type": "file",
+      "path": "index.html"
+    }
+  }
 }
 ```
 
@@ -432,9 +432,9 @@ Primer u pseudo kodu bi izgledao ovako:
 
 ```
 class UserService:
-    constructor(user_repository: UserRepository, role_service: RoleService):
-        this.user_repository = user_repository
-        this.role_service = role_service
+  constructor(user_repository: UserRepository, role_service: RoleService):
+    this.user_repository = user_repository
+    this.role_service = role_service
 ```
 
 U ovom slučaju klasa **UserService** zavisi od **UserRepository** i **RoleService**. Ove zavisnosti se rešavaju tako što se u konstruktoru klase **UserService** prosleđuju objekti koji implementiraju interfejse **UserRepository** i **RoleService**. Kasnije možemo koristiti klasu UserService bez prethodnog znanja o tome da li i kako možemo kreirati objekte klasa/interfejsa UserRepository i RoleService. Na ovaj način se postiže inverzija kontrole - framework je umesto nas, developera, zadužen za kreiranje objekata.
@@ -515,8 +515,8 @@ src
 ├───model
 |   └───User.java
 └───view
-    └───user
-        └───index.html
+  └───user
+    └───index.html
 
 ```
 
@@ -524,12 +524,12 @@ Ovo je najčešća struktura MVC projekata. Jedna iteracije ove strukture je uvo
 
 ```
 Browser
-↑    ↓
-|    UserController.java
-|    ↓              ↑ ↓
-index.html        User.java
-                    ↑ ↓
-                  Database
+↑  ↓
+|  UserController.java
+|  ↓          ↑ ↓
+index.html  User.java
+              ↑ ↓
+            Database
 ```
 
 Ovakav pristup omogućava lakši razvoj aplikacija jer se prati modularno struktuiranje klasa u projektu. Svi klase zadužene za controller layer se nalaze u controller paketu, view klase u view paketu itd.
@@ -553,16 +553,16 @@ Templating enigne popunjava template sa podacima i vraća rezultujući fajl klij
 ```jinja2
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Flask Jinja2 Example</title>
-    </head>
-    <body>
-        <h1>Flask Jinja2 Example</h1>
-        <p>Hello, {{ name }}.</p>
-        {{ for item in items }}
-            <p>{{ item }}</p>
-        {{ endfor }}
-    </body>
+  <head>
+    <title>Flask Jinja2 Example</title>
+  </head>
+  <body>
+    <h1>Flask Jinja2 Example</h1>
+    <p>Hello, {{ name }}.</p>
+    {{ for item in items }}
+      <p>{{ item }}</p>
+    {{ endfor }}
+  </body>
 </html>
 ```
 Jinja2 zasniva na sintaksi koja je slična Pythonu. Ovaj templating jezik je popularan u Python okruženju. Koristi `{{` i `}}` za indikovanje template blokova.
@@ -573,16 +573,16 @@ Jinja2 zasniva na sintaksi koja je slična Pythonu. Ovaj templating jezik je pop
 ```handlebars
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Handlebars Example</title>
-    </head>
-    <body>
-        <h1>Handlebars Example</h1>
-        <p>Hello, {{name}}.</p>
-        {{#each items}}
-            <p>{{this}}</p>
-        {{/each}}
-    </body>
+  <head>
+    <title>Handlebars Example</title>
+  </head>
+  <body>
+    <h1>Handlebars Example</h1>
+    <p>Hello, {{name}}.</p>
+    {{#each items}}
+      <p>{{this}}</p>
+    {{/each}}
+  </body>
 </html>
 ```
 
@@ -593,16 +593,16 @@ Handlebars je templating jezik koji je popularan u JavaScript okruženju. Takođ
 ```jsp
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>JSP Example</title>
-    </head>
-    <body>
-        <h1>JSP Example</h1>
-        <p>Hello, <%= name %>.</p>
-        <% for (String item : items) { %>
-            <p><%= item %></p>
-        <% } %>
-    </body>
+  <head>
+    <title>JSP Example</title>
+  </head>
+  <body>
+    <h1>JSP Example</h1>
+    <p>Hello, <%= name %>.</p>
+    <% for (String item : items) { %>
+      <p><%= item %></p>
+    <% } %>
+  </body>
 </html>
 ```
 
@@ -613,16 +613,16 @@ JSP je templating jezik koji je popularan u Java okruženju. Ovaj templating jez
 ```thymeleaf
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Thymeleaf Example</title>
-    </head>
-    <body>
-        <h1>Thymeleaf Example</h1>
-        <p th:text="'Hello, ' + ${name} + '.'"></p>
-        <p th:each="item : ${items}">
-            <span th:text="${item}"></span>
-        </p>
-    </body>
+  <head>
+    <title>Thymeleaf Example</title>
+  </head>
+  <body>
+    <h1>Thymeleaf Example</h1>
+    <p th:text="'Hello, ' + ${name} + '.'"></p>
+    <p th:each="item : ${items}">
+      <span th:text="${item}"></span>
+    </p>
+  </body>
 </html>
 ```
 
@@ -709,7 +709,7 @@ ResultSet rs = stmt.executeQuery();
 
 // čitanje rezultata
 while (rs.next()) {
-    System.out.println(rs.getString("name"));
+  System.out.println(rs.getString("name"));
 }
 ```
 
@@ -798,18 +798,18 @@ Implementacija osnovnog HTTP servera koji vraća bazični odgovor na HTTP zahtev
 ```java
 @SpringBootApplication
 public class HttpServerApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(HttpServerApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(HttpServerApplication.class, args);
+  }
 
-    @Controller
-    @RequestMapping("/")
-    public class HttpServerController {
-        @GetMapping
-        public @ResponseBody String index() {
-            return "Hello World!";
-        }
+  @Controller
+  @RequestMapping("/")
+  public class HttpServerController {
+    @GetMapping
+    public @ResponseBody String index() {
+      return "Hello World!";
     }
+  }
 }
 ```
 
@@ -819,18 +819,18 @@ Ekvivalentna implementacija u Grain radnom okviru:
 
 ```java
 public class HttpServerApplication extends GrainApp {
-    public static void main(String[] args) {
-        GrainAppRunner.run(HttpServerApplication.class);
-    }
+  public static void main(String[] args) {
+    GrainAppRunner.run(HttpServerApplication.class);
+  }
 
-    @Controller
-    @RequestMapping("/")
-    public class HttpServerController {
-        @GetMapping
-        public String index() {
-            return "Hello World!";
-        }
+  @Controller
+  @RequestMapping("/")
+  public class HttpServerController {
+    @GetMapping
+    public String index() {
+      return "Hello World!";
     }
+  }
 }
 ```
 
@@ -846,98 +846,98 @@ Koraci inicijalizacije su sledeći:
 
 1. Kreiranje `Configuration` objekta i učitavanje konfiguracije
 
-    `Configuration` objekat sadrži sve ključ-vrednost parove koji predstavljaju kofiguraciona podešavanja za framework. On je neophodan za inicijalizaciju aplikacije jer postoje parametri koji utiču na istu.
+  `Configuration` objekat sadrži sve ključ-vrednost parove koji predstavljaju kofiguraciona podešavanja za framework. On je neophodan za inicijalizaciju aplikacije jer postoje parametri koji utiču na istu.
 
-    1.0. Učitavanje aktivnih profila - profili su podešeni koristeći `GRAIN_PROFILES_ACTIVE` environment promenljivu 
+  1.0. Učitavanje aktivnih profila - profili su podešeni koristeći `GRAIN_PROFILES_ACTIVE` environment promenljivu 
 
-    1.1. Učitavanje konfiguracije iz `application.properties` fajla i odgovarajućih `.properties` fajlova na osnovu aktivnog profila.
+  1.1. Učitavanje konfiguracije iz `application.properties` fajla i odgovarajućih `.properties` fajlova na osnovu aktivnog profila.
 
-    1.1. Učitavanje konfiguracije iz okruženja (eng. *environment*). Ova konfiguracija ima prednost u odnosu na `.properties` fajlove.
+  1.1. Učitavanje konfiguracije iz okruženja (eng. *environment*). Ova konfiguracija ima prednost u odnosu na `.properties` fajlove.
 
-    ```java
-    String profilesString = Optional.ofNullable(System.getenv(PROFILES_ENV_VARIABLE))
-            .orElse(",");
+  ```java
+  String profilesString = Optional.ofNullable(System.getenv(PROFILES_ENV_VARIABLE))
+      .orElse(",");
 
-    // učitavanje profila iz okruženja
-    List<String> profiles = Arrays.stream(profilesString
-                    .split("\\s*,\\s*"))
-            .collect(Collectors.toList());
+  // učitavanje profila iz okruženja
+  List<String> profiles = Arrays.stream(profilesString
+      .split("\\s*,\\s*"))
+      .collect(Collectors.toList());
 
 
-    // učitavanje konfiguracije iz .properties fajlova
-    PropertiesResolver propertiesResolver = new PropertiesResolver(profiles);
-    propertiesResolver.resolve("META-INF/application",
-            properties::load);
-    propertiesResolver.resolve("application",
-            properties::load);
+  // učitavanje konfiguracije iz .properties fajlova
+  PropertiesResolver propertiesResolver = new PropertiesResolver(profiles);
+  propertiesResolver.resolve("META-INF/application",
+      properties::load);
+  propertiesResolver.resolve("application",
+      properties::load);
 
-    // učitavanje konfiguracije iz okruženja
-    EnvironmentResolver environmentResolver = new EnvironmentResolver();
-    environmentResolver.resolve(this::set);
+  // učitavanje konfiguracije iz okruženja
+  EnvironmentResolver environmentResolver = new EnvironmentResolver();
+  environmentResolver.resolve(this::set);
 
-    // vraćanje konfiguracije u okruženje (environment)
-    // ovo olakšava pristup konfiguraciji iz drugih delova aplikacije
-    // koji zahtevaju svoje konfiguracione fajlove tako da i one mogu
-    // biti konfigurisane preko .properties fajlova
-    properties.forEach((key, value) ->
-            System.setProperty(key.toString(), value.toString()));
-    ```
+  // vraćanje konfiguracije u okruženje (environment)
+  // ovo olakšava pristup konfiguraciji iz drugih delova aplikacije
+  // koji zahtevaju svoje konfiguracione fajlove tako da i one mogu
+  // biti konfigurisane preko .properties fajlova
+  properties.forEach((key, value) ->
+      System.setProperty(key.toString(), value.toString()));
+  ```
 
 2. Kreiranje `ApplicationContext` objekta
-    
-    `ApplicationContext` interfejs predstavlja srž aplikacije. On sadrži `DependencyContainer` koji sadrži sve inicijalizovane komponente koje su kreiranje u toku umetanja zavisnosti. O tome ćemo govoriti u kasnijem poglavlju. Ovaj kontekst objekat ima jednu statičku instancu kojoj se može pristupiti putem `ApplicationContextHolder` singltona. `ApplicationContext` se takođe može ručno instancirati koristeći `ApplicationContextImpl` klasu koja mu je ujedno i jedina implementacija.
+  
+  `ApplicationContext` interfejs predstavlja srž aplikacije. On sadrži `DependencyContainer` koji sadrži sve inicijalizovane komponente koje su kreiranje u toku umetanja zavisnosti. O tome ćemo govoriti u kasnijem poglavlju. Ovaj kontekst objekat ima jednu statičku instancu kojoj se može pristupiti putem `ApplicationContextHolder` singltona. `ApplicationContext` se takođe može ručno instancirati koristeći `ApplicationContextImpl` klasu koja mu je ujedno i jedina implementacija.
 
-    2.1. Odigravanje dependency injection životnog ciklusa - `ApplicationContext` je zadužen za pokretanje dependency injection životnog ciklusa:
+  2.1. Odigravanje dependency injection životnog ciklusa - `ApplicationContext` je zadužen za pokretanje dependency injection životnog ciklusa:
 
-    ```java
-    public ApplicationContextImpl(String basePackage, Configuration configuration) {
-        this.basePackage = basePackage;
-        this.configuration = configuration;
-        // kreiramo injector
-        GrainInjector injector = new GrainInjector(configuration);
+  ```java
+  public ApplicationContextImpl(String basePackage, Configuration configuration) {
+    this.basePackage = basePackage;
+    this.configuration = configuration;
+    // kreiramo injector
+    GrainInjector injector = new GrainInjector(configuration);
 
-        // ucitavamo sve klase koje su anotirane sa odgovarajućim anotacijama
-        Set<Class<?>> classes = Arrays.stream(new String[]{GrainApp.getBasePackage(), basePackage})
-            .flatMap(pkg -> new GrainJarClassLoader(pkg)
-                .loadClasses(cl -> !cl.isAnnotation() && isAnnotationPresent(cl, Grain.class))
-                .stream())
-            .collect(Collectors.toCollection(LinkedHashSet::new));
-        // dodajemo sve klase u dependency injection pipeline
-        injector.inject(classes);
+    // ucitavamo sve klase koje su anotirane sa odgovarajućim anotacijama
+    Set<Class<?>> classes = Arrays.stream(new String[]{GrainApp.getBasePackage(), basePackage})
+      .flatMap(pkg -> new GrainJarClassLoader(pkg)
+        .loadClasses(cl -> !cl.isAnnotation() && isAnnotationPresent(cl, Grain.class))
+        .stream())
+      .collect(Collectors.toCollection(LinkedHashSet::new));
+    // dodajemo sve klase u dependency injection pipeline
+    injector.inject(classes);
 
-        // preuzimamo gotov konfigurisan dependency container
-        // koji je zadužen za čuvanje svih inicijalizovanih komponenti
-        this.dependencyContainer = grainInitializer.getContainer();
-    }
+    // preuzimamo gotov konfigurisan dependency container
+    // koji je zadužen za čuvanje svih inicijalizovanih komponenti
+    this.dependencyContainer = grainInitializer.getContainer();
+  }
 
-    ```
+  ```
 3. Otvaranje socket-a za HTTP server
 
-    Socket mora da bude spreman da paralelno obrađuje zahteve. Stoga kreiramo thread-pool koji je zadužen za to.
+  Socket mora da bude spreman da paralelno obrađuje zahteve. Stoga kreiramo thread-pool koji je zadužen za to.
 
-    ```java
+  ```java
 
-    // kreiramo thread pool koji će biti zadužen za obradu zahteva
-    ExecutorService executor = Executors.newFixedThreadPool(configuration.getInt(ConfigurationKey.SERVER_THREADS));
+  // kreiramo thread pool koji će biti zadužen za obradu zahteva
+  ExecutorService executor = Executors.newFixedThreadPool(configuration.getInt(ConfigurationKey.SERVER_THREADS));
 
-    // kreiramo server socket
-    try (ServerSocket serverSocket = new ServerSocket(configuration.getInt(ConfigurationKey.SERVER_PORT), -1, InetAddress.getByName(configuration.get(ConfigurationKey.SERVER_HOST)))) {
+  // kreiramo server socket
+  try (ServerSocket serverSocket = new ServerSocket(configuration.getInt(ConfigurationKey.SERVER_PORT), -1, InetAddress.getByName(configuration.get(ConfigurationKey.SERVER_HOST)))) {
 
-        // sve dok je aplikacija "running" slušamo zahteve
-        // i izvršavamo ih u thread pool-u
-        while (running) {
-            Socket socket = serverSocket.accept();
-            executor.execute(new RequestHandlerRunnable(context, socket));
-        }
-
-    } catch (UnknownHostException e) {
-        throw new AppInitializationException("Unable to resolve host " + configuration.get(ConfigurationKey.SERVER_HOST), e);
-    } catch (IOException e) {
-        throw new AppInitializationException("Unable to create server socket", e);
+    // sve dok je aplikacija "running" slušamo zahteve
+    // i izvršavamo ih u thread pool-u
+    while (running) {
+      Socket socket = serverSocket.accept();
+      executor.execute(new RequestHandlerRunnable(context, socket));
     }
-    ```
 
-    Za opsluživanje zahteva koristimo `RequestHandlerRunnable` koji je zadužen za parsiranje zahteva, pozivanje odgovarajućeg "handlera" i slanje odgovora. Ova klasa naravno implementira `Runnable` interfejs koji joj omugućava da se izvršava na odvojenom thread-u. Više o ovoj klasi ćemo govoriti kada budemo pričali o tome kako se procesuira HTTP zahtev.
+  } catch (UnknownHostException e) {
+    throw new AppInitializationException("Unable to resolve host " + configuration.get(ConfigurationKey.SERVER_HOST), e);
+  } catch (IOException e) {
+    throw new AppInitializationException("Unable to create server socket", e);
+  }
+  ```
+
+  Za opsluživanje zahteva koristimo `RequestHandlerRunnable` koji je zadužen za parsiranje zahteva, pozivanje odgovarajućeg "handlera" i slanje odgovora. Ova klasa naravno implementira `Runnable` interfejs koji joj omugućava da se izvršava na odvojenom thread-u. Više o ovoj klasi ćemo govoriti kada budemo pričali o tome kako se procesuira HTTP zahtev.
 
 Po završetku ovih koraka imamo kreiran HTTP server koji je spreman da sluša zahteve na podrazumevanom port-u 8080.
 
@@ -969,18 +969,18 @@ byte[] byteBuffer = new byte[BYTE_BUF_SIZE];
 
 int n;
 do {
-    // čitamo zahtev
-    n = reader.read(byteBuffer);
-    for (int i = 0; i < n; ++i) {
-        // kopiramo učitane bajtove u StringBuffer zahteva
-        buffer.append((char) byteBuffer[i]);
-    }
+  // čitamo zahtev
+  n = reader.read(byteBuffer);
+  for (int i = 0; i < n; ++i) {
+    // kopiramo učitane bajtove u StringBuffer zahteva
+    buffer.append((char) byteBuffer[i]);
+  }
 } while (n == byteBuffer.length);
 
 // proveravamo da li za zahtev zavrišava sa CRLF
 int crlfIndex = buffer.indexOf(CRLF);
 if (crlfIndex == -1) {
-    throw new HttpParsingException();
+  throw new HttpParsingException();
 }
 
 // parsiramo request line
@@ -989,7 +989,7 @@ String[] requestLineParts = requestLineString.split(" ");
 
 // ako request line nije parsiran kako treba bacamo izuzetak
 if (requestLineParts.length != 3) {
-    throw new HttpParsingException();
+  throw new HttpParsingException();
 }
 
 // parsirane delove request line-a setujemo u HttpRequest objekat
@@ -1008,109 +1008,109 @@ Kada su sesija i autentikacija konfigurisani naredni korak ne pronaći *handler*
 
 1. `StaticLocationHandler` - *handler* koji služi za obradu statičkih resursa kao što su slike, CSS fajlovi, JavaScript fajlovi, itd.
 
-    `StaticLocationHandler` se koristi sa serviranje statičkih fajlova. Ovaj *handler* sadrži listu lokacija u kojima će pretraživati fajlove koji odgovaraju URL-u zahteva. Implementacija `handle` metode:
-    
-    ```java
-    @Override
-    public void handle(HttpRequest request, HttpResponse response) {
-        // kreiramo apsolutnu putanju do fajla imajući u vidu registrovanu lokaciju
-        // handlera i URL zahteva
-        Path path = Paths.get(location, request.getPath());
+  `StaticLocationHandler` se koristi sa serviranje statičkih fajlova. Ovaj *handler* sadrži listu lokacija u kojima će pretraživati fajlove koji odgovaraju URL-u zahteva. Implementacija `handle` metode:
+  
+  ```java
+  @Override
+  public void handle(HttpRequest request, HttpResponse response) {
+    // kreiramo apsolutnu putanju do fajla imajući u vidu registrovanu lokaciju
+    // handlera i URL zahteva
+    Path path = Paths.get(location, request.getPath());
 
-        try (InputStream inputStream = getInputStream(path)) {
-            // parsiramo ekstenziju fajla u cilju određivanja MIME tipa
-            response.setHeader(HttpHeaders.CONTENT_TYPE, probeContentTypeNoThrow(path, "text/html"));
+    try (InputStream inputStream = getInputStream(path)) {
+      // parsiramo ekstenziju fajla u cilju određivanja MIME tipa
+      response.setHeader(HttpHeaders.CONTENT_TYPE, probeContentTypeNoThrow(path, "text/html"));
 
-            // čitamo sadržaj fajla i upisujemo ga u telo odgovora
-            response.getOutputStream().write(inputStream.readAllBytes());
+      // čitamo sadržaj fajla i upisujemo ga u telo odgovora
+      response.getOutputStream().write(inputStream.readAllBytes());
 
-            // postavljamo status odgovora na 200 OK
-            response.setStatus(HttpStatus.OK);
+      // postavljamo status odgovora na 200 OK
+      response.setStatus(HttpStatus.OK);
 
-            request.setHandled(true);
-        } catch (IOException ex) {
-            throw new HttpException.NotFound(request.getPath());
-        }
+      request.setHandled(true);
+    } catch (IOException ex) {
+      throw new HttpException.NotFound(request.getPath());
     }
-    ```
+  }
+  ```
 
 2. `ControllerMethodHandler` - *handler* koji služi za obradu zahteva pomoću metoda definisanim u kontrolerskim klasama.
 
-    `ControllerMethodHandler` je najkompleksniji od svih handlera. On mora da koristi informacije dobijene putem Reflection-a da bi mogao da zna kako da parsira svaki request. Na osnovu povratne metode u kontroleru možemo da vratimo klijentu različite odgovore: tekst, HTML stranu, JSON itd. Takođe metode kontrolera imaju mogućnost da prime različite vrednosti iz zahteva kao svoje parametre. U zavisnosti od tipa parametra metoda kontrolera može da primi `HttpResponse`, `HttpRequest`, bilo koju vrednost anotiruanu sa `@RequestBody`, mapu header-a itd. Kontroler metoda može biti registrovana za odrđenu putanju korišćenjem `@RequestMapping` anotacije i njenih specijalizacija.
+  `ControllerMethodHandler` je najkompleksniji od svih handlera. On mora da koristi informacije dobijene putem Reflection-a da bi mogao da zna kako da parsira svaki request. Na osnovu povratne metode u kontroleru možemo da vratimo klijentu različite odgovore: tekst, HTML stranu, JSON itd. Takođe metode kontrolera imaju mogućnost da prime različite vrednosti iz zahteva kao svoje parametre. U zavisnosti od tipa parametra metoda kontrolera može da primi `HttpResponse`, `HttpRequest`, bilo koju vrednost anotiranu sa `@RequestBody`, mapu header-a itd. Kontroler metoda može biti registrovana za određenu putanju korišćenjem `@RequestMapping` anotacije i njenih specijalizacija.
 
-    Implementacija `handle` metode:
-    
-    ```java
-    @Override
-    public void handle(HttpRequest request, HttpResponse response) throws IOException {
+  Implementacija `handle` metode:
+  
+  ```java
+  @Override
+  public void handle(HttpRequest request, HttpResponse response) throws IOException {
 
-        // parsiramo parametre handler metode
-        Parameter[] declaredParams = method.getParameters();
-        Object[] params = new Object[declaredParams.length];
-        for (int i = 0; i < declaredParams.length; i++) {
-            Parameter param = declaredParams[i];
-            if (param.getType().equals(HttpRequest.class)) {
-                params[i] = request;
-            } else if (param.getType().equals(HttpResponse.class)) {
-                params[i] = response;
-            } else if (param.getType().equals(Session.class)) {
-                params[i] = request.getSession();
-            } else if (param.isAnnotationPresent(JsonBody.class)) {
-                params[i] = new JsonDeserializer<>(param.getType()).deserialize((JsonObject) request.getBody());
-            } else if (param.isAnnotationPresent(FormBody.class)) {
-                // ...
-            } else if (param.isAnnotationPresent(RequestParam.class)) {
-                // ...
-            } else if (param.isAnnotationPresent(PathVariable.class)) {
-                // ...
-            } else if (Map.class.isAssignableFrom(param.getType())) {
-                params[i] = ((JsonObject) request.getBody()).getData();
-            }
-        }
-
-        // pozivamo handler metodu sa prilagođenim parametrima
-        Object result = method.invoke(params);
-
-        // upisujemo body odgovora na osnovu povratnog tipa rezultata metode
-        if (result == null) {
-            String requestContentType = request.getHeader(CONTENT_TYPE);
-            response.setHeader(CONTENT_TYPE, requestContentType == null ? HttpContentType.TEXT_PLAIN : requestContentType);
-        } else if (result instanceof View) {
-            viewResolver.resolve((View) result, request, response, request.getSession(), SecurityContextHolder.getContext().getAuthentication());
-        } else if (result instanceof JsonResponse) {
-            response.setStatus(((JsonResponse<?>) result).getStatus());
-            response.getOutputStream().write(((JsonResponse<?>) result).getBody().toJsonString().getBytes());
-            response.addHeaders(((JsonResponse<?>) result).getHeaders());
-        } else if (result instanceof JsonString) {
-            response.getOutputStream().write(((JsonString) result).toJsonString().getBytes());
-            response.setHeader(CONTENT_TYPE, HttpContentType.APPLICATION_JSON);
-        } else if (result instanceof Object[]) {
-            response.getOutputStream().write(new JsonArray((Object[]) result).toJsonString().getBytes());
-            response.setHeader(CONTENT_TYPE, HttpContentType.APPLICATION_JSON);
-        } else if (result instanceof String) {
-            // ...
-        } else {
-            response.getOutputStream().write(result.toString().getBytes());
-        if (response.getHeader(CONTENT_TYPE) == null)
-            response.setHeader(CONTENT_TYPE, HttpContentType.TEXT_PLAIN);
-        }
-
-        request.setHandled(true);
+    // parsiramo parametre handler metode
+    Parameter[] declaredParams = method.getParameters();
+    Object[] params = new Object[declaredParams.length];
+    for (int i = 0; i < declaredParams.length; i++) {
+      Parameter param = declaredParams[i];
+      if (param.getType().equals(HttpRequest.class)) {
+        params[i] = request;
+      } else if (param.getType().equals(HttpResponse.class)) {
+        params[i] = response;
+      } else if (param.getType().equals(Session.class)) {
+        params[i] = request.getSession();
+      } else if (param.isAnnotationPresent(JsonBody.class)) {
+        params[i] = new JsonDeserializer<>(param.getType()).deserialize((JsonObject) request.getBody());
+      } else if (param.isAnnotationPresent(FormBody.class)) {
+        // ...
+      } else if (param.isAnnotationPresent(RequestParam.class)) {
+        // ...
+      } else if (param.isAnnotationPresent(PathVariable.class)) {
+        // ...
+      } else if (Map.class.isAssignableFrom(param.getType())) {
+        params[i] = ((JsonObject) request.getBody()).getData();
+      }
     }
-    ```
+
+    // pozivamo handler metodu sa prilagođenim parametrima
+    Object result = method.invoke(params);
+
+    // upisujemo body odgovora na osnovu povratnog tipa rezultata metode
+    if (result == null) {
+      String requestContentType = request.getHeader(CONTENT_TYPE);
+      response.setHeader(CONTENT_TYPE, requestContentType == null ? HttpContentType.TEXT_PLAIN : requestContentType);
+    } else if (result instanceof View) {
+      viewResolver.resolve((View) result, request, response, request.getSession(), SecurityContextHolder.getContext().getAuthentication());
+    } else if (result instanceof JsonResponse) {
+      response.setStatus(((JsonResponse<?>) result).getStatus());
+      response.getOutputStream().write(((JsonResponse<?>) result).getBody().toJsonString().getBytes());
+      response.addHeaders(((JsonResponse<?>) result).getHeaders());
+    } else if (result instanceof JsonString) {
+      response.getOutputStream().write(((JsonString) result).toJsonString().getBytes());
+      response.setHeader(CONTENT_TYPE, HttpContentType.APPLICATION_JSON);
+    } else if (result instanceof Object[]) {
+      response.getOutputStream().write(new JsonArray((Object[]) result).toJsonString().getBytes());
+      response.setHeader(CONTENT_TYPE, HttpContentType.APPLICATION_JSON);
+    } else if (result instanceof String) {
+      // ...
+    } else {
+      response.getOutputStream().write(result.toString().getBytes());
+    if (response.getHeader(CONTENT_TYPE) == null)
+      response.setHeader(CONTENT_TYPE, HttpContentType.TEXT_PLAIN);
+    }
+
+    request.setHandled(true);
+  }
+  ```
 
 3. `MiddlewareRequestHandler` - *handler* se poziva pre svakog zahteva i služi za proširivanje funkcionalnosti postojećih *handler*-a, proveru podataka iz zahteva itd.
 
-    Middleware ima najprostiju implementaciju od svih handlera. On samo poziva `handle` metodu. Implementacija Middleware-a je u celosti na korisniku. Middleware a i svi ostali *handler*-i mogu da imaju `@Order` anotaciju koja određuje prioritet kada postoje *handler*-i koji imaju istu putanju.
+  Middleware ima najprostiju implementaciju od svih handlera. On samo poziva `handle` metodu. Implementacija Middleware-a je u celosti na korisniku. Middleware a i svi ostali *handler*-i mogu da imaju `@Order` anotaciju koja određuje prioritet kada postoje *handler*-i koji imaju istu putanju.
 
-    Implementacija `handle` metode:
-    
-    ```java
-    @Override
-    public void handle(HttpRequest request, HttpResponse response) {
-        handler.handle(request, response);
-    }
-    ```
+  Implementacija `handle` metode:
+  
+  ```java
+  @Override
+  public void handle(HttpRequest request, HttpResponse response) {
+    handler.handle(request, response);
+  }
+  ```
 
 Kao što smo rekli *handler*-i imaju metodu `canHandle` koja služi za proveru da li *handler* može da obradi zahtev. Pomoću nje pronalazimo odgovarajući *handler* koji u zavisnosti od implementacije obrađuje zahtev. Ukoliko *handler* nije pronađen aplikacija vraća grešku `404`.
 
@@ -1133,43 +1133,43 @@ Svaki od ovih tipova se može identifikovati na osnovu prvog karaktera u JSON st
 
 ```java
 private Object parseValue() {
-    String token = iterator.peek();
-    switch (token) {
-        case "{":
-            return parseObject();
-        case "[":
-            return parseArray();
-        case "\"":
-            return parseString();
-        default:
-            return parseOther();
-    }
+  String token = iterator.peek();
+  switch (token) {
+    case "{":
+      return parseObject();
+    case "[":
+      return parseArray();
+    case "\"":
+      return parseString();
+    default:
+      return parseOther();
+  }
 }
 
 private Object parseOther() {
-    iterator.eatWhitespace();
-    String val = iterator.eatWhile(ch -> !ch.isBlank() && !ch.equals(",") && !ch.equals("}") && !ch.equals("]"));
-    if (val.equals("true")) {
-        return Boolean.TRUE;
+  iterator.eatWhitespace();
+  String val = iterator.eatWhile(ch -> !ch.isBlank() && !ch.equals(",") && !ch.equals("}") && !ch.equals("]"));
+  if (val.equals("true")) {
+    return Boolean.TRUE;
+  }
+  if (val.equals("false")) {
+    return Boolean.FALSE;
+  }
+  if (val.equals("null")) {
+    return null;
+  }
+  try {
+    double parsed = Double.parseDouble(val);
+    if (parsed == (int) parsed) {
+      // @Warning this may cause issues with large numbers
+      // but removes a lot of headaches with parsing integer types.
+      return Integer.parseInt(val);
+    } else {
+      return parsed;
     }
-    if (val.equals("false")) {
-        return Boolean.FALSE;
-    }
-    if (val.equals("null")) {
-        return null;
-    }
-    try {
-        double parsed = Double.parseDouble(val);
-        if (parsed == (int) parsed) {
-            // @Warning this may cause issues with large numbers
-            // but removes a lot of headaches with parsing integer types.
-            return Integer.parseInt(val);
-        } else {
-            return parsed;
-        }
-    } catch (NumberFormatException ex) {
-        throw new JsonDeserializationException("Unexpected token '" + val + "' " + iterator.getInfo());
-    }
+  } catch (NumberFormatException ex) {
+    throw new JsonDeserializationException("Unexpected token '" + val + "' " + iterator.getInfo());
+  }
 }
 ```
 
@@ -1177,25 +1177,25 @@ Ovako parsiran string se čuva kao `JsonObject` ili `JsonArray` objekat koji je 
 
 ```java
 if (Byte.class.isAssignableFrom(field.getType())) {
-    // ...
+  // ...
 } else if (Byte.class.isAssignableFrom(field.getType())) {
-    // ...
+  // ...
 } else if (Integer.class.isAssignableFrom(field.getType())) {
-    // ...
+  // ...
 } else if (Float.class.isAssignableFrom(field.getType())) {
-    // ...
+  // ...
 } else if (Double.class.isAssignableFrom(field.getType())) {
-    // ...
+  // ...
 } else if (Boolean.class.isAssignableFrom(field.getType())) {
-    // ...
+  // ...
 } else if (Long.class.isAssignableFrom(field.getType())) {
-    // ...
+  // ...
 } else if (Character.class.isAssignableFrom(field.getType())) {
-    // ...
+  // ...
 } else if (String.class.isAssignableFrom(field.getType())) {
-    // ...
+  // ...
 } else {
-    // U svim drugim slučajevima rekurzivno pozivamo JsonDeserializer
+  // U svim drugim slučajevima rekurzivno pozivamo JsonDeserializer
 }
 ```
 
@@ -1222,34 +1222,34 @@ public interface DependencyContainer {
 Prilikom kreiranja `ApplicationContext`-a učitavaju se sve klase iz classpath-a koje su anotirane sa anotacijom `@Grain` ili njenim specijalizacijama se ubacuju u `GrainInjector` koji započinje proces umetanja zavisnosti. Proces umetanja zavisnosti u Grain radnom okviru se sastoji iz par koraka koji se ponavljaju za svaku *Client* klasu:
 
 0. Provera `@Condition` uslova
-    
-    `@Condition` anotacija može da sadrži parče koda pisanog u Grain templating jeziku (koji možemo zvati GTL - *Grain Templating Language). Interpretator jezika evaluira kod i u zavisnosti od povratne vrednosti biramo da li ćemo datu klasu uključiti u umetanje.
+  
+  `@Condition` anotacija može da sadrži parče koda pisanog u Grain templating jeziku (koji možemo zvati GTL - *Grain Templating Language). Interpretator jezika evaluira kod i u zavisnosti od povratne vrednosti biramo da li ćemo datu klasu uključiti u umetanje.
 
 1. Kreiranje `Injectable` objekata
 
-    `Injectable` objekti su wrapper klase koje pružaju olakšice kada je u pitanju rad sa informacijama o njenim poljima, metodama i konstruktorima. Naravno ovi objekti čuvaju inicijalizovanu komponentu koja će nam kasnije biti dostupna.
+  `Injectable` objekti su wrapper klase koje pružaju olakšice kada je u pitanju rad sa informacijama o njenim poljima, metodama i konstruktorima. Naravno ovi objekti čuvaju inicijalizovanu komponentu koja će nam kasnije biti dostupna.
 
 2. Umetanje zavisnosti koje su definisane `@Grain` metodama.
 
-    Pored klasa i metode grainova mogu biti anotirane `@Grain` anotacijom. To označava da je ta metoda zapravo *factory metoda* koja definiše novu zavisnost koju možemo umetnuti kao i bilo koju drugu klasu odnosno komponentu. Ovo je idealan način da integrišemo eksterne biblioteke u aplikacije pisane u framework-u. Naravno sve `@Grain` metode mogu kao i klase da imaju `@Condition` anotaciju čiju vrednost proveravamo takođe u ovom koraku.
+  Pored klasa i metode grainova mogu biti anotirane `@Grain` anotacijom. To označava da je ta metoda zapravo *factory metoda* koja definiše novu zavisnost koju možemo umetnuti kao i bilo koju drugu klasu odnosno komponentu. Ovo je idealan način da integrišemo eksterne biblioteke u aplikacije pisane u framework-u. Naravno sve `@Grain` metode mogu kao i klase da imaju `@Condition` anotaciju čiju vrednost proveravamo takođe u ovom koraku.
 
 3. Dodavanje `Injectable`-a u kontejner.
 
-    `DependencyContainer` je zapravio prioritetni red koje je definisan tako da prilikom iteracije kroz njega prvo vraća zavisnosti koje imaju manje direktnih drugih zavisnosti. Na ova način optimizujemo inicijalizaciju i sprečavamo backtracking u tom procesu. `Injectable` klasa razrešava svoje zavisnosti tako što od sopstvenih polja kreira `InejctableReference` objekte koje možemo da tretiramo, za sada, kao "potencijalne objekte". Njihovo razrešenje na realne instance desiće se kasnije ali za sada su nam potrebni samo da imamo informaciju o tome koliko zavisnsoti koja klasa ima.
+  `DependencyContainer` je zapravio prioritetni red koje je definisan tako da prilikom iteracije kroz njega prvo vraća zavisnosti koje imaju manje direktnih drugih zavisnosti. Na ova način optimizujemo inicijalizaciju i sprečavamo backtracking u tom procesu. `Injectable` klasa razrešava svoje zavisnosti tako što od sopstvenih polja kreira `InejctableReference` objekte koje možemo da tretiramo, za sada, kao "potencijalne objekte". Njihovo razrešenje na realne instance desiće se kasnije ali za sada su nam potrebni samo da imamo informaciju o tome koliko zavisnsoti koja klasa ima.
 
 4. Provera cirkularnih zavisnosti
 
-    Pre nego što krenemo sa inicijalizacijom i umetanjem moramo da proverimo da li je neke od naših zavisnosti kreiraju zatvoreni graf. U ovom slučaju ne možemo ostvariti validnu inicijalizaciju. Rešenje ovog problema je prebacivanje neke zavisnosti iz inicijalizacije preko konstruktora u inicijalizaciju preko polja anotacijom `@Inject`. Inicijalizacija preko polja se dešava kasnije u odnosu na inicijalizaciju preko konstruktora i time se može razrešiti cirkularna zavisnost.
+  Pre nego što krenemo sa inicijalizacijom i umetanjem moramo da proverimo da li je neke od naših zavisnosti kreiraju zatvoreni graf. U ovom slučaju ne možemo ostvariti validnu inicijalizaciju. Rešenje ovog problema je prebacivanje neke zavisnosti iz inicijalizacije preko konstruktora u inicijalizaciju preko polja anotacijom `@Inject`. Inicijalizacija preko polja se dešava kasnije u odnosu na inicijalizaciju preko konstruktora i time se može razrešiti cirkularna zavisnost.
 
 5. Inicijalizacija komponente
 
-    U ovom koraku se kreira instanca komponente na osnovu njenog konstruktora. Imaju prioritet zavisnsoti koje imaju manje drugih zavisnosti. 
+  U ovom koraku se kreira instanca komponente na osnovu njenog konstruktora. Imaju prioritet zavisnsoti koje imaju manje drugih zavisnosti. 
 
-    5.1. Prvi korak je kreiranje instance ove klase. Za ovo je potrebno mapiranje parametara konstruktora na inicijalizovane objekte. Zbog inicijalne provere da li je postoje cirkularne zavisnosti - ovo mapiranje će uvek uspeti. Ukoliko je klasa interfejs kreira se proxy intanca koja ima delegate ka *default* metodama tog interfejsa. 
+  5.1. Prvi korak je kreiranje instance ove klase. Za ovo je potrebno mapiranje parametara konstruktora na inicijalizovane objekte. Zbog inicijalne provere da li je postoje cirkularne zavisnosti - ovo mapiranje će uvek uspeti. Ukoliko je klasa interfejs kreira se proxy intanca koja ima delegate ka *default* metodama tog interfejsa. 
 
-    5.2. Pozivaju se sve `@Grain` metode novonastale instance. Rezultujuci objekti se registruju u `DependencyContainer`-u.
+  5.2. Pozivaju se sve `@Grain` metode novonastale instance. Rezultujuci objekti se registruju u `DependencyContainer`-u.
 
-    5.3. Setuju se sva `@Inejct` polja
+  5.3. Setuju se sva `@Inejct` polja
 
 6. Popunjavaju se sva polja anotirana sa `@Value`
 
@@ -1264,16 +1264,16 @@ Primer jedne komponente je klasa koja omogućava integraciju sa Hibernate ORM:
 @Grain
 public class HibernateConfiguration {
 
-    @Grain
-    public SessionFactory sessionFactory() {
-        org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
+  @Grain
+  public SessionFactory sessionFactory() {
+    org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration();
 
-        GrainClassLoader grainClassLoader = new GrainJarClassLoader(GrainTestApp.class.getPackageName());
-        grainClassLoader.loadClasses(cl -> cl.isAnnotationPresent(Entity.class))
-            .forEach(configuration::addAnnotatedClass);
+    GrainClassLoader grainClassLoader = new GrainJarClassLoader(GrainTestApp.class.getPackageName());
+    grainClassLoader.loadClasses(cl -> cl.isAnnotationPresent(Entity.class))
+      .forEach(configuration::addAnnotatedClass);
 
-        return configuration.buildSessionFactory();
-    }
+    return configuration.buildSessionFactory();
+  }
 }
 ```
 
@@ -1282,10 +1282,10 @@ I upotreba definisane zavisnosnosti u komponenti:
 ```java
 @Grain
 public class UserRepository extends BaseRepository<User> {
-    public MovieRepository(SessionFactory sessionFactory) {
-        super(sessionFactory, User.class);
-    }
-    // implementation ...
+  public MovieRepository(SessionFactory sessionFactory) {
+    super(sessionFactory, User.class);
+  }
+  // implementation ...
 }
 ```
 
@@ -1296,27 +1296,591 @@ Umetanje zavisnosti nije samo mehanizam koji radni okvir pruža developeru već 
 ```java
 @Grain
 public class FormLoginAuthenticationEntryPoint implements AuthenticationEntryPoint {
-    @Inject
-    private UserService userService;
-    @Inject
-    private PasswordEncoder passwordEncoder;
-    @Inject
-    private SessionStore sessionStore;
+  @Inject
+  private UserService userService;
+  @Inject
+  private PasswordEncoder passwordEncoder;
+  @Inject
+  private SessionStore sessionStore;
 
-    @Override
-    public Authentication authenticate(HttpRequest request, HttpResponse response) throws GrainSecurityException {
-    // implementation ...
-    }
+  @Override
+  public Authentication authenticate(HttpRequest request, HttpResponse response) throws GrainSecurityException {
+  // implementation ...
+  }
 }
 ```
 
-Ovde vidimo da `FormLoginAuthenticationEntryPoint` ima par definisanih zavisnosti koje su umetnute od strane radnog okvira. Ovo je podrazumevana implementacija ove funkcionalnosti i može biti promenjena od strane korisnika definisanjem komponente koja implementira isti interfejs. Sistem za umetanje zavisnosti će prioritizirati komponente definisne van paketa radnog okvira. Ovo je dobar uvod naše sledeće poglavlje koje se bavi autentikacijom i autorizacijom.
+Ovde vidimo da `FormLoginAuthenticationEntryPoint` ima par definisanih zavisnosti koje su umetnute od strane radnog okvira. Ovo je podrazumevana implementacija `AuthenticationEntryPoint` interfejsa i može biti promenjena od strane korisnika definisanjem komponente koja implementira isti. Sistem za umetanje zavisnosti će prioritizirati komponente definisane van paketa radnog okvira. Ovo je dobar uvod naše sledeće poglavlje koje se bavi autentikacijom i autorizacijom.
 
-## Autentikacija i autorizacija
+# Autentikacija i autorizacija
+
+Jedna od često važnih funkcionalnosti koje radni okvir treba da pruža su mehanizmi za autentikaciju i autorizaciju. Kao što smo već govorili autentikacija je proces identifikacije korisnika na sistemu a autorizacija proces određivanja njegovih privilegija odnosno radnji koje može da uradi.
+
+U Grain radnom okviru autentikacija i autorizacija (zvaćemo ih na dalje objedinjenim terminom - *security*) su implementirani koristeći sesiju identifikovanu kolačićem korisnika.
+
+## Autentikacija
+
+U Grain radnom okviru autentikacija je implementirana kroz `AuthenticationEntryPoint` interfejs. Ovaj interfejs ima jednu metodu `authenticate` koja prima `HttpRequest` i `HttpResponse` objekte i vraća `Authentication` objekat. Podrazumevana implementacija je `FormLoginAuthenticationEntryPoint` i kao što joj ime kaže ona prima `POST` zahtev iz HTML forme koji koristi za autentikaciju. Ovaj interfejs je korisniku izložen kroz `FormLoginAuthenticationEntryPointController` koji sadrži `/login` endpoint.
+
+![Sekvencijalni dijagram autentikacije](./assets/authentication.png)
+<div align="center">
+  Sl. 8 - <i>Sekvencijalni dijagram autentikacije</i>
+</div>
+
+Na dijagramu je prikazan "happy path" autentikacionog procesa. Kontroler prihvata zahtev i prosleđuje parsirane `HttpRequest` i `HttpResponse` objekte ka `AutnenticationEntryPoint` objektu. On dalje ima obrađuje zahtev tako što izvlači kredencijale korisnika i proverava ih koristeći `PasswordEncoder` i `UserService`. Između ostalog osim provere kredencijala postoji provera da li je korisnički nalog isključen, da li su mu istekli kredencijali itd. Nakon uspešne provere validnosti autentikacije kreira se sesija u `SessionStore` objektu i autentikacioni objekat se vraća nazad do `AuthenticationEntryPoint`-a gde se čuva u `SecurityContextHolder`-u.
+
+### Autorizacija
+
+Proces autorizacije je malo jednostavniji od autentikacije. Prilikom svakog zahteva proverava se sesija i na osnovu nje ubacuje sačuvani autentikacioni objekat u `SecurityContextHolder`. Za ovo je zadužen `HttpRequestAuthenticationProviderStrategy` koji naravno ima podrazumevanu implementaciju koja to radi na osnovu kolačića.
+
+![Sekvencijalni dijagram autorizacije](./assets/authorization.png)
+<div align="center">
+  Sl. 9 - <i>Sekvencijalni dijagram autorizacije</i>
+</div>
+
+Kao što smo pomenuli autentikacija koja se koristi za proveru privilegija korisnika se čuva u `SecurityContextHolder` objektu. Sada ćemo objasniti šta to znači. Identifikovati korisnika na sistemu je jedan proces dok je autorizacija nešto sasvim drugo. Osnovna razlika u tome je što je autorizacije proces koji duže traje. Autorizacija korisnika na sistemu mora da bude aktivna i sve dok traje trenutni zahtev koji se obrađuje i nikako ni jedan drugi zahtev ne sme da utiče na njenu validnost. Ovaj veliki problem je rešen relativno lako po uzoru na Spring Security biblioteku. Pomenuli smo ranije da je svaki zahtev u sistemu obrađen na odvojenoj niti da bi se omogućilo obrađivanje puno zahteva odjednom. Ovo nam trenutno umnogome olakšava posao. Sve što je potrebno uraditi na početku svakog zahteva je sačuvati autentikacioni objekat u `ThreadLocal` promenljivu. `ThreadLocal` je java mehanizam koji vrednosti sačuvane u njemu čuva na nivou niti koja se trenutno izvršava. Ovo u prevodu znači da će svaki autorizovani zahtev imati jedinstveno mesto čuvanja autentikacionog objekta i neće dolaziti do potencijalnih problema sinhronizacije niti i potencijalnih bagova vezanih za iste.
+
+```java
+class ThreadLocalSecurityContextHolderStrategy implements SecurityContextHolderStrategy {
+  private final ThreadLocal<SecurityContext> securityContext = new ThreadLocal<>();
+
+  @Override
+  public SecurityContext getContext() {
+    return securityContext.get();
+  }
+
+  @Override
+  public void setContext(SecurityContext securityContext) {
+    if (securityContext == null)
+      throw new GrainSecurityNullContextException();
+    this.securityContext.set(securityContext);
+  }
+
+  @Override
+  public SecurityContext createDefaultContext() {
+    return new SecurityContextImpl();
+  }
+}
+```
+
+Na ovaj način nam je veoma jednostavno "izvući" i proveriti autentikaciju na bilo kom mestu u aplikaciji. 
+
+### Provera autorizacije
+
+Svaki zahtev u Grain aplikaciji prolazi kroz neku od `AbstractRequestHandlerProxy` implementacija. Ako *security* nije osposobljen RequestHandlerProxy neće uraditi ništa već će samo proslediti zahtev do odgovarajućeg handler-a.
+
+U slučaju da je *security* konfigurisan dolazi do provere autorizacionih pravila na osnovu kojih se određuje da li korsnik može da pristupi određenom endpoint-u.
+
+```java
+public class SecurityHandlerProxy extends AbstractRequestHandlerProxy {
+  private final SecurityConfiguration securityConfiguration;
+
+  public SecurityHandlerProxy(RequestHandler target, SecurityConfiguration securityConfiguration) {
+    super(target);
+    this.securityConfiguration = securityConfiguration;
+  }
+
+  @Override
+  public void handle(HttpRequest request, HttpResponse response) {
+    boolean result = new RuleUrlPatternMatcher(securityConfiguration.getRules()).matches(request);
+    if (result) {
+      try {
+        target.handle(request, response);
+      } catch (IOException e) {
+        throw new GrainRuntimeException(e);
+      }
+    } else {
+      throw new HttpException.Forbidden(HttpStatus.FORBIDDEN.getReason());
+    }
+  }
+}
+```
+
+Kao što vidimo vrši se provera zahteva u odnosu na pravila definisana u *Security* konfiguraciji. Ako trenutna autentikacija ne odgovara zahtevima definisanim u pravilima korisniku se vraća `403` greška. Naravno ako za zahtev ne postoje definisana pravila on se odvija bez ikakvih problema. Primer konfiguracije pravila bi izgledao ovako:
+
+```java
+@Grain
+public class SecurityConfig implements SecurityConfigurer {
+
+  @Override
+  public void configure(SecurityConfigurationBuilder sec) {
+    sec.withRules()
+        .urlPattern("/user/**").authenticated().and()
+        .urlPattern("/admin/**").authenticated().roles("ADMIN").and()
+        .urlPattern("/posts").unauthenticated()
+        .buildRules();
+  }
+}
+```
+
+`SecurityConfigurationBuilder` koristi *Fluent* interfejs šablon koji nam omogućava da definišemo pravila na jednostavan i čitljiv način način. U ovom primeru smo definisali da korisnik mora da bude autentifikovan da bi mogao da pristupi `/user` i `/admin` endpoint-ima. Takođe smo definisali da korisnik mora da ima ulogu (rolu) `ADMIN` da bi mogao da pristupi `/admin` endpoint-u. Na kraju smo definisali da korisnik ne mora da bude autentifikovan da bi mogao da pristupi `/posts` endpoint-u, tj. da je to javni endpoint.
 
 ## Templating jezik
 
-## Komunikacija sa bazom podataka
+Sledeći koncept koji ćemo objasniti je dizajn templating jezika. Templating jezik koristimo za dinamičko generisanje HTML stranica. Ovaj templating jezik ima sličnu sintaksu kao **JSP**.
+
+```jsp
+<nav>
+  <div class="nav-wrapper">
+    <a href="#" class="brand-logo">Grain</a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <% if (authentication != null) { %>
+        <li><a href="/dashboard"><%= print(authentication.getName()) %></a></li>
+        <li><a href="/logout">Logout</a></li>
+      <% } else { %>
+        <li><a href="/login">Login</a></li>
+      <% } %>
+    </ul>
+  </div>
+</nav>
+```
+
+U kodu iznad vidimo primer dinamički generisane navigacije za neku od stranica. Korisniku se prikazuju različiti linkovi u zavisnosti od toga da li je ulogovan ili ne.
+
+Pre nego što možemo da objasnimo dati kod počećemo sa jednostavnijim primerima. Najpre ćemo definisati šta je programski jezik.
+
+### Programski jezik
+
+Programski jezik možemo podeliti u sve komponente: sintaksa(forma) i semantika(značenje). Sintaksa je skup pravila po kojima se programski jezik sastoji. Semantika je skup pravila po kojima se programski jezik interpretira. Ove dve komponente su definisane specifikacijom po kojoj su kompajleri i interpreteri implementirani.
+
+Kada smo već pomenuli kompajlere i interpretere naglasićemo da se jezici dele u dve grupe na osnovu toga da li su interpretirani ili kompajlirani. Kompajlirani jezici se prevode iz jezika visokog nivoa u mašinski jezik koji se izvršava direktno na mašini na kojoj se pokreću. Interpretirani jezici se kao što im ime kaže interpretiraju, odnosno različite semantičke konstrukcije pozivaju metode interpretera koji  kasnije izvršava kod na mašini.
+
+Naravno jezici se mogu deliti na statički i dinamički tipizirane. Ova podela nastaje usled prisustva ili odsustva striktnih tipova kada su u pitanju promenljive. Ovaj koncept je semantički i implementiran je direktno u kompajleru ili interperteru.
+
+Po svom tipu jezike najčešće delimo na:  funkcionalne, objektno-orijentisane, itd. Trenutno najpopularnija paradigma programskih jezika je objektno orijentisana paradigma.
+
+Dakle možemo zaključiti da se programski jezik sastoji iz skupa pravila i programa koji je dizajniran da po tom skupu pravila interpretira ili kompajlira tekst odnosno kod.
+
+### Templating programski jezik
+
+Osobine koje templating programski jezik treba da ima jesu one koje mu omogućavaju da bude fleksibilan za korišćenje i jednostavan za interpretiranje. Takođe je od veoma velike pomoći da sintaksa jezika nije u preterano velikom konfliktu sa HTML kodom koji će se neminovno naći u datotekama gde će se pisati taj jezik. Najbolji primer ovoga je verovatno **Thymeleaf** koji se nesmetano piše kao deo HTML-a i potpuno je neprimetan. Kontrast toga je naravno **JSP** koji se trudi da bude što je više moguće nalik Javi. Naravno mnogo je jednostavnije implementirati interpreter koji interpretira JSP nego Thymeleaf tako da smo se mi odlučili za jezik koji ima sintaksu nalik na JSP.
+
+### GTL
+
+Dakle, jezik treba da ima prostu sintaksu, da bude podržava više paradigmi, da bude dinamički i da bude interpretiran. Naravno dizajn i implementacija programskih jezika je veoma kompleksan i unosan proces. Kreiranje specifikacije, implementacija po specifikaciji itd. Naš pristup u Grain radnom okviru je bio više *ad hoc*. Nismo imali konkretnu specifikaciju već smo radili na parseru i interpretatoru sve dok nismo ispunili neke osnovne ciljeve koji su nam bili potrebni za generisanje stranica. Naravno kasnije su dodavane određene funkcionalnosti da bi jezik bi lakši za korišćenje ali svakako nije bilo nekog konkretnog plana. Zbog toga za predstavljanje jezika koristićemo konkretne primere iz postojećih aplikacija i potencijalno jedinične testove koji su korišćeni u razvoju GTL-a (*Grain Templating Language* - u nedostatku boljeg imena).
+
+```java
+  @Test
+void test_testInterpreterReturn() {
+  String code = "2 + 3";
+  Interpreter interpreter = new Interpreter(code, null);
+  Object retval = interpreter.run();
+  assertEquals(5, retval);
+}
+```
+
+U ovom primeru vidimo interpretiranje prostog izraza `2 + 3`. Ovaj izraz se sastoji iz para AST čvorova celobrojnih literala i jedne binarne operacije sabiranja koji bi u prefiksnoj (poljskoj) notaciji izgledao ovako:
+
+``` 
++ (2, 3)
+```
+
+Kod ovog binarnog čvora imamo levo se nalazi čvor koji predstavlja literala sa vrednošću `2` a desno čvor literala sa vrednošću `3`. Rezultat ovog binarnog čvora sabiranja dobijamo tako što primenimo operaciju sabiranja nad levim i desnim čvorom.
+
+Sledi malo kompleksniji primer koji ilustruje korišćenje binarnih operacija i promenljivih. U ovom primeru vidimo da je rezultat binarne operacije `*` jednak `30` što je rezultat sabiranja `1 + 2` i množenja sa `10`. Ovde vidimo i prioritiziranje operacija usled korišćenja zagrada.
+
+```java
+@Test
+void test_plusOperationWithParenthesis() {
+  String code = "a = (1 + 2) * 10";
+  Interpreter interpreter = new Interpreter(code, null);
+  interpreter.run();
+  Object val = interpreter.getSymbolValue("a");
+  assertEquals(30, val);
+}
+```
+
+U poljskoj notaciji ovaj izraz izgleda ovako:
+
+```
+= (a, * (+ (1, 2), 10))
+```
+
+Sledeći primer ilustruje korišćenje `if` naredbe. U ovom primeru vidimo da je rezultat `if` naredbe jednak `10` jer je uspešno izvršena grana gde se broj `10` dodeljuje promenljivoj `a`:
+
+```java
+@Test
+void test_ifStatement() {
+  String code = "if (1 + 2 == 3) { a = 10 } else { a = 20 }";
+  Interpreter interpreter = new Interpreter(code, null);
+  interpreter.run();
+  Object val = interpreter.getSymbolValue("a");
+  assertEquals(10, val);
+}
+```
+
+U poljskoj notaciji ovaj izraz izgleda ovako i ovo je jedan od primera gde AST čvor ima 3 potomka:
+
+```
+if (== (+ (1, 2), 3), = (a, 10), = (a, 20))
+```
+
+Kod programa se pre parsiranja u AST stablo leksira u tokene. Poslednji primer kada se prevede u leksičke tokene izgelda ovako:
+
+```
+IF LPAREN LIT_INT PLUS LIT_INT EQ LIT_INT RPAREN LBRACE
+    IDEN ASSN LIT_INT 
+RBRACE ELSE LBRACE
+    IDEN ASSN LIT_INT
+RBRACE
+```
+
+Lekser je implementiran kao *Finite state machine*. Svi leksički tokeni su definisani kao skup pravila za parsiranje svakog od njih. Lekser pravi odluke na osnovu trenutnog karaktera na kome se nalazi i parsira naredne karaktere na osnovu pravila koje određeno tim karakterom. Na primer, ako lekser pri početku parsiranja naiđe na karakter `"` ili `'` u pitanju je string literal i lekser sve naredne karaktere do dolaska do sledećeg karaktera `"` ili `'` parsira kao string literal. Ako je na primer sledeći karakter `=` u zavisnosti od narednog karaktera token može biti ili dodeljivanje (eng. *assignment*) ako naredni karakter nije `=`. Ukoliko jeste token se parsira kao jednakost (eng. *equality*). Leksička analiza primenjuje samo osnovna pravila i ne služi za proveravanje sintaksnih grešaka. Na primer lekser ne ume da prepozna grešku pisanje dva celobrojna literala jedan za drugim ali ume da prepozna ne zatvaranje string literala. Lekser je implementiran kao jedna `while` petlja koja prolazi kroz sve karaktere programa.
+
+
+```java
+private void doLex() {
+  while (true) {
+    // preskačemo sve whitespace karaktere
+    eatWhitespace();
+
+    // ako smo došli do kraja programa prekidamo leksičku analizu
+    if (!hasNext())
+      break;
+
+    // parsiramo sledeći karakter
+    start = getCharacter();
+
+    // ako je karakter validni početak identifikatora
+    // parsiramo ga kao identifikator
+    if (isStartOfIdentifier()) {
+      String val = eatIdentifier();
+      TokenType kwOrIden = classifyToken(val);
+      Token token = createToken(kwOrIden, val);
+      emit(token);
+      continue;
+    }
+
+    // ako je karakter broj ili znak "-" parsiramo celobrojni literal
+    if (isStartOfNumberLiteral()) {
+      String val = eatFloat();
+      TokenType type = getNumberType(val);
+      if (type.equals(INVALID)) {
+        printSourceCodeLocation();
+        throw new LexerException("Invalid number literal " + getInfo());
+      }
+      Token token = createToken(type, val);
+      emit(token);
+      continue;
+    }
+
+    // ako je karakter neki od validnih navodnika parsiramo ga
+    // kao string literal
+    if (isStartOfStringLiteral()) {
+      String val = eatStringLiteral();
+      if (val == null) {
+        printSourceCodeLocation();
+        throw new LexerException("Invalid string literal " + getInfo());
+      }
+      Token token = new Token(LIT_STR, val);
+      emit(token);
+      continue;
+    }
+
+    // U svakom drugom slučaju parsiramo karakter kao operator
+    // ako ne uspemo da ga prepoznamo kao validan operator
+    // prijavljujemo grešku
+    Optional<Token> operator = tryParseOperator();
+    // ...
+```
+
+Parsiranje operatora se je prikazano sledećim kodom:
+
+```java
+private Optional<Token> tryParseOperator() {
+  String curr = next(); // trenutni karakter
+  
+  // U zavisnosti od trenutnog i sledećeg karaktera
+  // odlučujemo o kom operatoru se radi
+  switch (curr) {
+    case ":":
+      return Token.optional(TERNELSE, curr);
+    case "?":
+      if (peek().equals("?")) {
+        curr += next();
+        return Token.optional(DFLT, curr);
+      } else {
+        return Token.optional(TERNCOND, curr);
+      }
+    case "!":
+      if (peek().equals("=")) {
+        curr += next();
+        return Token.optional(NE, curr);
+      } else {
+        return Token.optional(NOT, curr);
+      }
+    case "=":
+      if (peek().equals("=")) {
+        curr += next();
+        return Token.optional(EQ, curr);
+      } else {
+        return Token.optional(ASSN, curr);
+      }
+  // ostali operatori
+  // ...
+```
+
+Kada smo imamo listu svih tokena koji čine program možemo da ih parsiramo u AST stablo. Parser je implementiran kao *recursive descent parser*. On funkcioniše slično kao i lekser - u informacije o trenutnom i narednom tokenu odlučuje o kom čvoru se radi. Parsiranje se sastoji od parsiranje dva tipa čvorova: parsiranje izraza (eng. *expression*) i iskaza (eng. *statement*). Iskazi se sastoje iz jednog ili više izraza i mogu da budu na primer: `if`, `for`, `foreach` itd. Izrazi mogu da budu na primer: izrazi dodeljivanja (a = 5), jednakosti (b == 5) itd.
+
+Metoda parsiranja izraza je prikazana sledećim kodom:
+
+```java
+private AstNode parseStatement() {
+  AstNode node = null;
+  if (iter.isPeekOfType(LBRACE)) {
+    node = parseBlockStatement();
+  } else if (iter.isPeekOfType(IF)) {
+    node = parseIfStatement();
+  } else if (iter.isPeekOfType(FOREACH)) {
+    node = parseForEachStatement();
+  } else if (iter.isPeekOfType(FOR)) {
+    node = parseForStatement();
+  } else {
+    node = parseExpression();
+  }
+  return node;
+}
+```
+
+Ukoliko naredni token nije ni jedan od navedenih parsiramo iskaz kao izraz. Parsiranje izraza je prikazano sledećim kodom:
+
+```java
+private AstNode parseExpression() {
+  Token curr = iter.next();
+  AstNode node = null;
+  
+  if (iter.isPeekOfType(AND, OR)) {
+    node = createNode(curr);
+    node = parseBooleanNode(iter.next(), node);
+  } else if (iter.isPeekOfType(EQ, NE)) {
+    node = createNode(curr);
+    node = parseEqualityNode(iter.next(), node);
+  } else if (iter.isPeekOfType(GT, LT, GE, LE)) {
+    node = createNode(curr);
+    node = parseRelationalNode(iter.next(), node);
+  } else if (iter.isPeekOfType(ADD, SUB, DIV, DIV, MUL)) {
+    node = createNode(curr);
+    node = parseArithmeticNode(iter.next(), node);
+  } else if (iter.isPeekOfType(TERNCOND)) {
+    node = createNode(curr);
+  } else if (iter.isPeekOfType(ASSN)) {
+    if (!curr.isOfType(IDEN))
+      throw new ParserSyntaxErrorException(getSourceCodeLocation(curr),
+          "Cannot assign to '%s'", curr.getType());
+  // ostali tipovi izraza
+  // ...
+  // i na kraju parsiramo preostali token kao običan čvor
+  // koji ne predstavlja izraz
+  } else {
+    node = createNode(curr);
+  }
+
+```
+
+Ovde vidimo da se na osnovu trenutnog i sledećeg tokena pravi odluka o tome kako će se parsirati naredni čvor AST stabla. Prilikom parsiranja svakog od čvorova rekurzivno se zovu navedene metode do trenutka kada nemamo više tokena.
+
+Primer parsiranja jednog izraza dodeljivanja je predstavljen sledećim kodom:
+
+```java
+// token je trenutni token a left predstavlja prethodni parsirani čvor koji će
+// postati levi potomak čvora dodeljivanja
+private AstNode parseAssignmentNode(Token token, AstNode left) {
+
+  AstAssignmentNode astAssignmentNode = (AstAssignmentNode) createNode(token);
+  // setSymbol je delegat metoda metode setLeft
+  astAssignmentNode.setSymbol(left);
+
+  // rekurzivni poziv parseExpression
+  AstNode value = parseExpression();
+
+  // parsirani izraz dodeljujemo kao vrednost čvora odnosno
+  // desnom potomku čvora dodeljivanja
+  astAssignmentNode.setValue(value);
+  return astAssignmentNode;
+}
+```
+
+Što se tiče sintaksnih grešaka. Navešćemo primer sintaksne greške koje nastaje kada zaboravimo levu zagradu kod parsiranja `if` iskaza:
+
+```java
+private AstNode parseIfStatement() {
+  Token ifToken = iter.next();
+  // ukolikio sledeći token posle if tokena nije (
+  // bacamo sintaksnu grešku
+  if (!iter.isPeekOfType(LPAREN)) {
+    throw new ParserSyntaxErrorException(getSourceCodeLocation(iter.peek()), "Expected '%s'", LPAREN.getValue());
+  }
+
+```
+
+Uspešnim parsiranjem svih tokena dobijamo AST koje može biti interpretirano od strane *interpretera*.
+
+### Interpreter
+
+Interpreter je u našem slučaju klasa koja izvršava interpretaciju AST stabla. Interpreter je implementiran kao *visitor* koji obilazi AST stablo i izvršava odgovarajuće akcije. Interpreter kao *visitor* poziva `run` metode AST čvorova i evaluira njihove vrednosti. 
+
+Primer `run` metode `AstBooleanNode`-a:
+
+```java
+@Override
+public Object run(Interpreter interpreter) {
+  // imperativ je evaluirati levog potomka
+  // kada je u pitanju desni primenićemo tehniku
+  // short-circuit evaluation koja će preskočiti evaluaciju
+  // levog potomka ukoliko je vrednost desnog potomka
+  // dovoljna da se dobije rezultat bulove operacije
+  Object leftValue = left.run(interpreter);
+  switch (operator) {
+    case AND:
+      // u slučaju da je levi potomak false
+      // desni potomak neće uticati na rezulatat AND operacije
+      if (!Boolean.parseBoolean(String.valueOf(leftValue)))
+        return false;
+      return Boolean.parseBoolean(String.valueOf(right.run(interpreter)));
+    case OR:
+      // u slučaju da je levi potomak true
+      // desni potomak neće uticati na rezulatat OR operacije
+      if (Boolean.parseBoolean(String.valueOf(leftValue)))
+        return true;
+      return Boolean.parseBoolean(String.valueOf(right.run(interpreter)));
+  }
+
+  // u slučaju da je operator neki drugi
+  // bacamo izuzetak
+  throw new IllegalStateException("Unknown operator value " + operator);
+}
+```
+
+Evaluiranjem svih čvorova dobijamo vrednost koja se može koristiti u daljem toku izvršavanja programa. Interpreter u toku izvršavanja čuva informaciju o trenutnom *scope*-u izvršavanja. Kod izvršavanja `if` čvora možemo videti kako se *scope* *pop*-uje i *push*-uje na *stack*:
+
+```java
+@Override
+public Object run(Interpreter interpreter) {
+  Object value = null;
+  // Evaluiramo uslov
+  Object conditionValue = this.condition.run(interpreter);
+
+  // ukoliko je uslov true
+  // izvršavamo blok koda
+  // i pritom kreiramo novi scope
+  // kada se blok završi
+  // scope se popuje sa stack-a
+  if (!isFalsy(conditionValue) && this.getIfTrue() != null){
+    interpreter.pushScope();
+    value = this.getIfTrue().run(interpreter);
+    interpreter.popScope();
+  } else if (getIfFalse() != null) {
+    interpreter.pushScope();
+    value = this.getIfFalse().run(interpreter);
+    interpreter.popScope();
+  }
+  
+  // na kraju moramo ali i ne moramo vratiti vrednost
+  return value;
+}
+```
+*Scope*-ovi su implementirani kao *dek* mapa stringova (`Deque<Map<String, Object>>`) na objekte.
+
+```java
+public class Interpreter {
+  // ...
+  public void pushScope() {
+    this.scopeStack.push(new HashMap<>());
+  }
+
+  public void popScope() {
+    this.scopeStack.pop();
+  }
+
+  // dobijanje vrednosti simbola (identifikatora)
+  public Object getSymbolValue(String name) {
+    Object o = null;
+    Map<String, Object> scope = getScopeThatContains(name);
+
+    if (scope.containsKey(name)) {
+      o = scope.get(name);
+    } else {
+      // ukoliko ne postoji simbol sa zadatim imenom
+      // pokušavamo da učitamo klasu sa tim imenom
+      Optional<Class<?>> clazz = tryLoadClass("java.lang." + name.replaceAll("java.lang.", ""));
+      if (clazz.isPresent()) {
+        o = clazz.get();
+        // čuvamo klasu da ne bi morali ponovo da pozivamo loadClass
+        putScopedSymbol(name, o);
+      }
+    }
+
+    return o;
+  }
+
+}
+```
+
+Sada primenjena znanja možemo da iskoristimo za implementaciju jednostavnog *templating* jezika.
+
+### Templating
+
+Objasnićemo korišćenje jezika na osnovu jednog od prethodnih primera:
+
+```jsp
+<nav>
+  <div class="nav-wrapper">
+    <a href="#" class="brand-logo">Grain</a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <% if (authentication != null) { %>
+        <li><a href="/dashboard"><%= print(authentication.getName()) %></a></li>
+        <li><a href="/logout">Logout</a></li>
+      <% } else { %>
+        <li><a href="/login">Login</a></li>
+      <% } %>
+    </ul>
+  </div>
+</nav>
+```
+
+Poenta templating jezika je da od ovog HTML *snippet*-a napravi dinamički popunjen HTML fajl. Interpretator je ovde zadužen da delove template-a pretvori u pozive `print` ugrađene metode koja vraća deo template-a bez koda kao string.
+
+```java
+// print built-in metoda
+(AstFunctionCallback) (args) -> {
+  String value = (args[0] == null ? "null" : args[0].toString());
+  // ovde radimo escape-ing navodnika
+  value = value.replaceAll("\\\\'", "'").replaceAll("\\\\\"", "\"");
+  // upisujemo u izlazni tok
+  write(value);
+  return value;
+}
+```
+Prvi korak interpretera je da razdvoji template od blokova koda:
+
+```java
+print("<nav>\n\t<div class=\"nav-wrapper\">\n\t\t<a href=\"#\" class=\"brand-logo\">Grain</a>\n\t\t<ul id=\"nav-mobile\" class=\"right hide-on-med-and-down\">\n")
+if (authentication != null) {
+  print("\t\t\t<li><a href=\"/dashboard\">")
+  print(authentication.getName())
+  print("</a></li>\n")
+  print("\t\t\t\<li><a href=\"/logout\">Logout</a></li>\n")
+} else {
+  print("\t\t\t<li><a href=\"/login\">Login</a></li>\n")
+}
+print("</ul>\n</div>\n</nav>\n")
+```
+
+Ovo bi bio rezultat inicijalnog parsiranja template-a. Na kraju imamo kod koji bez problema možemo parsirati interpretatorom. Ukoliko kod sadrži interpolaciju `${val}` ona je evaluirana pre konverzije template-a i menja interpolaciju pozivima `print` metode (npr. `<% print(val) %>`).
+
+Rezultujući template posle evaluacije u slučaju da je korisnik ulogovan izgleda ovako:
+
+```html
+<nav>
+  <div class="nav-wrapper">
+    <a href="#" class="brand-logo">Grain</a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a href="/dashboard">admin</a></li>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+  </div>
+</nav>
+```
 
 # Primer gotove aplikacije
 
@@ -1335,3 +1899,7 @@ Ovde vidimo da `FormLoginAuthenticationEntryPoint` ima par definisanih zavisnost
 5. IETF, 2017, *RFC 8259 - The JavaScript Object Notation (JSON) Data Interchange Format*, [https://www.rfc-editor.org/rfc/rfc8259](https://www.rfc-editor.org/rfc/rfc8259)
 
 6. IETF, 2015, *RFC 7519 - JSON Web Token (JWT)*, [https://www.rfc-editor.org/rfc/rfc7519](https://www.rfc-editor.org/rfc/rfc7519)
+
+7. YouTube, 2014, *Reverse Polish Notation and The Stack - Computerphile*, Computerphile, [https://www.youtube.com/watch?v=7ha78yWRDlE](https://www.youtube.com/watch?v=7ha78yWRDlE)
+
+8. YouTube, 2017, *Parser and Lexer — How to Create a Compiler part 1/5 — Converting text into an Abstract Syntax Tree*, Bitwit, [https://www.youtube.com/watch?v=eF9qWbuQLuw](https://www.youtube.com/watch?v=eF9qWbuQLuw)

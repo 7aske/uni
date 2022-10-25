@@ -1,6 +1,6 @@
 # Uvod
 
-U ovom radu bavićemo se kreiranjem web radnog okvira za Java programski jezik pod nazivom **Grain**. Cilj rada je pored kreiranja samog radnog okvira i istraživanje osnovnih i nekih od naprednijih koncepata koji čine svaki radni okvir i samim tim web aplikacije. Istražićemo razne odluke povodom dizajna različitih naprednih funkcionalnosti kao što su *sistem za umetanje zavisnosti* ili *templejting jezik* za kreiranje dinamičkih server-side stranica. Sam radni okvir biće dosta, po svojoj strukturi i funkciji, nalik na Spring radni okvir koji mu je i bio inspiracija.
+U ovom radu bavićemo se kreiranjem veb radnog okvira za *Java* programski jezik pod nazivom *Grain*. Pored kreiranja samog radnog okvira, cilj rada je istraživanje osnovnih i nekih od naprednijih koncepata koji čine svaki radni okvir i samim tim veb aplikacije. Istražićemo razne odluke koje nastaju prilikom dizajniranja različitih naprednih funkcionalnosti, kao što su *sistem za umetanje zavisnosti* (eng. *dependency injection*) ili *templejting jezik* (eng. *templating lanaguage*) za kreiranje dinamičkih stranica generisnanih na serveru (eng. *server-side renderer*). Sam radni okvir biće po svojoj strukturi i funkciji nalik na *Spring* radni okvir, koji mu je i bio inspiracija.
 
 Objasnićemo i teorijski obraditi pojmove kao što su:
 
@@ -10,67 +10,68 @@ Objasnićemo i teorijski obraditi pojmove kao što su:
 
 * Autentikacija i autorizacija bazirana na rolama
 
-* Dizajniranje programskog jezika i kreiranje interpretera
+* Dizajniranje programskog jezika i kreiranje interpretatora
 
 * MVC arhitektura softverskih projekata
 
 * Objektno-relaciono mapiranje i komunikacija sa bazama podataka
 
-Takođe, na kraju rada ćemo obraditi primer gotove aplikacije napisane u Grain framework-u. Aplikacija će pratiti MVC arhitekturu ali pored toga će koristiti asinhrone HTTP pozive za dobavljanje određenih informacija. Naravno aplikacija će imati autentikaciju i autorizaciju za odgovarajuće putanje.
+Takođe, na kraju rada ćemo obraditi primer gotove aplikacije napisane u *Grain* radnom okviru. Aplikacija će pratiti MVC arhitekturu ali pored toga će koristiti asinhrone HTTP pozive za dobavljanje određenih informacija. Naravno, aplikacija će imati autentikaciju i autorizaciju za odgovarajuće putanje.
 
 # Pojam radnog okvira
 
 ## Šta je radni okvir
 
-Pojam radni okvir predstavlja strukturu ili skup pravila prateći koja lakše dolazimo do cilja. Kada kažemo radni okvir (eng. *framework*) najčešće mislimo na softverski framework koji služi za izradu neke od različitih vrsta aplikacija (desktop, web, mobile itd.). Naravno, radni okviri postoje i u drugim sferama industrije. Jedan primer, blizak softveru, takođe iz softverske industrije, bi bio primer upravljanja projektima uz korišćenje jednog od agilnih radnih okvira kao što su npr. *scrum*, *ekstremno programiranje*, *lean* itd. Pravila i struktura nametnuta od strane tih okvira dovodi do toga da se manje vremena i energije (resursa) troši na kreiranje njih samih prilikom početka svakog projekta, postavlja smislena osnovna pravila koja su se u praksi pokazala kao efikasna prilikom uspešnog vođenja projekata i naravno lakše uključenje novih ljudi na projekat koji poznaju dati framework. 
+Pojam radni okvir predstavlja strukturu ili skup pravila prateći koja lakše dolazimo do cilja. Kada kažemo radni okvir (eng. *framework*) najčešće mislimo na softverski frejmvork koji služi za izradu neke od različitih vrsta aplikacija (desktop, veb, mobilnih itd.). Naravno, radni okviri postoje i u drugim sferama industrije. Jedan primer, blizak softveru, koji je takođe iz softverske industrije, je upravljanje projektima uz korišćenje jednog od agilnih radnih okvira kao što su npr. *Scrum*, *ekstremno programiranje*, *Lean* itd. Pravila i struktura nametnuta od strane tih okvira dovode do toga da se manje vremena i energije (resursa) troši na kreiranje njih samih prilikom početka svakog projekta, postavljaju smislena osnovna pravila koja su se u praksi pokazala kao efikasna prilikom uspešnog vođenja projekata i naravno dovode do lakšeg uključenja novih ljudi na projekat koji poznaju dati radni okvir. 
 
-Slična situacija je nastaje i u softverskom svetu. Ne želimo da svaki put kada krećemo sa novim projektom kreiramo osnovne alate koje ćemo koristiti od nule (parsiranje HTTP zahteva, web security biblioteka, logivanje itd.). Ovo umnogome smanjuje vreme razvoja nekog sistema. Takođe, zbog toga što mnogo timova radi na različitim projektima koristeći iste alate dolazi do toga da se sam alat bolje testira i samim tim prilagođava promenama. Pored svega toga, prilikom promene članova tima onboarding proces (proces upoznavanja člana tima sa projektom) je znatno kraći i sam taj proces se može fokusirati isključivo na upoznavanje novog člana sa domenskim problemima jer će sva tehnička infrastruktura biti manje-više ista (podrazumevajući, naravno, da je član upoznat sa radnim okvirom). Postoji dobra rečenica iz knjige *Clean Code* Roberta C. Martina gde Ward Cunningham (kreator Wikija) navodi da je jedna od odlika čistog koda da programer pri čitanju istog nailazi na linije i konstrukcije koje su upravo ono što je očekivao. Radni okviri nam tu pomažu jer će uvek postojati zajednička polazna tačka za sve projekte i programeri će, baš tako, nailaziti na konstrukcije koje su baš ono što su i očekivali.
+Slična situacija nastaje i u softverskom svetu. Ne želimo da svaki put kada krećemo sa novim projektom kreiramo osnovne alate koje ćemo koristiti od nule (parsiranje HTTP zahteva, *web security* biblioteka, logovanje itd.). Upotreba radnih okvira umnogome smanjuje vreme razvoja nekog sistema. Takođe, zbog toga što mnogo timova radi na različitim projektima koristeći iste alate, dolazi do toga da se sam alat bolje testira i samim tim prilagođava promenama. Pored svega toga, prilikom promene članova tima proces upoznavanja člana tima sa projektom je znatno kraći i sam taj proces se može fokusirati isključivo na upoznavanje novog člana sa domenskim problemima, jer će sva tehnička infrastruktura biti manje-više ista (podrazumevajući, naravno, da je član upoznat sa radnim okvirom). Postoji dobra misao iz knjige *"Jasan Kod"* (eng. *"Clean Code"*) Roberta C. Martina, gde Vord Kaningam (kreator vebsajta *Wikipedia*) navodi da je jedna od odlika čistog koda da programer pri čitanju istog nailazi na linije i konstrukcije koje su upravo ono što je očekivao. Radni okviri nam tu pomažu jer će uvek postojati zajednička polazna tačka za sve projekte i programeri će, baš tako, nailaziti na konstrukcije koje su upravo ono što su i očekivali.
 
-Radni okvir u kontekstu programiranja je struktura odnosno skup biblioteka i pravila povrh kojih konstruišemo softver. Takođe, radni okvir i pomenute biblioteke sadrže implementaciju čestih funkcionalnosti koje se tiču domena za koji je on specijalizovan. U ovom radu ćemo se fokusirati na domen web framework-e tako da će se te podrazumevane implementacije čestih funkcionalnosti ticati parsiranja HTTP zahteva, implementacije security-a, komunikacije sa bazom podataka, kreiranja dinamičkih stranica itd.
+Radni okvir u kontekstu programiranja je temelj povrh kojeg konstruišemo softver uz pomoć skupa biblioteka i pravila. Takođe, radni okvir i pomenute biblioteke sadrže implementaciju često upotrebljavanih funkcionalnosti koje se tiču domena za koji je on specijalizovan. U ovom radu ćemo se fokusirati na domen veb frejmvorka, tako da će se te podrazumevane implementacije učestalih funkcionalnosti ticati parsiranja HTTP zahteva, implementacije veb bezbednosti (eng. *web security*), komunikacije sa bazom podataka, kreiranja dinamičkih stranica itd.
 
-U zavisnosti od toga kako je implementiran radni okvir može biti modularan i monolitan. Modularan radni okvir je na primer Spring radni okvir. Spring sam po sebi ne donosi mnogo više od implementacije umetanja zavisnosti (eng. *dependency injection* - *DI*) ali kombinovanje sa ostalim njegovim modulima (bibliotekama) nam daje kompletno rešenje. Mana ovog pristupa su potencijalni problemi sa različitim zavisnostima i malo veća kompleksnost konfiguracije. Velika prednost je to što developer bira koje će module izabrati i tako dolazi do minimalnog rešenja koje će zadovoljiti potrebe projekta. U drugom slučaju, kod monolitnih, kakav je ujedno i **Grain** radni okvir, celokupno rešenje je u obliku jedne zavisnosti i developer samo bira da li će koristiti neke funkcionalnosti ili ne. Ovde možemo doći do problema da je brdo nekorišćenih funkcionalnosti, a samim tim i koda, ubačeno u projekat. Ovo uglavnom ne predstavlja problem u mnogim situacijama ali to naravno zavisi od projekta i veličine framework-a.
+U zavisnosti od toga kako je implementiran, radni okvir može biti modularan i monolitan. Modularan radni okvir je, na primer, *Spring* radni okvir. *Spring* sam po sebi ne donosi mnogo više od implementacije umetanja zavisnosti (eng. *dependency injection* - *DI*) ali kombinovanje sa njegovim ostalim njegovim modulima (bibliotekama) nam daje kompletno rešenje. Mana ovog pristupa su potencijalni problemi sa različitim zavisnostima i malo veća kompleksnost konfiguracije. Velika prednost je to što programer bira koje će module izabrati i tako dolazi do minimalnog rešenja koje će zadovoljiti potrebe projekta. U drugom slučaju, kod monolitnih radnih okvira, kakav je ujedno i **Grain**, celokupno rešenje je u obliku jedne zavisnosti i programer samo bira da li će koristiti neke funkcionalnosti ili ne. Ovde možemo doći do problema da je brdo nekorišćenih funkcionalnosti, a samim tim i koda, ubačeno u projekat. Ovo uglavnom ne predstavlja problem u mnogim situacijama, ali to naravno zavisi od projekta i veličine framework-a.
 
-Dakle, s obzirom na to da ustanovili smo šta predstavlja radni okvir - neizostavan alat modernog developera - možemo na da pređemo na opis nekih najpopularnijih rešenja.
+Dakle, s obzirom na to da ustanovili smo šta predstavlja radni okvir - neizostavan alat modernog developera - možemo da pređemo na opis nekih najpopularnijih rešenja.
 
-## Web radni okviri u Java programskom jeziku
+## Veb radni okviri u *Java* programskom jeziku
 
-U ovom delu pričaćemo o nekim od popularnijih Java biblioteka i radnih okvira i videćemo procentualno koliko se koriste na projektima gde je baš Java glavna tehnologija. Referenciraćemo Perforce-ov *2021 Java Developer Productivity Report* gde možemo naći brdo različitih informacija o Java ekosistemu.
+U ovom delu pričaćemo o nekim od popularnijih Java biblioteka i radnih okvira i videćemo koliko se procentualno koriste na projektima gde je upravo *Java* glavna tehnologija. Referenciraćemo *Perforce*-ov *2021 Java Developer Productivity Report*, gde možemo naći pregršt različitih informacija o *Java* ekosistemu.
 
 ![Procenat zastupljenosti radnih okvira](./assets/2021_java_framework_percentage.png)
 <div align="center">
 Sl. 1 - <i>Procenat zastupljenosti radnih okvira</i>
 </div>
 
-Kao što možemo da vidimo Spring Boot ubedljivo zauzima prvo mesto po popularnosti među radnim okvirima na java projektima. Spring Boot doduše beleži pad sa 83% koje beleži prošle godine. Na trećem mestu sa tek 9% se nalazi koji je kao i četvrtoplasirani Quarkus (6%) doživeo pomak sa svojih 1% koje je imao prethodne godine (2020).
+Kao što možemo da vidimo, *Spring Boot* ubedljivo zauzima prvo mesto po popularnosti među radnim okvirima na *Java *projektima. *Spring Boot*, doduše, beleži pad sa 83% koje beleži prošle godine. Na trećem mestu sa tek 9% se nalazi *Micronaut*, koji je kao i četvrtoplasirani *Quarkus* (6%) doživeo pomak sa svojih 1% koje je imao prethodne godine (2020).
 
 ### Vert.x
 
-Vert.x je open-source, reaktivni i poliglotski programski (može biti pisan u bilo kom JVM jeziku) toolkit koji nam dolazi od Eclipse-a. Vert.x je modularan, brz, i lagan a dizajniran je za korišćenje u mikroservisnim aplikacijama. Takođe, pored dizajna koji ima mikroservise na umu Vert.x je pogodan za reaktivno programiranje jer se bazira na *event loop-u* poput tehnologije kao što je Node.js. 
+*Vert.x* je *open-source*, reaktivni i poliglotski (može biti pisan u bilo kom JVM jeziku) programski *toolkit* koji nam dolazi od *Eclipse*-a. *Vert.x* je modularan, brz i lagan, a dizajniran je za korišćenje u mikroservisnim aplikacijama. Takođe, pored dizajna koji ima mikroservise na umu, *Vert.x* je pogodan za reaktivno programiranje jer se bazira na *event loop*-u poput tehnologije kao što je *Node.js*. 
 
 ### Micronaut
 
-Micronaut je kao što mu i samo ime govori micro-framework koji je dizajniran tako da ne koristi Java Reflection API za konfiguraciju i sve njegove funkcionalnosti koje bi inače bile konfigurisane u toku izvršenja su zapravo konfigurisane u toku kompajliranja. Ovo dovodi do znatnog umanjenja zahteva za radnom memorijom a takođe i smanjuje start-up vreme. Ovo je naravno idealno za korišćenje u mikroservisnim i cloud-native aplikacijama. Takođe, Micronaut je open-source.
+*Micronaut* je, kao što mu i samo ime govori, *micro-framework* koji je dizajniran tako da ne koristi *Java Reflection API* za konfiguraciju, stoga sve njegove funkcionalnosti koje bi inače bile konfigurisane u toku izvršenja se zapravo konfigurišu u toku kompajliranja. Ovo dovodi do znatnog umanjenja zahteva za radnom memorijom, a takođe i smanjuje vreme pokretanja. Ovo je, naravno, idealno za korišćenje u mikroservisnim i *cloud-native* aplikacijama. Takođe, *Micronaut* je *open-source*.
 
 ### Quarkus
 
-Quarkus je Java framework prilagođen za Kubernetes deployment. Glavne tehnologije koje omogućuju Quarkus su OpenJDK HotSpot i GraalVM. Ideja Quarkus-a je da učini Javu vodećom platformom u Kubernetes i serverless okruženjima dok pruža developerima jedinstven imperativni i reaktivni model za optimalno korišćenje u širokom spektru arhitektura.
+*Quarkus* je *Java* framework prilagođen za *Kubernetes* deployment. Glavne tehnologije koje omogućuju *Quarkus* su *OpenJDK HotSpot* i *GraalVM*. Ideja *Quarkus*-a je da načini *Javu* vodećom platformom u *Kubernetes* i *serverless* okruženjima dok pruža developerima jedinstven imperativni i reaktivni model za optimalno korišćenje u širokom spektru arhitektura.
 
 ### DropWizard
 
-DropWizard je open-source Java radni okvir za razvoj visoko-performantnih, ops-friendly, RESTful web servisa. DropWizard sa sobom povlači stabilne i zrele Java biblioteke iz Java ekosistema u jednostavan, lak paket koji omogućava developerima da se fokusiraju na obavljanje sbog posla.
+*DropWizard* je *open-source* *Java* radni okvir za razvoj visoko performantnih, *ops-friendly*, *RESTful* veb servisa. *DropWizard* sa sobom povlači stabilne i zrele *Java* biblioteke iz *Java* ekosistema u jednostavan, lak paket koji omogućava programerima da se fokusiraju na obavljanje sbog posla.
+
 ### Spring Boot
 
-Spring Framework je open-source radni okvir i IoC(inversion of control) kontejner za Java platformu. Jedna od glavnih odlika Spring-a je da se on može koristiti u bilo kojoj Java aplikaciji ali se najčešće koristi za izradu web aplikacija na Java EE (Java Enterprise Edition) platformi. Spring zajedno sa Spring Boot-om je *de facto* standard za izradu web aplikacija.
+*Spring Framework* je *open-source* radni okvir i *IoC* (inverzija kontrole - eng. *inversion of control*) kontejner za *Java* platformu. Jedna od glavnih odlika *Spring*-a je da se on može koristiti u bilo kojoj *Java* aplikaciji ali se najčešće koristi za izradu web aplikacija na *Java EE* (*Java Enterprise Edition*) platformi. *Spring*, zajedno sa *Spring Boot*-om, je *de facto* standard za izradu web aplikacija.
 
 # Teorijska postavka
 
-Pre nego što predstavimo studiju slučaja koja će biti pokrivena o ovom radu, bilo bi korisno proći kroz sve veće relevantne koncepte koje Grain framework pokriva. Koncepti će se ticati različitih podležućih tehnologija koje primarno koristimo na web-u ali i nekih specifičnih kao što je na primer pisanje programskog jezika.
+Pre nego što predstavimo studiju slučaja koja će biti pokrivena u ovom radu, bilo bi korisno proći kroz sve veće bitne koncepte koje Grain framework pokriva. Koncepti će se ticati različitih podležućih tehnologija koje primarno koristimo na vebu, ali i nekih specifičnih kao što je, na primer, pisanje programskog jezika.
 
 ## HTTP
 
-HTTP ili *hyper-text transfer protocol* je najstandardniji protokol za razmenu informacija na web-u. HTTP započeo svoju evoluciju, ako možemo tako da se izrazimo, u kolevci Interneta - u CERN-u 1989. godine. Prva verzija (1.0) se pojavila 1991. godine a trenutna standardna trenutna najpodržanija verzija je 1.1 koja je standardizovana 1999. godine ([RFC 2616](https://datatracker.ietf.org/doc/html/rfc2616) sa dopunama 2014. godine RFC 7230-7235). Postoje i verzije HTTP/2 i HTTP/3 koje menjaju način prenosa podataka preko HTTP-a ali i ne i njegovu semantiku u pogledu aplikacije koje ga koriste. HTTP/2 uvodi binarnu kompresiju podataka u zaglavlju (više o tome kasnije), korišćenje jedne [TCP](https://en.wikipedia.org/wiki/Transmission_Control_Protocol) konekcije za razmenu podataka i push-ovanje podataka. HTTP/3 je revizija HTTP/2 protokola koji koristi [QUIC](https://en.wikipedia.org/wiki/QUIC) i UDP transportni protokol umesto TCP-a. U daljem tekstu kada govorimo o HTTP-u mislićemo na HTTP/1.1 verziju jer je to verzija koju podržava Grain radni okvir.
+HTTP ili *hyper-text transfer protocol* je najkorišćeniji protokol za razmenu informacija na vebu. HTTP je započeo svoju evoluciju, ako možemo tako da se izrazimo, u kolevci Interneta - u CERN-u 1989. godine. Prva verzija (1.0) se pojavila 1991. godine a trenutna standardna najpodržanija verzija je 1.1, koja je standardizovana 1999. godine ([RFC 2616](https://datatracker.ietf.org/doc/html/rfc2616) sa dopunama 2014. godine RFC 7230-7235). Postoje i verzije HTTP/2 i HTTP/3 koje menjaju način prenosa podataka preko HTTP-a ali i ne i njegovu semantiku iz ugla aplikacija koje ga koriste. HTTP/2 uvodi binarnu kompresiju podataka u zaglavlju (više o tome kasnije), korišćenje jedne [TCP](https://en.wikipedia.org/wiki/Transmission_Control_Protocol) konekcije za razmenu podataka i *push*-ovanje podataka. HTTP/3 je revizija HTTP/2 protokola koji koristi [QUIC](https://en.wikipedia.org/wiki/QUIC) i UDP transportni protokol umesto TCP-a. U daljem tekstu kada govorimo o HTTP-u mislićemo na HTTP/1.1 verziju, jer je to verzija koju podržava *Grain* radni okvir.
 
-HTTP je protokol u aplikativnom lejeru i osnova komunikacije na *World Wide Web*-u. Ovaj protokol funkcioniše kao zahtev-odgovor protokol između klijenta i servera. Klijentska aplikacija kreira zahtev ka serveru. Server nakon obrade podataka vraća odgovor klijentu koji može da sadrži različite informacije u svom zaglavlju (headers) i zahtevani resurs u telu (eng. body). Komunikacija između servera i klijenta se ostvaruje pomoću TCP transportnog protokola. U osnovi TCP protokola se nalazi three-way-handshake koji osigurava da su podaci isporučeni (za razliku od UDP-a). 
+HTTP je protokol u aplikativnom sloju i osnova komunikacije na *World Wide Web*-u. Ovaj protokol funkcioniše kao zahtev-odgovor protokol između klijenta i servera. Klijentska aplikacija kreira zahtev ka serveru. Server nakon obrade podataka vraća odgovor klijentu, koji može da sadrži različite informacije u svom zaglavlju (eng. *headers*) i zahtevani resurs u telu (eng. *body*). Komunikacija između servera i klijenta se ostvaruje pomoću TCP transportnog protokola. U osnovi TCP protokola se nalazi *three-way-handshake* koji osigurava da su podaci isporučeni (za razliku od UDP-a). 
 
 ![Dijagram TCP-a](./assets/tcp_states_connect.jpg)
 <div align="center">
@@ -99,11 +100,11 @@ Glavne odlike (razlike) u odnosu na **UDP** su sledeće:
 
 ### HTTP zahtev i odgovor
 
-Kao što smo već naglasili HTTP je protokol koji se zasniva na zahtevu i odgovoru tako da ćemo ta dva koncepta bolje objasniti u ovom poglavlju.
+Kao što smo već naglasili, HTTP je protokol koji se zasniva na zahtevu i odgovoru, tako da ćemo ta dva koncepta bolje objasniti u ovom poglavlju.
 
 #### Tipovi poruka
 
-HTTP zahtevi i HTTP odgovori koriste generički format za poruke definisan u [RFC 822](https://www.rfc-editor.org/rfc/rfc822). Oba tipa poruka imaju početnu liniju (eng. *start-line*), nijedan ili više polja zaglavlja (u daljem tekstu eng. *header*), prazne linije (linija koja nema ni jedan karakter pre CRLF) koja označava kraj poljima zaglavlja i opciono telo poruke (eng. *message-body*).
+HTTP zahtevi i HTTP odgovori koriste generički format za poruke definisan u [RFC 822](https://www.rfc-editor.org/rfc/rfc822). Oba tipa poruka imaju početnu liniju (eng. *start-line*), nijedan ili više polja zaglavlja, praznu liniju (linija koja nema nijedan karakter pre CRLF) koja označava kraj poljima zaglavlja i telo poruke (eng. *message body*) koje je opciono.
 
 Šema poruka bi izgledala ovako:
 
@@ -115,7 +116,7 @@ generic-message = start-line
 start-line    = Request-Line | Status-Line
 ```
 
-Moramo napomenuti da je **CRLF** oznaka za kraj reda standardna na Windows sistemima (*NIX sistemi koriste samo LF, izuzev starijih verzija OS X-a koji koriste CR). CR predstavlja *carriage return* - znak za povratak na početak reda, dok LF predstavlja *line feed* odnosno novi red. Ovi karakteri postoje u svakom tekstu, naravno u zavisnosti od operativnog sistema, s tim što su nevidljivi. Karakter CR je `0D` u heksadecimalnom zapisu i tekstualna reprezantacija mu je `\r`. Karakter LF je `0A` u hexadecimalnom a tekstualno se prikazuje kao `\n`. Ova nomenklatura je konvencija je zaostavština pisaćih mašina.
+Moramo napomenuti da je **CRLF** oznaka za kraj reda standardna na Windows sistemima (*NIX* sistemi koriste samo **LF**, izuzev starijih verzija OS X-a koji koriste **CR**). **CR** predstavlja *carriage return* - znak za povratak na početak reda, dok **LF** predstavlja *line feed*, odnosno novi red. Ovi karakteri postoje u svakom tekstu, naravno u zavisnosti od operativnog sistema, s tim što su nevidljivi. Karakter **CR** je `0D` u heksadecimalnom zapisu i tekstualna reprezantacija mu je `\r`. Karakter **LF** je `0A` u hexadecimalnom, a tekstualno se prikazuje kao `\n`. Ova nomenklatura je konvencija je zaostavština pisaćih mašina.
 
 #### HTTP zaglavlje
 
@@ -129,7 +130,7 @@ Polja zaglavlja se dele na tri tipa:
 
 * Entitetska - koriste se u zahtevu i odgovoru za opis tela zahteva (Content-Type, Content-Length itd.)
 
-Svako polje se sastoji od imena polja koje je praćeno dvotačkom (":") i vrednosti polja. Ime polja je case-insensitive. Između dvotačke i vrednosti polja može postojati bilo koji broj belih polja (eng. *whitespace*) Vrednost polja može biti bilo koji tekst, ali ne sme da sadrži CRLF. Polja zaglavlja se razdvajaju CRLF karakterom. Redosled gorenavedenih polja nije bitan, ali je preporučljivo da se prvo navode generička polja, pa onda polja zahteva i polja odgovora, a na kraju entitetska polja.
+Svako polje se sastoji od imena polja koje je praćeno dvotačkom (:) i vrednosti polja. Ime polja je *case-insensitive*. Između dvotačke i vrednosti polja može postojati bilo koji broj belih polja (eng. *whitespace*) Vrednost polja može biti bilo koji tekst, ali ne sme da sadrži **CRLF**. Polja zaglavlja se razdvajaju **CRLF** karakterom. Redosled gore navedenih polja nije bitan, ali je preporučljivo da se prvo navode generička polja, pa onda polja zahteva i polja odgovora, a na kraju entitetska polja.
 
 ```
 message-header = field-name ":" [ field-value ]
@@ -142,9 +143,9 @@ field-content  = <the OCTETs making up the field-value
 
 #### Telo poruke
 
-Telo poruke je zaduženo za prenos entiteta (ovde ne mislimo na entitete u kontekstu baza podataka). Postojanje tela poruke je indikovano postojanjem **Content-Length** ili **Transfer-Encoding** headera. Ukoliko ne postoji ni jedan od ta dva headera telo poruke bi trebalo biti ignorisano. Postoje tipovi poruka koji po svojoj semantici i konvenciji ne bi trebalo da imaju telo a to su: svi informacioni odgovori (status kod 1xx - više o ovim kodovima kasnije), 204 status kod (nema sadržaja - eng. *no content*) i 304 (nije izmenjeno - eng. *not modified*). Svi ostali odgovori imaju telo makar ono bilo dužine nula.
+Telo poruke je zaduženo za prenos entiteta (ovde ne mislimo na entitete u kontekstu baza podataka). Postojanje tela poruke je indikovano postojanjem **Content-Length** ili **Transfer-Encoding** zaglavlja. Ukoliko ne postoji nijedan od ta dva zaglavlja, telo poruke bi trebalo biti ignorisano. Postoje tipovi poruka koji po svojoj semantici i konvenciji ne bi trebalo da imaju telo a to su: svi informacioni odgovori (status kod 1xx - više o ovim kodovima kasnije), 204 (nema sadržaja - eng. *no content*) i 304 (nije izmenjeno - eng. *not modified*). Svi ostali odgovori imaju telo, makar ono bilo dužine nula.
 
-S obzirom na to da je telo poruke dolazi na kraju same HTTP poruke postojane nekog od **Transfer-Encoding** i **Content-Lenght** headera je neophodno - u suprotnom korisnik ne bi znao kada da prestane sa čitanjem poruke.
+S obzirom na to da telo poruke dolazi na kraju same HTTP poruke, postojane nekog od **Transfer-Encoding** i **Content-Lenght** *header*-a je neophodno - u suprotnom korisnik ne bi znao kada da prestane sa čitanjem poruke.
 
 #### Zahtev
 
@@ -159,12 +160,12 @@ Request = Request-Line
       [ message-body ]
 ```
 
-Linija zahteva se sastoji iz tri dela: HTTP metode, zahtevanog resursa (URI - uniform resource identifier) i verzije HTTP protokola (HTTP/1.1, HTTP/2, HTTP/3) praćene CRLF-om. Sva tri dela linije zahteva su razdvojeni jednim razmakom (space).
+Linija zahteva se sastoji iz tri dela: HTTP metode, zahtevanog resursa (URI - *uniform resource identifier*) i verzije HTTP protokola (HTTP/1.1, HTTP/2, HTTP/3) praćene **CRLF**-om. Sva tri dela linije zahteva su razdvojeni jednim razmakom (*space*).
 
 ```
 Request-Line   = Method SP Request-URI SP HTTP-Version CRLF
 ```
-Metoda zahteva opisuje koju koja metoda će biti primenjena na resursu identifikovanim od strane *Request-URI*-a. Metode su case-sensitive.
+Metoda zahteva opisuje koja HTTP metoda će biti primenjena na resursu identifikovanim od strane *Request-URI*-a. Metode su *case-sensitive*.
 ```
 Method = "OPTIONS"
        | "GET"
@@ -177,21 +178,21 @@ Method = "OPTIONS"
        | extension-method
 extension-method = token
 ```
-Sve ove metode sa sobom nose određenu semantiku, ali naravno server može odlučiti da ih po svojoj volji implementira. Dobro je, naravno, pratiti konvenciju i poštovati njihovu ulogu. Nećemo zalaziti detaljno u ulogu svake od ovih metoda ali poenta jeste da npr. treba koristiti GET za dobavljanje podataka, POST za kreiranje, PUT i PATCH za celovito ili parcijalno ažuriranje, DELETE za brisanje i tako dalje. Naravno u specifikaciji stoji da ova metoda može biti proširena bilo kojom metodom - na primer možemo implementirati metodu HELLO koja šalje pozdrav ali to naravno nije u standardu i ni jedan pretraživač neće znati šta da uradi sa njom. Po specifikaciji naravno stoji da server mora da implementira GET i HEAD metode dok su sve druge opcione.
+Sve ove metode sa sobom nose određenu semantiku, ali naravno server može odlučiti da ih po svojoj volji implementira. Dobro je, naravno, pratiti konvenciju i poštovati njihovu ulogu. Nećemo zalaziti detaljno u ulogu svake od ovih metoda, ali poenta jeste da npr. treba koristiti `GET` za dobavljanje podataka, `POST` za kreiranje, `PUT` i `PATCH` za celovito ili parcijalno ažuriranje, `DELETE` za brisanje i tako dalje. Naravno, u specifikaciji stoji da ova metoda može biti proširena bilo kojom novom metodom - na primer možemo implementirati metodu `HELLO` koja šalje pozdrav ali to nije u standardu i nijedan pretraživač neće znati šta da uradi sa njom. Po specifikaciji, naravno, stoji da server mora da implementira `GET` i `HEAD` metode dok su sve druge opcione.
 
-Resurs identifikator predstavlja apsolutnu putanju resursa na serveru. Ovo može biti direktno mapirano u fajl na fajl sistemu ili proizvoljno mapirano na bilo koji drugi resurs u sistemu koji implementira HTTP. Kao što smo rekli, Request-URI služi da identifikuje resurs nad kojim će biti primenjena HTTP metoda.
+Resurs identifikator predstavlja apsolutnu putanju resursa na serveru. Ovo može biti direktno mapirano u fajl na fajl sistemu, ili proizvoljno mapirano na bilo koji drugi resurs u sistemu koji implementira HTTP. Kao što smo rekli, *Request-URI* služi da identifikuje resurs nad kojim će biti primenjena HTTP metoda.
 
 ```
 Request-URI  = "*" | absoluteURI | abs_path | authority
 ```
 
-Primer Request-Line-a koji dobavlja početnu stranu nekog sajta bi izgledao ovako:
+Primer *Request-Line*-a koji dobavlja početnu stranu nekog sajta bi izgledao ovako:
 
 ```
 GET http://7aske.com HTTP/1.1
 ```
 
-Ovo je primer Request-Line-a sa apsolutnim URI dok sledeći navodi identičan zahtev ali koristeći apsolutnu putanju:
+Ovo je primer *Request-Line*-a sa apsolutnim *URI*, dok sledeći navodi identičan zahtev ali koristeći apsolutnu putanju:
 
 ```
 GET / HTTP/1.1
@@ -200,7 +201,7 @@ Host: http://7aske.com
 
 #### Odgovor 
 
-Posle obrade zahteva server vraća nazad HTTP odgovor. HTTP odgovor izgleda identično kao i zahtev s razlikom da on umesto Request-Line-a ima **Status-Line** (linija statusa).
+Posle obrade zahteva server vraća HTTP odgovor nazad. HTTP odgovor izgleda identično kao i zahtev s tim da umesto *Request-Line*-a ima **Status-Line** (statusna linija).
 
 ```
 Response = Status-Line
@@ -211,9 +212,9 @@ Response = Status-Line
       [ message-body ]
 ```
 
-Status linija se sastoji iz tri dela: HTTP verzije (HTTP/1.1, HTTP/2, HTTP/3), status koda i tekstom koji opisuje razlog status koda praćenim CRLF-om. Sva tri dela linije zahteva su razdvojeni jednim razmakom (space).
+Statusna linija se sastoji iz tri dela: HTTP verzije (HTTP/1.1, HTTP/2, HTTP/3), status koda i tekstom koji opisuje razlog status koda praćenim CRLF-om. Sva tri dela linije zahteva su razdvojeni jednim razmakom (space).
 
-Status kod je trocifreni broj koji u po specifikaciji ima svoje značenje. Neki od primera kodova su: 101 Switching Protocols, 200 OK, 304 Not Modified, 404 Not Found. Kodovi se po svom tipu dele na grupacije:
+Status kod je trocifreni broj koji po specifikaciji ima svoje značenje. Neki od primera kodova su: 101 Switching Protocols, 200 OK, 304 Not Modified, 404 Not Found. Kodovi se po svom tipu dele na grupacije:
 
 * 1xx - informacioni
 
@@ -225,7 +226,7 @@ Status kod je trocifreni broj koji u po specifikaciji ima svoje značenje. Neki 
 
 * 5xx - greške servera
 
-Svaki status ima svoj kod i razlog. Razlog je predviđen isključivo za čitanje i razumevanje od strane čoveka dok sam kod čita mašina. Implementacija klijenta nije u obavezi da parsira tekst razlog na bilo koji način.
+Svaki status ima svoj kod i razlog (eng. *reason*). Razlog je predviđen isključivo za čitanje i razumevanje od strane čoveka, dok sam kod čita mašina. Implementacija klijenta nije u obavezi da parsira tekst razloga na bilo koji način.
 
 ```
 Status-Code  =
@@ -274,7 +275,7 @@ Status-Code  =
 
 Kao što je i slučaj sa metodama, serverska implementacija može deklarisati i parsirati dodatne kodove.
 
-Sada kada imamo informacije možemo da damo primer kako bi izgledao jedan kompletan HTTP zahtev-odgvor ka serveru kreiranom u Grain frameworku:
+Sada kada imamo informacije, možemo da damo primer kako bi izgledao jedan kompletan HTTP zahtev-odgvor ka serveru kreiranom u *Grain* frejmvorku:
 
 ```
 > GET / HTTP/1.1
@@ -289,7 +290,7 @@ Sada kada imamo informacije možemo da damo primer kako bi izgledao jedan komple
 
 #### Kolačići (Cookies)
 
-Kolačići su mali tekstualni fajlovi koji se čuvaju na klijentu (browser-u) i koji služe da se čuvaju informacije o klijentu. Kolačići se šalju svaki put kada se šalje zahtev ka serveru. Oni se koriste za različite stvari, od praćenja aktivnosti klijenta na sajtu, do čuvanja informacija o korisniku. Jedna od osnovnih uloga kolačića je da identifikuju zahtev na serveru tako da bi server mogao da zna o kom korisniku se radi. Svaki korisnik može da dobije unikatni identifikator preko kolačića i preko njega će server znati o kome se radi - u prevodu preko kolačića server prati sesiju klijenta/korisnika.
+Kolačići su mali tekstualni fajlovi koji se čuvaju na klijentu (pretraživaču) i koji služe da čuvaju informacije o klijentu. Kolačići se šalju svaki put kada se šalje zahtev ka serveru. Oni se koriste za različite stvari, od praćenja aktivnosti klijenta na sajtu, do čuvanja informacija o korisniku. Jedna od osnovnih uloga kolačića je da identifikuju zahtev na serveru tako da bi server mogao da zna o kom korisniku se radi. Svaki korisnik može da dobije unikatni identifikator preko kolačića i preko njega će server znati o kome se radi. U prevodu, preko kolačića server prati sesiju klijenta/korisnika.
 
 Kolačići se šalju kroz **Cookie** header:
 
@@ -299,35 +300,35 @@ Cookie: <ime-kolačića>=<vrednost-kolačića>
 ...
 ```
 
-Na primer cookie koje identifikuje korisnika može da izgleda ovako:
+Na primer, *cookie* koje identifikuje korisnika može da izgleda ovako:
 
 ```
 Cookie: JSSID=1234567890
 ```
 
-Kolačići se mogu postaviti na klijentu kroz **Set-Cookie** header. Na primer cookie koje identifikuje korisnika može da izgleda ovako:
+Kolačići se mogu postaviti na klijentu kroz **Set-Cookie** header. Na primer *cookie* koje identifikuje korisnika može da izgleda ovako:
 
 ```
 Set-Cookie: JSSID=1234567890
 ```
 
-Svi kolačići se mogu invalidirati kroz **Set-Cookie** header sa vrednošću **max-age=0**. Na primer:
+Svi kolačići se mogu poništiti kroz **Set-Cookie** header sa vrednošću **max-age=0**. Na primer:
 
 ```
 Set-Cookie: JSSID=1234567890; max-age=0
 ```
 
-Klijent automatski ignoriše kolačiće koji su istekli. Svi kolačići se automatski šalju kroz svaki GET/POST zahtev koji je iniciran iz pretraživača kroz link ili formu. Zahtevi koji se iniciraju koristeći JS *fetch* API, *XHR* ili koristeći neku HTTP biblioteku neće sadržati kolačiće i oni moraju biti dodani ručno kroz **Cookie** header. U tim slučajevima se verovatno radi o nekoj **stateless** komunikaciji (bez stanja - suprotno od onoga za šta su kolačići namenjeni) i u tom slučaju je bolje koristiti neki vid **stateless** autentikacije. Više o tome u narednim poglavljima.
+Klijent automatski ignoriše kolačiće koji su istekli. Svi kolačići se automatski šalju kroz svaki `GET`/`POST` zahtev koji je iniciran iz pretraživača kroz link ili formu. Zahtevi koji se iniciraju koristeći JS *fetch API*, *XHR* ili koristeći neku HTTP biblioteku, neće sadržati kolačiće i oni moraju biti dodati ručno kroz **Cookie** heder. U tim slučajevima se verovatno radi o nekoj *stateless* komunikaciji (bez stanja - suprotno od onoga za šta su kolačići namenjeni) i u tom slučaju je bolje koristiti neki vid *stateless* autentikacije. Više o tome u narednim poglavljima.
 
-Kolačići i njihova zloupotreba je jedan od velikih rizika web-a i stoga se mora obazrivo rukovati istim. 
+Kolačići i njihova zloupotreba je jedan od velikih rizika *web*-a i stoga se mora obazrivo rukovati istim. 
 
 ### Parsiranje JSON podataka
 
-Sada kada smo obradili kako funkcioniše HTTP protokol, možemo da se osvrnemo na jedan od važnijih tipova podataka koji se koristi u web-u. U Grain frameworku za parsiranje JSON podataka se ne koristi biblioteka već postoji minimalnistična implementacija koja se trudi da pokrijve većinu JSON specifikacije.
+Sada kada smo obradili kako funkcioniše HTTP protokol, možemo da se osvrnemo na jedan od važnijih tipova podataka koji se koristi u *web*-u. U *Grain* frejmvorku za parsiranje JSON podataka se ne koristi biblioteka već postoji minimalistična implementacija koja se trudi da pokrije većinu JSON specifikacije.
 
-JSON je tip podataka koji se koristi za razmenu podataka između klijenta i servera. JSON je skraćenica za JavaScript Object Notation. JSON je tekstualni format podataka koji je čitak za čoveka i lako parsiran od strane mašine. JSON je sličan JavaScript objektima ali je nešto jednostavniji i ne podržava sve funkcionalnosti koje JavaScript objekti imaju. JSON je sastavljen od dva tipa podataka: objekata i nizova. Objekat je kolekcija imenovanih vrednosti dok niz predstavlja kolekciju neimenovanih vrednosti. Vrednosti mogu biti tipa string, broj, boolean, null, objekat ili niz. JSON je sastavljen od dva tipa podataka: objekata i nizova. Objekat je kolekcija imenovanih vrednosti dok niz predstavlja kolekciju neimenovanih vrednosti. Vrednosti mogu biti tipa string, broj, boolean, null, objekat ili niz.
+JSON je tip podataka koji se koristi za razmenu podataka između klijenta i servera i predstavlja tekstualni format podataka koji je čitak za čoveka i lako parsiran od strane mašine. Skraćenica JSON stoji za *javascript object notation*. JSON je sličan JavaScript objektima ali je nešto jednostavniji i ne podržava sve funkcionalnosti koje JavaScript objekti imaju. Sastavljen od dva tipa podataka: objekata i nizova. Objekat je kolekcija imenovanih vrednosti, dok niz predstavlja kolekciju neimenovanih vrednosti. Vrednosti mogu biti tipa string, broj, boolean, null, objekat ili niz. 
 
-Jedna od odlika, pored čitljivosti, JSON oblika podataka je da je language-independent to jest da njegov oblik ne zavisi od jezika u kome se koristi i zbog toga je idealan za razmenu podataka između aplikacija koje su kreirane u različitim aplikacijama. Pored toga mnogi jezici u svojoj standardnoj biblioteci imaju implementaciju JSON parsiranja, a ako nemaju onda sigurno postoji popularna biblioteka za to.
+Jedna od odlika JSON oblika podataka, pored čitljivosti, jeste da je *language-independent*, tj. da njegov oblik ne zavisi od jezika u kome se koristi, i zbog toga je idealan za razmenu podataka između aplikacija koje su kreirane u različitim jezicima. Pored toga mnogi jezici u svojoj standardnoj biblioteci imaju implementaciju JSON parsiranja, a ako nemaju onda sigurno postoji popularna biblioteka za to.
 
 Primer JSON tipa podatka:
 
@@ -350,7 +351,7 @@ Primer JSON tipa podatka:
 }
 ```
 
-Iznad vidimo primer JSON objekta koji možemo da očekujemo u nekom od HTTP odgovora. Da bi klijent pročitao HTTP odgovor JSON tipa i na adekvatan načina parsira podatke moramo podesiti **Content-Type** header na tip `application/json`. Bez tog headera klijent će verovatno parsirati odgovor kao da je u pitanju podrazumevana vrednost za taj header a to je `text/plain`. Primer jednog JSON odgovora bi bio:
+Iznad vidimo primer JSON objekta koji možemo da očekujemo u nekom od HTTP odgovora. Da bi klijent pročitao HTTP odgovor JSON tipa, i na adekvatan načina parsirao podatke, moramo podesiti **Content-Type** zaglavlje na tip `application/json`. Bez tog zaglavlja klijent će verovatno parsirati odgovor kao da je u pitanju podrazumevana vrednost za to zaglavlje, a to je `text/plain`. Primer jednog JSON odgovora bi bio:
 
 ```
 HTTP/2 200 OK
@@ -362,9 +363,9 @@ Content-Length: 69
 {"login":"7aske","id":17355360,"html_url":"https://github.com/7aske"}
 ```
 
-Ovde vidimo par osnovnih header-a i telo odgovora. Ključno je naglasiti da je takođe bitno, pored Content-Type headera, podesiti i **Content-Length** header da bi klijentska aplikacija znala koliko karaktera iz samog tela odgovora pročitati.
+Ovde vidimo par osnovnih *header*-a i telo odgovora. Ključno je naglasiti da je, pored Content-Type *header*-a, bitno podesiti i **Content-Length** *header* da bi klijentska aplikacija znala koliko karaktera iz samog tela odgovora pročitati.
 
-JSON je odlična alternativa XML-u za pisanje konfiguracionih fajlove jer je lakše pisati i razumeti JSON fajl nego XML fajl. Takođe postoji i YAML kao superset JSON-a koji ima drugačiju sintaksu i više funkcionalnosti jedna od kojih je postojanje komentara.
+JSON je odlična alternativa XML-u za pisanje konfiguracionih fajlova jer je lakše pisati i razumeti JSON fajl u odnosu na XML fajl. Takođe, postoji i YAML kao nadskup JSON-a koji ima drugačiju sintaksu i više funkcionalnosti, jedna od kojih je postojanje komentara.
 
 
 ## Autentikacija i autorizacija
@@ -375,7 +376,7 @@ Autentikacija i autorizacija su osnovni koncepti kada su u pitanju aplikacije sa
 
 Autentikacija predstavlja potvrđivanje identiteta korisnika na sistemu. U procesu autentikacije anonimni korisnik postaje autentikovani korisnik kome su pridružene dodatne informacije i kome može biti praćena sesija. 
 
-Jedan od najosnovnijih metoda za autentikovanje je HTTP Basic autentikacija. U ovom procesu klijent šalje HTTP zahtev sa headerom **Authorization** koji sadrži podatke o korisničkom imenu i lozinki u formatu `username:password` kodirane u Base64. Primer HTTP zahteva sa Basic autentikacijom:
+Jedan od najosnovnijih metoda za autentikovanje je HTTP Basic autentikacija. U ovom procesu klijent šalje HTTP zahtev sa zaglavljem **Authorization** koji sadrži podatke o korisničkom imenu i lozinki u formatu `username:password` kodirane u Base64. Primer HTTP zahteva sa Basic autentikacijom:
 
 ```
 GET / HTTP/1.1
@@ -383,26 +384,26 @@ Host: 7aske.com
 Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
 ```
 
-Ovaj tip autentikacije je jednostavan za implementaciju ali je i jednostavan za zloupotrebu. Zbog toga se ne preporučuje za korišćenje u produkciji.
+Ovaj tip autentikacije je jednostavan za implementaciju, ali je i jednostavan za zloupotrebu. Zbog toga se ne preporučuje za korišćenje u produkciji.
 
-Jedan od alternativnih pristupa je username/password autentikacija. U ovom pristupu klijent šalje HTTP zahtev sa korisničkim imenom i šifrom korisnika i korisnik dobija nazad neku vrstu token-a koji će na dalje služiti sa identifikaciju tog korisnika na sistemu. Token može biti kolačić, JWT itd.
+Jedan od alternativnih pristupa je username/password autentikacija. U ovom pristupu klijent šalje HTTP zahtev sa korisničkim imenom i šifrom korisnika, i natrag dobija neku vrstu *token*-a koji će na dalje služiti za identifikaciju tog korisnika na sistemu. Token može biti kolačić, JWT itd.
 
 ### Autorizacija
 
-Autorizacija predstavlja proces određivanja nivoa pristupa korisnika na sistemu. Autorizacija se obično vrši na osnovu uloga korisnika. Uloga je skup prava koja je povezana sa korisnikom. Uloga može biti povezana sa korisničkim imenom ili sa tokenom koji je dobijen u procesu autentikacije.
+Autorizacija predstavlja proces određivanja nivoa pristupa korisnika na sistemu i obično se vrši na osnovu uloga korisnika. Uloga je skup prava koja su povezana sa korisnikom i može biti povezana sa korisničkim imenom ili sa tokenom koji je dobijen u procesu autentikacije.
 
-Na primer kada korisnik pristupa nekoj stranici na sajtu on može da bude ulogovan ili ne. Ako je ulogovan onda može da vidi neke informacije koje nisu vidljive anonimnom korisniku. Ako je korisnik ulogovan i ima određenu ulogu onda može da vidi još neke informacije koje nisu vidljive korisnicima sa drugim ulogama.
+Na primer, kada korisnik pristupa nekoj stranici na sajtu on može da bude ulogovan ili ne. Ako je ulogovan, korisnik onda može da vidi neke informacije koje nisu vidljive anonimnom korisniku. Ako je korisnik ulogovan i ima određenu ulogu, onda može da vidi još neke informacije koje nisu vidljive korisnicima sa drugim ulogama.
 
-Konkretan primer autorizacije bi bila neka web strana - na primer Web Shop. Anonimni korisnik može da gleda proizvode i isključivo to. Ulogovani korisnik pored svakog proizvoda može imati opciju da naruči taj proizvod ili isti doda u korpu. Pored svega toga ulogovani korisnik koji je ujedno i menadžer ili administrator te prodavnice će pored svakog proizvoda imati dugme izmeni i/ili link ka administracionoj strani.
+Konkretan primer autorizacije bi bila neka veb strana - na primer internet prodavnica. Anonimni korisnik može da gleda proizvode i isključivo to. Ulogovani korisnik pored svakog proizvoda može imati opciju da naruči taj proizvod ili isti doda u korpu. Pored svega toga, ulogovani korisnik, koji je ujedno i menadžer ili administrator te prodavnice, će pored svakog proizvoda imati dugme *izmeni* i/ili link ka administracionoj strani.
 
 ![Uloge korisnika i pristup](./assets/roles.png)
 <div align="center">
 Sl. 3 - <i>Uloge korisnika i pristup</i>
 </div>
 
-Suma sumarum autentikacija je proces potvrđivanja identiteta korisnika na sistemu, dok je autorizacija proces određivanja nivoa pristupa korisnika na sistemu.
+Suma sumarum, autentikacija je proces potvrđivanja identiteta korisnika na sistemu, dok je autorizacija proces određivanja nivoa pristupa korisnika na sistemu.
 
-Autorizacija se može vršiti, npr. kod HTTP zahteva, slanjem *JWT*-a (JSON web token) u headeru **Authorization**. Primer HTTP zahteva sa tokenom u headeru:
+Autorizacija se može vršiti, npr. kod HTTP zahteva, slanjem *JWT*-a (eng. *JSON web token*) u headeru **Authorization**. Primer HTTP zahteva sa tokenom u headeru:
 
 ```
 POST /products/1/order HTTP/1.1
@@ -410,23 +411,23 @@ Host: 7aske.com/shop
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwiaXNzIjoiZ3JhaW4iLCJuYW1lIjoiTmlrb2xhIFRhc2ljIiwiZGF0YSI6IkVhc3RlciBFZ2cifQ.7KWPpDkjNecJ_n6LQ280WdR6e_rQ1a93Mhi1MGcDYpE
 ```
 
-U ovom slučaju HTTP zahtev se prosleđuje na server koji proverava da li je token validan i da li korisnik ima pravo da pristupi resursu koji je zatražio. Ukoliko je token validan i korisnik ima pravo pristupa resursu, server odgovara sa HTTP statusom 200 i podacima o resursu. JWT token sadrži informacije o tome koji je korisnik u pitanju, ko je kreirao token, koliko je vremenski validan token itd. JWT se validira na serveru i šanse za njegovu manipulaciju su svedene na minimum za razliku od kolačića.
+U ovom slučaju HTTP zahtev se prosleđuje na server koji proverava da li je token validan i da li korisnik ima pravo da pristupi resursu koji je zatražio. Ukoliko je token validan i korisnik ima pravo pristupa resursu, server odgovara sa HTTP statusom 200 i podacima o resursu. JWT token sadrži informacije o tome koji je korisnik u pitanju, ko je kreirao token, koliko je vremenski validan token itd. JWT se validira na serveru i šanse za njegovu manipulaciju su svedene na minimum, za razliku od kolačića.
 
-JWT (JSON web token) je JSON objekat koji se šalje u headeru HTTP zahteva. JWT se sastoji od tri dela odvojenih tačkom:
+JWT je JSON objekat koji se šalje u headeru HTTP zahteva. JWT se sastoji od tri dela odvojenih tačkom:
 
-1. Header - koji sadrži informacije o algoritmu koji je korišćen za enkripciju i tipu tokena
+1. *Header* - koji sadrži informacije o algoritmu koji je korišćen za enkripciju i tipu tokena
 
-2. Payload - koji sadrži informacije o korisniku
+2. *Payload* - koji sadrži informacije o korisniku
 
-3. Signature - koji je rezultat enkripcije headera i payloada
+3. *Signature* - koji je rezultat enkripcije *header*-a i *payload*-a
 
-JWT objekat je kodiran u Base64.
+JWT objekat je kodiran u *Base64*.
 
 ## Umetanje zavisnosti
 
-U srži većine modernih web radnih okvira leži sistem za umetanje zavisnosti (eng. *dependency injection* - DI). DI je dizajn patern koji za ulogu ima da objektima koje kreira umetne druge objekte (zavisnosti) od kojih zavisi. DI je forma inverzije kontrole (eng. *inversion of control* - IoC). DI za cilj ima SoC (eng. *separation of concerns*) odnosno da razdvoji logiku kreiranja objekata od biznis logike koju oni predstavljaju. Ovo za rezultat ima da su objekti međusobno veoma labavo povezani (eng. *loosy coupled*).
+U srži većine modernih veb radnih okvira leži sistem za umetanje zavisnosti (eng. *dependency injection* - DI). DI je dizajn šablon koji za ulogu ima da objektima koje kreira umetne druge objekte (zavisnosti) od kojih zavisi. DI je forma inverzije kontrole (eng. *inversion of control* - IoC) i za cilj ima SoC (eng. *separation of concerns*), odnosno da razdvoji logiku kreiranja objekata od biznis logike koju oni predstavljaju. Ovo za rezultat ima da su objekti međusobno veoma labavo povezani (eng. *loosy coupled*).
 
-U praksi DI se korisiti tako što definišemo klasu i njen konstruktor - tipično se koristi konsturktor za DI, ali postoje i drugi načini o kojima ćemo kasnije. Parametri u konstruktoru biće podrazumevani kao zavisnosti koje sistem za DI treba da razreši. Tipovi parametara mogu da budu klase ili interfejsi. 
+U praksi se DI korisiti tako što definišemo klasu i njen konstruktor - tipično se koristi konsturktor za DI, ali postoje i drugi načini o kojima ćemo kasnije pričati. Parametri u konstruktoru biće podrazumevani kao zavisnosti koje sistem za DI treba da razreši. Tipovi parametara mogu da budu klase ili interfejsi. 
 
 Primer u pseudo kodu bi izgledao ovako:
 
@@ -437,16 +438,16 @@ class UserService:
     this.role_service = role_service
 ```
 
-U ovom slučaju klasa **UserService** zavisi od **UserRepository** i **RoleService**. Ove zavisnosti se rešavaju tako što se u konstruktoru klase **UserService** prosleđuju objekti koji implementiraju interfejse **UserRepository** i **RoleService**. Kasnije možemo koristiti klasu UserService bez prethodnog znanja o tome da li i kako možemo kreirati objekte klasa/interfejsa UserRepository i RoleService. Na ovaj način se postiže inverzija kontrole - framework je umesto nas, developera, zadužen za kreiranje objekata.
+U ovom slučaju klasa **UserService** zavisi od **UserRepository** i **RoleService**. Ove zavisnosti se rešavaju tako što se u konstruktoru klase **UserService** prosleđuju objekti koji implementiraju interfejse **UserRepository** i **RoleService**. Kasnije možemo koristiti klasu UserService bez prethodnog znanja o tome da li i kako možemo kreirati objekte klasa/interfejsa UserRepository i RoleService. Na ovaj način se postiže inverzija kontrole - frejmvork je umesto nas, programera, zadužen za kreiranje objekata.
 
 ![Dijagram umetanja zavisnosti](./assets/di.png)
 <div align="center">
 Sl. 4 - <i>Dijagram umetanja zavisnosti</i>
 </div>
 
-Na slici vidimo dijagram umetanja zavisnosti. Klasa **Client** ima jednu zavisnosti definisanu preko interfejsa **Interface**. U sistemu prikazanom na dijagramu postioje dve klase koje implementiraju dati interfejs. **Injector** može u toku izvršenja (eng. *runtime*) da odabere koja će implementacija zapravo biti korišćena za kreiranje objekta **Client**.
+Na slici vidimo dijagram umetanja zavisnosti. Klasa **Client** ima jednu zavisnost definisanu preko interfejsa **Interface**. U sistemu prikazanom na dijagramu postioje dve klase koje implementiraju dati interfejs. **Injector** u toku izvršenja (eng. *runtime*) može da odabere koja će implementacija zapravo biti korišćena za kreiranje objekta **Client**.
 
-DI rešava umnogome problem kreiranja objekata, ali pri rešavanju tog problema može doći i do problema koji se zove cirkularna zavisnost. Cirkularna zavisnost je problem kada klasa u svom nizu zavisnosti ima samu sebe. Sledećim dijagramom predstavićemo ovaj problem.
+DI umnogome rešava problem kreiranja objekata, ali pri rešavanju tog problema može doći i do problema koji se zove cirkularna zavisnost. Cirkularna zavisnost je problem koji se javlja kada klasa u svom nizu zavisnosti ima samu sebe.
 
 ### Cirkularna zavisnost
 
@@ -455,31 +456,31 @@ DI rešava umnogome problem kreiranja objekata, ali pri rešavanju tog problema 
 Sl. 5 - <i>Cirkularna zavisnost</i>
 </div>
 
-U situaciji opisanoj dijagramom nastaje problem gde ukoliko injector pokuša da kreira objekat **Client 1** on će prvo kreirati objekat **Client 2** i zatim objekat **Client 3**. Kada se kreira objekat **Client 3** on će pokušati da kreira objekat **Client 1**. Ovo će se ponavljati u beskonačnost. Rešavanje ovog problema zahteva ili reorganizaciju zavisnosti ili umetanje kroz neki drugi mehanizam koji dozvoljava instanciranje objekata.
+U situaciji opisanoj dijagramom nastaje problem gde će *injector*, ukoliko pokuša da kreira objekat **Client 1** morati prvo da kreira objekat **Client 2**, a usled toga i **Client 3**. Kada se kreira objekat **Client 3** on će pokušati da kreira objekat **Client 1**. Ovo će se ponavljati u beskonačnost. Rešavanje ovog problema zahteva ili reorganizaciju zavisnosti ili umetanje kroz neki drugi mehanizam koji dozvoljava instanciranje objekata.
 
 ### Vrste umetanja zavisnosti
 
 Umetanje zavisnosti se može realizovati na više načina. Opisaćemo tipove i njihove prednosti i mane.
 
-1. Umetanje kroz konstruktor - najčešći način umetanja zavisnosti. Prednost ovog načina je što je najjednostavniji za implementaciju i s obzirom na to da je konstruktor jedini način da se kreira instanca objekta, makar u Javi, pruža atomičnu akciju pri kojoj će sve zavisnosti obavezno biti prisutne u tom trenutku. Mana ovog pristupa je to što se dešava da zbog dizajna aplikacije nećemo moći da pružimo sve zavisnosti. Ostale metode DI rešavaju ovaj problem.
+1. Umetanje kroz konstruktor - najčešći način umetanja zavisnosti. Prednost ovog načina je što je najjednostavniji za implementaciju i, s obzirom na to da je konstruktor jedini način da se kreira instanca objekta, makar u Javi, pruža atomičnu akciju pri kojoj će sve zavisnosti obavezno biti prisutne u tom trenutku. Mana ovog pristupa je to što se dešava da zbog dizajna aplikacije nećemo moći da pružimo sve zavisnosti. Ostale metode DI rešavaju ovaj problem.
 
-2. Umetanje kroz setere - ovaj način umetanja zavisnosti je sličan prethodnom, ali se zavisnosti umetaju kroz setere. Prednost ovog načina je što se zavisnosti mogu umetati u bilo kom trenutku, a ne samo u konstruktoru. Mana ovog pristupa je to što u trenutku instanciranja objekta mogu ali ne moraju biti razrešene sve njegove zavisnosti. Ovo često može dovesti do grešaka.
+2. Umetanje kroz setere - ovaj način umetanja zavisnosti je sličan prethodnom, ali se zavisnosti umetaju kroz setere. Prednost ovog načina je što se zavisnosti mogu umetati u bilo kom trenutku, a ne samo u konstruktoru. Mana ovog pristupa je to što u trenutku instanciranja objekta mogu, ali ne moraju biti razrešene sve njegove zavisnosti. Ovo često može dovesti do grešaka.
 
-3. Umetanje kroz polja - ovaj način umetanja zavisnosti je takođe sličan svom prethodniku, ali se zavisnosti umetaju kroz polja - ne pozivom metoda. Prednosti i mane su gotovo identične ali što se tiče mana ima jednu dodatku - umetanje kroz polje uglavnom zahteva da postoji neki oblik introspekcije runtime-a u samom jeziku (u Javi je ovo **Reflection API**) i samim tim je sporije i često može doći do grešaka.
+3. Umetanje kroz polja - ovaj način umetanja zavisnosti je takođe sličan svom prethodniku, ali se zavisnosti umetaju kroz polja - ne pozivom metoda. Prednosti i mane su gotovo identične ali što se tiče mana ima jednu dodatnu - umetanje kroz polje uglavnom zahteva da postoji neki oblik introspekcije *runtime*-a u samom jeziku (u Javi je ovo **Reflection API**) i samim tim je sporije i često može doći do grešaka.
 
 Zaključak je da je najbolje koristiti umetanje kroz konstruktor, ali da se u nekim situacijama može ili mora koristiti i umetanje kroz setere ili polja.
 
 ## MVC arhitektura
 
-Predstavili smo osnovnu specifikaciju komunikacije koju će naš framework i aplikacija koja je napisana u njemu koristiti. Naredni korak je predstaviti arhitekturu aplikacije odnosno arhitekturalni šablon (eng. *pattern*) koji ćemo koristiti. Arhitekturalni pattern predstavlja skup pravila za struktuiranje i organizaciju projekta. Pored toga arhitekturalni pattern sadrži i skup pravila koje definišu tok podataka u projektu. Arhitekturalni šabloni su proistekli iz višedecenijskog iskustva u rešavanju sličnih problema i predstavljaju osnovu za razvoj projekta. Ovo kao i framework sam po sebi olakšava developerima rad na projektu jer definiše pravila za organizaciju istog. 
+Predstavili smo osnovnu specifikaciju komunikacije koju će naš framework i aplikacija koja je napisana u njemu koristiti. Naredni korak je predstaviti arhitekturu aplikacije odnosno arhitekturalni šablon (eng. *pattern*) koji ćemo koristiti. Arhitekturalni pattern predstavlja skup pravila za struktuiranje i organizaciju projekta. Pored toga, arhitekturalni pattern sadrži i skup pravila koja definišu tok podataka u projektu. Arhitekturalni šabloni su proistekli iz višedecenijskog iskustva u rešavanju sličnih problema i predstavljaju osnovu za razvoj projekta. Ovo, kao i framework sam po sebi olakšava programerima rad na projektu jer definiše pravila za organizaciju istog. 
 
-Za aplikaciju smo odabrali MVC arhitekturu/šablon zbog svoje popularnosti i jednostavnosti. MVC je skraćenica za **Model-View-Controller**. Ova arhitektura je jedna od najčešćih arhitektura u web aplikacijama. Osnovni principi ove arhitekture su:
+Za aplikaciju smo odabrali MVC arhitekturu/šablon zbog njegove popularnosti i jednostavnosti. MVC je skraćenica za **Model-View-Controller**. Ova arhitektura je jedna od najučestalijih arhitektura u veb aplikacijama. Osnovni principi ove arhitekture su:
 
-* **Model** - predstavlja podatke i logiku aplikacije. Model je uvek nezavisan od View-a i Controller-a. Model može da se koristi i u drugim aplikacijama.
+* **Model** - predstavlja podatke
 
-* **View** - predstavlja prikaz podataka. View je uvek nezavisan od Model-a i Controller-a. View može da se koristi i u drugim aplikacijama.
+* **View** - predstavlja prikaz podataka
 
-* **Controller** - predstavlja logiku aplikacije. Controller je uvek nezavisan od Model-a i View-a. Controller može da se koristi i u drugim aplikacijama.
+* **Controller** - predstavlja logiku aplikacije
 
 ![MVC arhitektura](./assets/mvc.jpg)
 <div align="center">
@@ -492,21 +493,21 @@ Tok komunikacije u MVC arhitekturi je sledeći:
 
 1. Klijent (pretraživač) šalje zahtev serveru.
 
-2. Server prima zahtev i prosleđuje ga Controller-u.
+2. Server prima zahtev i prosleđuje ga *Controller*-u.
 
-3. Controller obradjuje zahtev i poziva odgovarajući Model.
+3. *Controller* obradjuje zahtev i poziva odgovarajući Model.
 
-4. Model vrši potrebne izmene ili komunikaciju sa bazom i vraća Controller-u podatke.
+4. Model vrši potrebne izmene ili komunikaciju sa bazom i vraća *Controller*-u podatke.
 
-5. Controller vrši potrebne izmene i vraća View-u.
+5. *Controller* vrši potrebne izmene i vraća *View*-u.
 
-6. View vrši potrebne izmene i vraća klijentu.
+6. *View* vrši potrebne izmene i vraća klijentu.
 
 7. Klijent (pretraživač) prikazuje podatke.
 
 ### Struktura projekta
 
-Projekti koji prate MVC arhitekturu su često i monolitni po dizajnu tako ćemo predstaviti jedan monolitni projekat po MVC arhitekturi kao primer:
+Projekti koji prate MVC arhitekturu su često i monolitni po dizajnu tako da ćemo predstaviti jedan takav projekat kao primer:
 
 ```
 src
@@ -520,7 +521,7 @@ src
 
 ```
 
-Ovo je najčešća struktura MVC projekata. Jedna iteracije ove strukture je uvođenje i servisnog layer-a koji je zadužen za domensku logiku dok je model layer zadužen isključivo za komunikaciju sa bazom.
+Ovo je najčešća struktura MVC projekata. Jedna iteracije ove strukture je uvođenje i servisnog layer-a koji je zadužen za domensku logiku, dok je model layer zadužen isključivo za komunikaciju sa bazom.
 
 ```
 Browser
@@ -532,23 +533,23 @@ index.html  User.java
             Database
 ```
 
-Ovakav pristup omogućava lakši razvoj aplikacija jer se prati modularno struktuiranje klasa u projektu. Svi klase zadužene za controller layer se nalaze u controller paketu, view klase u view paketu itd.
+Ovakav pristup omogućava lakši razvoj aplikacija jer se prati modularno struktuiranje klasa u projektu. Sve klase zadužene za *controller* sloj se nalaze u *controller* paketu, *view* klase u *view* paketu itd.
 
 ## Kreiranje templating jezika
 
-Obradili smo većinu koncepata za koje će radni okvir biti zadužen da apstrahuje. Preostala su nam dva koncepta: *view templating* i komunikacija sa bazom. U ovom poglavlju obradićemo *view templating* odnosno kreiranje templating jezika koji će nam omogućiti da kreiramo dinamičke strane generisane na serveru (eng. *server-side redndered*).
+Obradili smo većinu koncepata za koje će radni okvir biti zadužen da apstrahuje. U ovom poglavlju obradićemo *view templating*, odnosno kreiranje templejting jezika koji će nam omogućiti da kreiramo dinamičke strane generisane na serveru (eng. *server-side rendered*).
 
-### Templating jezici
+### Templejting jezici
 
-Templating jezici se koriste na serveru za prikaz dinamičkih stranica. Bez templejtinga ne bismo mogli da na jednostavan način u bilo koju stranu ubacimo dinamičke podatke. Na primer: zamislimo da imamo prodavnicu koja ima proizvode. Mi ne možemo bez prethodnog poznavanja broja proizvoda kreirati statičku stranicu. U najgorem slučaju i možemo ručno napisati HTML strane za svaki od proizvoda, ali šta ćemo kada se doda novi proizvod ili pak promeni cena nekog proizvoda. U takvim situacijama na scenu stupa *view templating*. Templating jezik/sistem se sastoji iz dva dela:
+Templejting jezici se koriste na serveru za prikaz dinamičkih stranica. Bez templejtinga ne bismo mogli da na jednostavan način u bilo koju stranu ubacimo dinamičke podatke. Na primer: zamislimo da imamo prodavnicu koja ima proizvode. Mi ne možemo bez prethodnog poznavanja broja proizvoda kreirati statičku stranicu. U najgorem slučaju i možemo ručno napisati HTML strane za svaki od proizvoda, ali šta ćemo kada se doda novi proizvod ili pak promeni cena nekog proizvoda. U takvim situacijama na scenu stupa *view templating*. Templating jezik/sistem se sastoji iz dva dela:
 
-1. **Templating engine** - engine koji generiše dinamičke stranice na osnovu template-a i podataka.
+1. **Templating engine** - *engine* koji generiše dinamičke stranice na osnovu *template*-a i podataka.
 
-2. **Template** - template je fajl koji sadrži statički deo stranice i specijalne tagove koji se koriste za dinamičko popunjavanje strane podacima.
+2. **Template** - *template* je fajl koji sadrži statički deo stranice i specijalne tagove koji se koriste za dinamičko popunjavanje strane podacima.
 
-Templating enigne popunjava template sa podacima i vraća rezultujući fajl klijentu. Templating engine može da koristi različite template jezike. Da bi lakše objasnili šta je templating jezik navešćemo popularne primere istih. Navešćemo primere 4 različita pristupa templejtingu u 3 različita programska jezika:
+*Templating engine* popunjava *template* podacima i vraća rezultujući fajl klijentu. *Templating engine* može da koristi različite *template* jezike. Da bismo lakše objasnili šta je templejting jezik, navešćemo popularne primere istih odnosno primere četiri različita pristupa templejtingu u tri različita programska jezika:
 
-1. **Jinja2** - Python templating jezik
+1. **Jinja2** - Python templejting jezik
 
 ```jinja2
 <!DOCTYPE html>
@@ -565,7 +566,7 @@ Templating enigne popunjava template sa podacima i vraća rezultujući fajl klij
   </body>
 </html>
 ```
-Jinja2 zasniva na sintaksi koja je slična Pythonu. Ovaj templating jezik je popularan u Python okruženju. Koristi `{{` i `}}` za indikovanje template blokova.
+*Jinja2* se zasniva na sintaksi koja je slična *Pythonu*. Ovaj templejting jezik je popularan u *Python* okruženju. Koristi `{{` i `}}` za indikovanje template blokova.
 
 
 2. **Handlebars** - JavaScript templating jezik
@@ -586,9 +587,9 @@ Jinja2 zasniva na sintaksi koja je slična Pythonu. Ovaj templating jezik je pop
 </html>
 ```
 
-Handlebars je templating jezik koji je popularan u JavaScript okruženju. Takođe kao i **Jinja2** koristi `{{` i `}}` za indikovanje template blokova. Handlebars jezik je sličan Mustache jeziku.
+*Handlebars* je templejting jezik koji je popularan u JavaScript okruženju. Kao i **Jinja2** koristi `{{` i `}}` za indiciranje *template* blokova. *Handlebars* jezik je sličan *Mustache* jeziku.
 
-3. **JSP** - Java templating jezik
+3. **JSP** - Java templejting jezik
 
 ```jsp
 <!DOCTYPE html>
@@ -606,9 +607,9 @@ Handlebars je templating jezik koji je popularan u JavaScript okruženju. Takođ
 </html>
 ```
 
-JSP je templating jezik koji je popularan u Java okruženju. Ovaj templating jezik koristi `<%` i `%>` za indikovanje template blokova. U JSP blokovima koji se inače zovu *skriptleti* (eng. *scriptlets*) možemo da pišemo gotovo sve funkcionalnosti Java programskog jezika. JSP je, iako relativno zastareo, veoma moćan jezik.
+*JSP* je templejting jezik koji je popularan u *Java* okruženju. Ovaj templejting jezik koristi `<%` i `%>` za indiciranje templejt blokova. U *JSP* blokovima, koji se inače zovu *skriptleti* (eng. *scriptlets*), možemo da pišemo gotovo sve funkcionalnosti *Java* programskog jezika. *JSP* je, iako relativno zastareo, veoma moćan jezik.
 
-4. **Thymeleaf** - Java templating jezik
+4. **Thymeleaf** - Java templejting jezik
 
 ```thymeleaf
 <!DOCTYPE html>
@@ -626,17 +627,17 @@ JSP je templating jezik koji je popularan u Java okruženju. Ovaj templating jez
 </html>
 ```
 
-Thymeleaf je templating jezik koji je popularan u Java okruženju i prirodni naslednik JSP-a. Ovaj templating jezik koristi `th:` za indikovanje template blokova. Thymeleaf se umnogome razlikuje od prethodnih template jezika u tome što se bez problema može interpretirati kao čista HTML strana jer su sve njegove funkcionalnosti u strane "markirane" kao HTML5 atributi. Ovo može da bude od velike pomoći prilikom razvoja dizajna stranice jer ne moramo da imamo funkcionalni backend aplikaciju da bismo prikazali sam HTML sadržaj.
+*Thymeleaf* je templejting jezik koji je popularan u *Java* okruženju i prirodni naslednik *JSP*-a. Ovaj templejting jezik koristi `th:` za indiciranje templejt blokova. *Thymeleaf* se umnogome razlikuje od prethodnih templejt jezika u tome što se bez problema može interpretirati kao čista HTML strana jer su sve njegove funkcionalnosti u strane "markirane" kao HTML5 atributi. Ovo može da bude od velike pomoći prilikom razvoja dizajna stranice jer ne moramo da imamo funkcionalni *backend* aplikaciju da bismo prikazali sam HTML sadržaj.
 
 ### Templating engine
 
-Templating engine je program koji se koristi za generisanje dinamičkih stranica na osnovu template-a i podataka. Templating engine može da koristi različite template jezike. Templating engine se sastoji iz dva dela:
+*Templating engine* je program koji se koristi za generisanje dinamičkih stranica na osnovu *template*-a i podataka. *Templating engine* može da koristi različite *template* jezike. *Templating engine* se sastoji iz dva dela:
 
-1. **Prevodilac** - (eng. *compiler*) prevodilac koji parisra (prevodi) template i generiše apstraktno sintaksno stablo - AST (eng. *abstract syntax tree*) template-a. Template parser se sastoji iz dva dela:
+1. **Prevodilac** - (eng. *compiler*) prevodilac koji parsira (prevodi) templejt i generiše apstraktno sintaksno stablo - AST (eng. *abstract syntax tree*) *template*-a. *Template* parser se sastoji iz dva dela:
 
-    1. **Lexer** - lexer koji parsira template i generiše tokene. Tokeni su strukture koje sadrže informacije o tipu tokena i njegovoj vrednosti. Primer tokena je `{{` koji označava početak template bloka ili `if` koji označava if petlju.
+    1. **Lexer** - lekser koji parsira templejt, odnsono tekst programa i generiše tokene. Tokeni su strukture koje sadrže informacije o tipu tokena i njegovoj vrednosti. Primer tokena je `{{` koji označava početak template bloka ili `if` koji označava if petlju.
 
-        Lexer za zadatak ima da tekst template-a pretvori u tokene koji imaju veću semantičku vrednosti. Na primer sledeće parče koda:
+        Lekser za zadatak ima da tekst templejta pretvori u tokene koji imaju veću semantičku vrednosti. Uzmimo za primer sledeći kod:
         ```
         if (user == null) {
             return "Hello, guest.";
@@ -655,13 +656,13 @@ Templating engine je program koji se koristi za generisanje dinamičkih stranica
 
         Ovakav format podataka je mnogo lakši za parsiranje u AST u sledećem koraku.
 
-    2. **Parser** - sam parser koji parsira tokene i generiše AST. AST je struktura koja sadrži informacije o strukturi jezika. AST čvor uglavnom ima vrednost i levu i desnu stranu.
+    2. **Parser** - služi za parsiranje tokena i generisanje AST-a. AST je struktura koja sadrži informacije o strukturi jezika. AST čvor uglavnom ima vrednost i levu i desnu stranu.
 
-        Parser ima za zadatak da tokene na osnovu pravila sintakste programskog jezika kreira AST koje odgovara prosleđenim tokenima. Ako dođe do nepoklapanja pravila jezika sa očekivanim tokenima u toku parsiranja stabla nastaju tzv. sintaksne greške koje programer mora da ispravi.
+        Parser ima za zadatak da tokene, na osnovu sintaksnih pravila programskog jezika pretvori u AST. Ako dođe do ne poklapanja pravila jezika sa očekivanim tokenima u toku parsiranja stabla nastaju tzv. sintaksne greške koje programer mora da ispravi.
 
-        Prethodni primer bi se parsirao na sledeći način parsirao u AST:
+        Prethodni primer bi se na sledeći način parsirao u AST:
         ```
-        # skratili smo neka od imena čvorova radi preglednosti
+        # neka imena čvorova su skraćena radi preglednosti
 
                      IF
                     /|\
@@ -684,17 +685,17 @@ Templating engine je program koji se koristi za generisanje dinamičkih stranica
 
 2. **Interpretator** - interpretator (eng. *interpreter*) evaluira AST generisano u koraku kompajliranja i na osnovu njega generiše dinamičku stranu.
     
-    Interpretator uzima početni čvor AST-a i redom po pravilima svakog čvora evaluira njegovu vrednost. Na primer, ako se u AST-u nađe čvor `ADD` interpretator će evaluirati vrednost njegovih levog i desnog čvora i zatim će izračunati njihovu vrednost - to će biti vrednost `ADD` čvora. Ako se u AST-u nađe čvor `IF` interpretator će evaluirati vrednost njegovog uslova i zatim će evaluirati vrednost njegovog bloka ako je uslov ispunjen. Finalni razultat ove interpretacije, u slučaju template engine-a biće validan HTML string koje će biti vraćen klijentu.
+    Interpretator uzima početni čvor AST-a i redom po pravilima svakog čvora evaluira njegovu vrednost. Na primer, ako se u AST-u nađe čvor `ADD` interpretator će evaluirati vrednost njegovog levog i desnog čvora i zatim će izračunati njihovu vrednost - to će biti vrednost `ADD` čvora. Ako se u AST-u nađe čvor `IF` interpretator će evaluirati vrednost njegovog uslova i zatim će evaluirati vrednost njegovog *if-true* bloka ako je uslov ispunjen. Finalni razultat ove interpretacije, u slučaju *template engine*-a biće validan HTML string koje će biti vraćen klijentu.
 
-    Interpretator je najbitniji deo templating engine-a jer je on onaj koji evaluira AST i generiše dinamičku stranicu. Interpretator je najčešće implementiran kao rekurzivna funkcija koja prolazi kroz AST i evaluira njegove čvorove. Interpretator pored evaluacije vodi računa o konceptima programskog jezika kao što su globalne i lokalne promenljive, uvoz klasa i fajlova itd. Više o svim ovim konceptima govorićemo kada budemo obrđivali njihovu implementaciju u radnom okviru.
+    Interpretator je najbitniji deo *templating engine*-a jer je on onaj koji evaluira AST i generiše dinamičku stranicu. Interpretator je najčešće implementiran kao rekurzivna funkcija koja prolazi kroz AST i evaluira njegove čvorove. Interpretator pored evaluacije vodi računa o konceptima programskog jezika kao što su globalne i lokalne promenljive, uvoz klasa i fajlova itd. Više o svim ovim konceptima govorićemo kada budemo obrđivali njihovu implementaciju u radnom okviru.
 
 ## ORM i komunikacija sa bazom
 
-Na kraju, dolazimo do poslednje stavke koju ćemo teorijski obraditi. To je pojam ORM-a i komunikacije sa bazama podataka. Komunikacija sa bazom podataka je jedan od integralnih delova svake web aplikacije. Osim prezentacionih sajtova gotovo svaki sistem ima neki vid čuvanja (eng. *persistence*) podataka. Operacije na bazom podataka mogu biti obavljene na dva načina: direktno koristeći driver/biblioteku ili putem ORM-a koji apstrahuje sve operacije nad bazom u pozive metoda nad objektima/strukturama u jeziku u kome je implementiran.
+Na kraju, dolazimo do poslednje stavke koju ćemo teorijski obraditi. To je pojam ORM-a i komunikacije sa bazama podataka. Komunikacija sa bazom podataka je jedan od integralnih delova svake veb aplikacije. Osim prezentacionih sajtova, gotovo svaki sistem ima neki vid očuvanja podataka (eng. *data persistence*). Operacije nad bazom podataka mogu biti obavljene na dva načina: direktno koristeći driver/biblioteku ili putem ORM-a koji apstrahuje te operacije u pozive metoda nad objektima/strukturama u jeziku u kome je implementiran. Te objekte/strukture drugačije nazivamo modelima.
 
 ### Direktan pristup
 
-Kod direktnog pristupa bazi mi uglavnom ručno pišemo i popunjavamo upite ka samoj bazi. Primer ovog pristupa bio bi JDBC u Javi:
+Kod direktnog pristupa bazi mi uglavnom ručno pišemo i popunjavamo upite ka samoj bazi. Primer ovog pristupa bio bi *JDBC* (*Java Database Connectivity) u Javi:
 
 ```java
 // konekcija na bazu
@@ -713,11 +714,11 @@ while (rs.next()) {
 }
 ```
 
-Ovaj pristup ima nekoliko nedostataka. Ručno popunjavanje upita je veoma neefikasno i često dovodi do SQL injection napada. Kod se često duplira i kod kompleksnijih upita kod često bude teško održiv. Takođe, prilikom promene bilo koje od klasa za koje imamo napisane upite postoji velika šansa da ćemo morati većinu njih da ponovo napišemo. Takođe, bez dodatne konfiguracije upiti ne podležu sintaksnim proverama tako da bez integracionih testova greške u upitima ćemo otkriti tek u runtime-u. Kada su u pitanju performanse direktan pristup bazi i maksimalna fleksibilnost u kreiranju upita može da bude pogodna. Često se ORM pristup izbegava kod kompleksnih upita ili se pribegava pristupu kreiranja pogleda (eng. *view*).
+Ovaj pristup ima nekoliko nedostataka. Ručno popunjavanje upita je veoma neefikasno i često dovodi do *SQL injection* napada. Kod se često duplira i kod kompleksnijih upita kod često bude teško održiv. Takođe, prilikom promene bilo koje od klasa za koje imamo napisane upite postoji velika šansa da ćemo većinu njih morati ponovo da napišemo. Takođe, bez dodatne konfiguracije upiti ne podležu sintaksnim proverama tako da bismo. bez integracionih testova, greške u upitima otkrili tek u runtime-u. Kada su u pitanju performanse, direktan pristup bazi i maksimalna fleksibilnost u kreiranju upita može da bude pogodna. Često se ORM pristup izbegava kod kompleksnih upita, ili se pribegava pristupu kreiranja pogleda (eng. *view*).
 
 ### ORM pristup
 
-**Object-relational mapping** ili ORM je pristup gde biblioteka pruža zajednički interfejs ka bilo kojoj podržanoj bazi podataka kroz klase/strukture u tom jeziku za koji je pisana. Primer ORM-a u Java programskom jeziku je **Hibernate**. Hibernate, ili bilo koji drugi ORM, koristi izmene nad objektima modelskih klasa da kreira upite koji će ekvivalentni red u bazi izmeniti u skladu sa izmenama na objektu. Iz toga proizilazi da je objekat mapiran u bazi podataka, odnosno tako dolazimo do *objektno-relacionog* mapiranja. S obzirom na to da se ORM često konfiguriše na osnovu runtime inspekcije podataka (pričali smo o Reflection) dolazi do problema sa performansama koje nekad mogu biti razlog zašto nekad ne želimo da koristimo ORM.
+**Object-relational mapping** ili ORM je pristup gde biblioteka pruža zajednički interfejs ka bilo kojoj podržanoj bazi podataka kroz klase/strukture u tom jeziku za koji je pisana. Primer ORM-a u Java programskom jeziku je **Hibernate**. *Hibernate*, ili bilo koji drugi ORM, koristi izmene nad objektima modelskih klasa da kreira upite koji će ekvivalentni red u bazi izmeniti u skladu sa izmenama na objektu. Iz toga proizilazi da je objekat mapiran u bazi podataka, odnosno tako dolazimo do *objektno-relacionog* mapiranja. S obzirom na to da se ORM često konfiguriše na osnovu *runtime* introspekcije podataka (pričali smo o *Reflection API*-u) dolazi do problema sa performansama koje nekad mogu biti razlog zašto ne želimo uvek da koristimo ORM.
 
 Primer korišćenja ORM-a u Javi:
 
@@ -752,11 +753,11 @@ session.getTransaction().commit();
 session.close();
 ```
 
-Kao što vidimo ORM pruža veoma jednostavan i fleksibilan pristup radu sa bazom podataka. Vidimo da ne moramo da imamo bilo kakvu informaciju o tome koja je baza podataka u pitanju jer će ORM generisati sve upite prilikom obavljanja operacija. Ukoliko se koristi ORM pristup, često se koristi i *migration* alat koji omogućava da se model baze podataka nesmetano modifikuje u skladu sa modifikacijom klasa, u ORM terminologiji - entiteta (eng. *entity*). Neki od poznatijih Java migracionih alata su **Flyway** i **Liquibase**. Oni omogućavaju verzioniranje modela baze time što se svaka izmena baze beleži kroz migracione skripte. Na taj način postiže to da je model baze uvek ponovljiv i na novim mašinama i serverima na kojim se vrši deployment aplikacije.
+Kao što vidimo, ORM pruža veoma jednostavan i fleksibilan pristup radu sa bazom podataka. Ne moramo da imamo bilo kakvu informaciju o tome koja je baza podataka u pitanju jer će ORM generisati sve upite prilikom obavljanja operacija. Ukoliko se koristi ORM pristup, često se koristi i *migration* alat koji omogućava da se model baze podataka nesmetano modifikuje u skladu sa modifikacijom klasa, u ORM terminologiji - entiteta. Neki od poznatijih Java migracionih alata su **Flyway** i **Liquibase**. Oni omogućavaju verzioniranje modela baze time što se svaka izmena baze beleži kroz migracione skripte. Na taj način se postiže to da je model baze uvek ponovljiv na novim mašinama i serverima na kojima se vrši instalaicija aplikacije.
 
 ### Query builder pristup
 
-Još jedan od pristupa za komunikaciju sa bazom podataka je *query builder* pristup. Ovaj pristup leži negde između pisanja upita i korišćenja ORM-a. Kod korišćenja query buildera imamo benefite validacije upita jer koristimo dinamički interfejs (neka vrsta DSL-a) i benefite performansi koje nam daje korišćenje upita.
+Još jedan od pristupa za komunikaciju sa bazom podataka je *query builder* pristup. Ovaj pristup leži negde između pisanja upita i korišćenja ORM-a. Kod korišćenja query buildera imamo benefite validacije upita jer koristimo dinamički interfejs (neka vrsta DSL-a - *domain specific language*) i benefite performansi koje nam daje korišćenje upita.
 
 Primer korišćenja **Querydsl** query buildera u Javi:
 
@@ -779,17 +780,17 @@ delete.where(user.name.eq("John Doe")).execute();
 
 Koji god pristup izaberemo moramo imati na umu koje zahteve imamo koji se tiču performansi, obim i kompleksnost modela, održavanje itd. ali u većini slučajeva ORM je sasvim zadovoljavajuće rešenje koje umnogome olakšava razvoj web aplikacija.
 
-Sada kada imamo teorijsku osnovu šta sve jedan radni okvir treba da pokrije možemo da krenemo sa objašnjenjem kako je svaki od tih koncepata implementiran u **Grain** radnom okviru.
+Sada kada imamo teorijsku osnovu o tome šta sve jedan radni okvir treba da pokrije, možemo da krenemo sa objašnjavanjem kako je svaki od tih koncepata implementiran u **Grain** radnom okviru.
 
 # Studija slučaja
 
 ## Grain
 
-**Grain** je radni okvir koji je nastao kao rezultat potrebe za jednostavnim i fleksibilnim alatom za razvoj web aplikacija. Uz pomoć **Grain** radnog okvira možemo da razvijamo web aplikacije u **Java** programskom jeziku koje lako mogu da budu proširene bilo kojim drugim bibliotekama jer Grain framework sam po sebi podržava **dependency injection**. Grain radnom okviru je velika inspiracija **Spring** i **Spring Boot**, što ćemo videti u narednim primerima. Primeri će se sastojati od proširenja koncepta koji je opisan u poglavlju gde smo obrađivali teorijsku postavku, primera u Grain radnom okviru, primera u Spring Boot-u i opisa implementacije.
+**Grain** je radni okvir koji je nastao kao rezultat potrebe za jednostavnim i fleksibilnim alatom za razvoj veb aplikacija. Uz pomoć **Grain** radnog okvira možemo da razvijamo veb aplikacije u **Java** programskom jeziku koje lako mogu da budu proširene bilo kojim drugim bibliotekama jer Grain framework sam po sebi podržava **dependency injection**. *Grain* radnom okviru su velika inspiracija **Spring** i **Spring Boot**, što ćemo videti u narednim primerima. Primeri će se sastojati od proširenja koncepta koji su opisani u poglavlju gde smo obrađivali teorijsku postavku, primera u *Grain* radnom okviru, primera u *Spring* *Boot*-u i opisa implementacije.
 
 ## HTTP
 
-Prva i osnovna funkcionalnost web okvira je da ima mogućnost kreiranja servera odnosno proces koji može da razmenjuje informacije HTTP protokolom. Za potrebe ove funkcionalnosti proces mora da ima mogućnost da otvori osluškujući (eng. *listening*) *socket* na *host* računaru. Zatim da čita podatke koji stižu na taj socket u neblokirajućem (eng. *non-blocking*) režimu - što će reći paralelno koristeći više niti (eng. *thread*). Pročitane podatke mora parsirati u HTTP zahtev i imati mogućnost da HTTP odgovor upiše nazad.
+Prva i osnovna funkcionalnost veb okvira je da ima mogućnost kreiranja servera, odnosno proces koji može da razmenjuje informacije koristeći HTTP protokolo. Za potrebe ove funkcionalnosti proces mora da ima mogućnost da otvori osluškujući (eng. *listening*) *socket* na *host* računaru, zatim da čita podatke koji stižu na taj socket u neblokirajućem (eng. *non-blocking*) režimu - što će reći paralelno koristeći više niti (eng. *thread*). Pročitane podatke mora parsirati u HTTP zahtev i imati mogućnost da HTTP odgovor upiše natrag u isti *socket*.
 
 ### Primer
 
@@ -813,7 +814,7 @@ public class HttpServerApplication {
 }
 ```
 
-Nakon startovanja ove Spring Boot aplikacije ukoliko u pretraživaču odemo na `http://localhost:8080` dobićemo odgovor `Hello World!`. Vidimo da postoji veoma malo koda koji mora biti napisan da bi se dobila ova bazična funkcionalnost. Neki delovi koda mogu i da budu obrisani ali su ostavljeni zbog čitljivosti.
+Nakon startovanja ove *Spring Boot* aplikacije ukoliko u pretraživaču odemo na `http://localhost:8080` dobićemo odgovor `Hello World!`. Vidimo da postoji veoma malo koda koji mora biti napisan da bi se dobila ova bazična funkcionalnost. Neki delovi koda mogu i da budu obrisani ali su ostavljeni zbog čitljivosti.
 
 Ekvivalentna implementacija u Grain radnom okviru:
 
@@ -834,25 +835,25 @@ public class HttpServerApplication extends GrainApp {
 }
 ```
 
-Možemo da vidimo da su implementacije ove funkcionalnosti veoma slične u oba radna okvira. Kao i kod Spring aplikacije odlaskom na `http://localhost:8080` dobićemo odgovor `Hello World!`.
+Možemo da vidimo da su implementacije ove funkcionalnosti veoma slične u oba radna okvira. Kao i kod *Spring* aplikacije, odlaskom na `http://localhost:8080` dobićemo odgovor `Hello World!`.
 
 ### Implementacija
 
-U nastavku ćemo detaljnije objasniti kako je implementirana osnovna funkcionalnost HTTP servera u Grain radnom okviru. Iako je ovo veoma bazična funkcionalnost, da bi došli od `GrainAppRunner.run()` do `Hello World!` u pretraživaču moramo da konfigurišemo nekoliko podsistema.
+U nastavku ćemo detaljnije objasniti kako je implementirana osnovna funkcionalnost HTTP servera u Grain radnom okviru. Iako je ovo veoma bazična funkcionalnost, da bismo došli od `GrainAppRunner.run()` do `Hello World!` u pretraživaču moramo da konfigurišemo nekoliko podsistema.
 
-Prilikom startovanja aplikacije `GrainAppRunner` kreira i konfiguriše instancu klase `GrainApp` odnosno korisničke klase koja nasleđuje `GrainApp`.
+Prilikom startovanja aplikacije `GrainAppRunner` kreira i konfiguriše instancu klase `GrainApp`, odnosno korisničke klase koja nasleđuje `GrainApp`.
 
 Koraci inicijalizacije su sledeći:
 
 1. Kreiranje `Configuration` objekta i učitavanje konfiguracije
 
-  `Configuration` objekat sadrži sve ključ-vrednost parove koji predstavljaju kofiguraciona podešavanja za framework. On je neophodan za inicijalizaciju aplikacije jer postoje parametri koji utiču na istu.
+  `Configuration` objekat sadrži sve ključ-vrednost parove koji predstavljaju kofiguraciona podešavanja za frejmvork. On je neophodan za inicijalizaciju aplikacije jer postoje parametri koji utiču na istu.
 
-  1.0. Učitavanje aktivnih profila - profili su podešeni koristeći `GRAIN_PROFILES_ACTIVE` environment promenljivu 
+  1. Učitavanje aktivnih profila - profili su podešeni koristeći `GRAIN_PROFILES_ACTIVE` environment promenljivu.
 
-  1.1. Učitavanje konfiguracije iz `application.properties` fajla i odgovarajućih `.properties` fajlova na osnovu aktivnog profila.
+  2. Učitavanje konfiguracije iz `application.properties` fajla i odgovarajućih `.properties` fajlova na osnovu aktivnog profila.
 
-  1.1. Učitavanje konfiguracije iz okruženja (eng. *environment*). Ova konfiguracija ima prednost u odnosu na `.properties` fajlove.
+  3. Učitavanje konfiguracije iz okruženja (eng. *environment*). Ova konfiguracija ima prednost u odnosu na `.properties` fajlove.
 
   ```java
   String profilesString = Optional.ofNullable(System.getenv(PROFILES_ENV_VARIABLE))
@@ -887,7 +888,7 @@ Koraci inicijalizacije su sledeći:
   
   `ApplicationContext` interfejs predstavlja srž aplikacije. On sadrži `DependencyContainer` koji sadrži sve inicijalizovane komponente koje su kreiranje u toku umetanja zavisnosti. O tome ćemo govoriti u kasnijem poglavlju. Ovaj kontekst objekat ima jednu statičku instancu kojoj se može pristupiti putem `ApplicationContextHolder` singltona. `ApplicationContext` se takođe može ručno instancirati koristeći `ApplicationContextImpl` klasu koja mu je ujedno i jedina implementacija.
 
-  2.1. Odigravanje dependency injection životnog ciklusa - `ApplicationContext` je zadužen za pokretanje dependency injection životnog ciklusa:
+  1. Odigravanje DI životnog ciklusa - `ApplicationContext` je zadužen za pokretanje DI životnog ciklusa:
 
   ```java
   public ApplicationContextImpl(String basePackage, Configuration configuration) {
@@ -913,7 +914,7 @@ Koraci inicijalizacije su sledeći:
   ```
 3. Otvaranje socket-a za HTTP server
 
-  Socket mora da bude spreman da paralelno obrađuje zahteve. Stoga kreiramo thread-pool koji je zadužen za to.
+  Socket mora da bude spreman da paralelno obrađuje zahteve, stoga kreiramo *thread-pool* koji je zadužen za to.
 
   ```java
 
@@ -937,7 +938,7 @@ Koraci inicijalizacije su sledeći:
   }
   ```
 
-  Za opsluživanje zahteva koristimo `RequestHandlerRunnable` koji je zadužen za parsiranje zahteva, pozivanje odgovarajućeg "handlera" i slanje odgovora. Ova klasa naravno implementira `Runnable` interfejs koji joj omugućava da se izvršava na odvojenom thread-u. Više o ovoj klasi ćemo govoriti kada budemo pričali o tome kako se procesuira HTTP zahtev.
+  Za opsluživanje zahteva koristimo `RequestHandlerRunnable` koji je zadužen za parsiranje zahteva, pozivanje odgovarajućeg *handlera* i slanje odgovora. Ova klasa naravno implementira `Runnable` interfejs koji joj omugućava da se izvršava na odvojenoj niti. Više o ovoj klasi ćemo govoriti kada budemo pričali o tome kako se procesuira HTTP zahtev.
 
 Po završetku ovih koraka imamo kreiran HTTP server koji je spreman da sluša zahteve na podrazumevanom port-u 8080.
 
@@ -959,7 +960,7 @@ Sl. 7 - <i>Tok HTTP zahteva</i>
 
 Na dijagramu vidimo sve klase koje su relevantne za tok jednog HTTP zahteva u Grain radnom okviru. Redom ćemo objasniti koje klase imaju koji svrhu i šta se dešava sa HTTP zahtevom kada on pristigne u aplikaciju.
 
-Inicijalni "accept loop" se nalazi u `GrainApp` klasi i on je odgovoran za prihvatanje zahteva metodom `ServerSocket#accept`. Ova metoda je blokirajuća tako da odmah pri ostvarivanju konekcije obradu zahteva šaljemo u *thread pool* pomoću klase `RequestHandlerRunnable`.
+Inicijalni *"accept loop"* se nalazi u `GrainApp` klasi i on je odgovoran za prihvatanje zahteva metodom `ServerSocket#accept`. Ova metoda je blokirajuća tako da odmah pri ostvarivanju konekcije obradu zahteva šaljemo u *thread pool* pomoću klase `RequestHandlerRunnable`.
 
 `RequestHandlerRunnable` je klasa koja nasleđuje `Runnable` interfejs i odgovorna je za obradu zahteva. Ovde parsiramo HTTP zahtev koristeći `HttpRequestParser` klasu. Ova klasa je dizajnirana tako da parsira HTTP zahtev po HTTP/1.1 specifikaciji o kojoj smo već govorili.
 
@@ -998,13 +999,13 @@ request.setPath(requestLineParts[1]);
 request.setVersion(requestLineParts[2]);
 ```
 
-Ovo parče koda u `HttpRequestParser` klasi je odgovorno za učitavanje zahteva u memoriju i parsiranje prvog i osnovnog dela svakog HTTP zahteva - *request line*-a. Kao što smo već imali prilike da pomenemo *request line* daje osnosnve informacije o HTTP zahtevu kao što su HTTP metoda, resurs koji je zahtevan i verzija HTTP protokola. Naredni koraci su učitavanje zaglavlja i tela zahteva.
+Ovo parče koda u `HttpRequestParser` klasi je odgovorno za učitavanje zahteva u memoriju i parsiranje prvog i osnovnog dela svakog HTTP zahteva - *request line*-a. Kao što smo već imali prilike da pomenemo, *request line* daje osnovne informacije o HTTP zahtevu kao što su HTTP metoda, resurs koji je zahtevan i verzija HTTP protokola. Naredni koraci su učitavanje zaglavlja i tela zahteva.
 
-Nakon parsiranja zahtev je dostupan u `RequestHandlerRunnable` klasi i možemo ga proslediti u odgovarajući *handler* koji će obraditi zahtev i vratiti odgovor. Doduše pre nego što dođemo do odluke o tome šta ćemo dalje sa zahtevom moramo da inicijalizujemo sesiju koristeći `SessionInitializer` interfejs i setujemo autentikaciju koristeći `HttpRequestAuthenticationProviderStrategy` interfejs. `SessionInitializer` je interfejs koji po default-u ima samo jednu implementaciju a to je `CookieSessionInitializer` što znači da će on omogućiti radnom okviru da prati sesiju korisnika koristeći HTTP kolačiće. `SessionInitializer` kreira jedinstveni identifikator za svaki kolačić i taj identifikator čuva u memoriji. Na osnovu identifikatora moguće je čuvati i povratiti informacije o korisniku koristeći `SessionStore`. Rekli smo da se podaci i identifikator sesije čuvaju u memoriji - to se dešava zbog toga što je jedina implementacija `SessionStore` interfejsa `InMemorySessionStore`. Jedan od dizajn fokusa u radnom okviru je bio *Dependency Inversion* - jedan od SOLID principa koji nalaže da klase treba da zavise od apstraktnih klasa i interfejsa pre nego od konkretnih klasa. U ovom, kao i mnogim drugim, moguće je implementirati komponentu koja implementira `SessionStore` interfejs i time zamenimo funkcionalnosti čuvanja podataka u memoriji npr. čuvanjem podataka u bazi ili nekom drugom servisu.
+Nakon parsiranja zahtev je dostupan u `RequestHandlerRunnable` klasi i možemo ga proslediti u odgovarajući *handler* koji će obraditi zahtev i vratiti odgovor. Doduše, pre nego što dođemo do odluke o tome šta ćemo dalje sa zahtevom, moramo da inicijalizujemo sesiju koristeći `SessionInitializer` interfejs i setujemo autentikaciju koristeći `HttpRequestAuthenticationProviderStrategy` interfejs. `SessionInitializer` je interfejs koji po default-u ima samo jednu implementaciju a to je `CookieSessionInitializer`, što znači da će on omogućiti radnom okviru da prati sesiju korisnika koristeći HTTP kolačiće. `SessionInitializer` kreira jedinstveni identifikator za svaki kolačić i taj identifikator čuva u memoriji. Na osnovu identifikatora moguće je čuvati i povratiti informacije o korisniku koristeći `SessionStore`. Rekli smo da se podaci i identifikator sesije čuvaju u memoriji - to se dešava zbog toga što je jedina implementacija `SessionStore` interfejsa `InMemorySessionStore`. Jedan od dizajn fokusa u radnom okviru je bio *Dependency Inversion* - jedan od *SOLID* principa koji nalaže da klase treba da zavise od apstraktnih klasa i interfejsa pre nego od konkretnih klasa. U ovom, kao i mnogim drugim, moguće je implementirati komponentu koja implementira `SessionStore` interfejs i time zamenimo funkcionalnosti čuvanja podataka u memoriji npr. čuvanjem podataka u bazi ili nekom drugom servisu.
 
-Posle inicijalizovanja sesije naredni korak je učitavanje autentikacije. Ovo funkcioniše takođe pomoću `SessionStore` interfejsa u čijoj implementaciji su sačuvani podaci o korisniku koji su vezani za autentifikovanje i autorizovanje. Za konfigurisanje metoda koji koristimo za dobavljanje podataka za autentikaciju koristimo *Strategy* dizajn šablon i interfejs `HttpRequestAuthenticationProviderStrategy`. Više o autentikaciji i autorizaciji u nastavku.
+Posle inicijalizovanja sesije naredni korak je učitavanje autentikacije. Ovo takođe funkcioniše pomoću `SessionStore` interfejsa u čijoj implementaciji su sačuvani podaci o korisniku koji su vezani za autentifikaciju i autorizaciju. Za konfigurisanje metoda koji koristimo za dobavljanje podataka za autentikaciju koristimo *Strategy* dizajn šablon i interfejs `HttpRequestAuthenticationProviderStrategy`. Više o autentikaciji i autorizaciji u nastavku.
 
-Kada su sesija i autentikacija konfigurisani naredni korak ne pronaći *handler* koji će procesuirati zahtev. Svi dostupni *handler*-i moraju da implementiraju `RequestHandler` interfejs koji otkriva metode kao što su `canHandle` i `handle` koje služe za proveru da li *handler* može da procesuira zahtev i procesuiranje zahteva, respektivno. Dostupni *handler*-i su:
+Kada su sesija i autentikacija konfigurisani naredni korak je pronaći *handler* koji će procesuirati zahtev. Svi dostupni *handler*-i moraju da implementiraju `RequestHandler` interfejs koji otkriva metode kao što su `canHandle` i `handle` koje služe za proveru da li *handler* može da procesuira zahtev i procesuiranje zahteva, respektivno. Dostupni *handler*-i su:
 
 1. `StaticLocationHandler` - *handler* koji služi za obradu statičkih resursa kao što su slike, CSS fajlovi, JavaScript fajlovi, itd.
 
@@ -1036,7 +1037,7 @@ Kada su sesija i autentikacija konfigurisani naredni korak ne pronaći *handler*
 
 2. `ControllerMethodHandler` - *handler* koji služi za obradu zahteva pomoću metoda definisanim u kontrolerskim klasama.
 
-  `ControllerMethodHandler` je najkompleksniji od svih handlera. On mora da koristi informacije dobijene putem Reflection-a da bi mogao da zna kako da parsira svaki request. Na osnovu povratne metode u kontroleru možemo da vratimo klijentu različite odgovore: tekst, HTML stranu, JSON itd. Takođe metode kontrolera imaju mogućnost da prime različite vrednosti iz zahteva kao svoje parametre. U zavisnosti od tipa parametra metoda kontrolera može da primi `HttpResponse`, `HttpRequest`, bilo koju vrednost anotiranu sa `@RequestBody`, mapu header-a itd. Kontroler metoda može biti registrovana za određenu putanju korišćenjem `@RequestMapping` anotacije i njenih specijalizacija.
+  `ControllerMethodHandler` je najkompleksniji od svih handlera. On mora da koristi informacije dobijene putem Reflection-a da bi mogao da zna kako da parsira svaki request. Na osnovu povratne metode u kontroleru možemo da vratimo klijentu različite odgovore: tekst, HTML stranu, JSON itd. Takođe, metode kontrolera imaju mogućnost da prime različite vrednosti iz zahteva kao svoje parametre. U zavisnosti od tipa parametra metoda kontrolera može da primi `HttpResponse`, `HttpRequest`, bilo koju vrednost anotiranu sa `@RequestBody`, mapu header-a itd. Kontroler metoda može biti registrovana za određenu putanju korišćenjem `@RequestMapping` anotacije i njenih specijalizacija.
 
   Implementacija `handle` metode:
   
@@ -1101,7 +1102,7 @@ Kada su sesija i autentikacija konfigurisani naredni korak ne pronaći *handler*
 
 3. `MiddlewareRequestHandler` - *handler* se poziva pre svakog zahteva i služi za proširivanje funkcionalnosti postojećih *handler*-a, proveru podataka iz zahteva itd.
 
-  Middleware ima najprostiju implementaciju od svih handlera. On samo poziva `handle` metodu. Implementacija Middleware-a je u celosti na korisniku. Middleware a i svi ostali *handler*-i mogu da imaju `@Order` anotaciju koja određuje prioritet kada postoje *handler*-i koji imaju istu putanju.
+  Middleware ima najprostiju implementaciju od svih handlera. On jednostavno samo poziva `handle` metodu. Implementacija *middleware*-a je u celosti na korisniku. *Middleware* a i svi ostali *handler*-i mogu da imaju `@Order` anotaciju koja određuje prioritet kada postoje *handler*-i koji imaju istu putanju.
 
   Implementacija `handle` metode:
   
@@ -1112,13 +1113,13 @@ Kada su sesija i autentikacija konfigurisani naredni korak ne pronaći *handler*
   }
   ```
 
-Kao što smo rekli *handler*-i imaju metodu `canHandle` koja služi za proveru da li *handler* može da obradi zahtev. Pomoću nje pronalazimo odgovarajući *handler* koji u zavisnosti od implementacije obrađuje zahtev. Ukoliko *handler* nije pronađen aplikacija vraća grešku `404`.
+Kao što smo rekli *handler*-i imaju metodu `canHandle` koja služi za proveru da li *handler* može da obradi zahtev. Pomoću nje pronalazimo odgovarajući *handler* koji u zavisnosti od implementacije obrađuje zahtev. Ukoliko *handler* nije pronađen, aplikacija vraća grešku `404`.
 
 ## JSON
 
-JSON je jedan od najpopularnijih formata za razmenu podataka, stoga je bilo fundamentalno da Grain framework ima podršku za njega. Već smo obradili njegovu specifikaciju a sada ćemo pokazati kako je JSON parsiranje implementirano u Grain frameworku.
+JSON je jedan od najpopularnijih formata za razmenu podataka, stoga je bilo fundamentalno da *Grain* frejmvork ima podršku za njega. Već smo obradili njegovu specifikaciju a sada ćemo pokazati kako je JSON parsiranje implementirano u *Grain* frejmvorku.
 
-Klasa `JsonParser` u Grain frameworku se koristi za parsiranje JSON stringa u Java objekat. `JsonParser` se trudi ali ne podržava sve stavke iz JSON specifikacije. Na primer, trenutno, ne podržava razmake u ključevima ili eksponencijalnu notaciju za brojeve, ali zato većinu osnovnih funkcionalnosti parsira kako treba. `JsonParser` koristi `StringIterator` koji olakšava parsiranje teksta. Objašnjenje parsiranja JSON string-a biće od koristi kada budemo pričali o leksiranju teksta pri parsiranju template jezika.
+Klasa `JsonParser` u *Grain* frejmvorku se koristi za parsiranje JSON stringa u Java objekat. `JsonParser` se trudi ali ne podržava sve stavke iz JSON specifikacije. Na primer, trenutno, ne podržava razmake u ključevima ili eksponencijalnu notaciju za brojeve, ali zato većinu osnovnih funkcionalnosti parsira kako treba. `JsonParser` koristi `StringIterator` koji olakšava parsiranje teksta. Objašnjenje parsiranja JSON string-a biće od koristi kada budemo pričali o leksiranju teksta pri parsiranju template jezika.
 
 JSON objekat se se sastoji iz ključ/vrednost parova od kojih je ključ bilo koji tekst pod navodnicima(") a vrednost jedan od sledećih tipova:
 
@@ -1173,7 +1174,7 @@ private Object parseOther() {
 }
 ```
 
-Ovako parsiran string se čuva kao `JsonObject` ili `JsonArray` objekat koji je spreman da bude konvertovan u bilo koji drugi Java objekat. Na primer parsirani JSON string možemo iskoristiti da popunimo vrednosti atributa bilo koje druge klase uz pomoć `JsonDeserializer` klase. Reflaction API-jem uzimamo vrednost svakog od atributa (*field*) i na osnovu njegovog tipa parsiramo objekat sačuvan u `JsonObject`-u.
+Ovako parsiran string se čuva kao `JsonObject` ili `JsonArray` objekat koji je spreman da bude konvertovan u bilo koji drugi Java objekat. Na primer, parsirani JSON string možemo iskoristiti da popunimo vrednosti atributa bilo koje druge klase uz pomoć `JsonDeserializer` klase. *Reflection API*-jem uzimamo vrednost svakog od atributa (*field*) i na osnovu njegovog tipa parsiramo objekat sačuvan u `JsonObject`-u.
 
 ```java
 if (Byte.class.isAssignableFrom(field.getType())) {
@@ -1199,11 +1200,11 @@ if (Byte.class.isAssignableFrom(field.getType())) {
 }
 ```
 
-Performanse i podržanost JSON parsiranja u Grain framework-u nisu idealne ali su dobar proof of concept. U budućnosti ćemo implementirati nešto bolje.
+Performanse i podržanost JSON parsiranja u *Grain* frejmvorku nisu idealne ali su dobar *proof of concept*. U budućnosti ćemo implementirati nešto bolje.
 
 ## Umetanje zavisnosti
 
-Umetanje zavisnosti je jedna od najvažnijih funkcionalnosti svakog modernog framework-a i Grain nije izuzetak. Umetanje zavisnosti nam omogućava da klase definišemo i kreiramo deklarativno. Na primer, definisali smo klasu `UserController` koja koristi `UserService`. Samo time što smo `UserService` iskoristili u konstruktoru definisali smo tu klasu kao zavisnost i framework će nam je sam kreirati. Time izbegavamo probleme sa kreiranjem klasa koje mogu da imaju brdo zavisnih klasa - a da ne pričamo o menadžmentu instanci klasa koje veoma brzo postane neodrživo ako se radi ručno. U Grain frameworku umetanje zavisnosti je implementirano preko `DependencyContainer`-a koji u runtime-u konfiguriše sve komponente(komponente su *Client* objekti definisani ovim šablonom). Komponente su u framework-u nazvane i po njemu samom - grainovi od eng. grains. `DependencyContainer` interfejs definiše par javnih metoda koje framework interno koristi:
+Umetanje zavisnosti je jedna od najvažnijih funkcionalnosti svakog modernog frejmvorka i *Grain* nije izuzetak. Umetanje zavisnosti nam omogućava da klase definišemo i kreiramo deklarativno. Na primer, definisali smo klasu `UserController` koja koristi `UserService`. Samim tim što smo `UserService` iskoristili u konstruktoru definisali smo tu klasu kao zavisnost i frejmvork će nam je sam kreirati. Time izbegavamo probleme sa kreiranjem klasa koje mogu da imaju brdo zavisnih klasa - a da ne pričamo o menadžmentu instanci klasa koje veoma brzo postane neodrživo ako se radi ručno. U *Grain* frejmvorku umetanje zavisnosti je implementirano preko `DependencyContainer`-a koji u *runtime*-u konfiguriše sve komponente(komponente su *Client* objekti definisani ovim šablonom). Komponente su u framework-u nazvane i po njemu samom - zrna od eng. *grain*. `DependencyContainer` interfejs definiše par javnih metoda koje frejmvork interno koristi:
 
 ```java
 public interface DependencyContainer {
@@ -1219,44 +1220,44 @@ public interface DependencyContainer {
 }
 ```
 
-Prilikom kreiranja `ApplicationContext`-a učitavaju se sve klase iz classpath-a koje su anotirane sa anotacijom `@Grain` ili njenim specijalizacijama se ubacuju u `GrainInjector` koji započinje proces umetanja zavisnosti. Proces umetanja zavisnosti u Grain radnom okviru se sastoji iz par koraka koji se ponavljaju za svaku *Client* klasu:
+Prilikom kreiranja `ApplicationContext`-a učitavaju se sve klase iz classpath-a koje su anotirane anotacijom `@Grain` ili njenim specijalizacijama se ubacuju u `GrainInjector` koji započinje proces umetanja zavisnosti. Proces umetanja zavisnosti u *Grain* radnom okviru se sastoji iz par koraka koji se ponavljaju za svaku *Client* klasu:
 
 0. Provera `@Condition` uslova
   
-  `@Condition` anotacija može da sadrži parče koda pisanog u Grain templating jeziku (koji možemo zvati GTL - *Grain Templating Language). Interpretator jezika evaluira kod i u zavisnosti od povratne vrednosti biramo da li ćemo datu klasu uključiti u umetanje.
+  `@Condition` anotacija može da sadrži parče koda pisanog u *Grain* templejting jeziku (koji možemo zvati GTL - *Grain Templating Language*). Interpretator jezika evaluira kod i u zavisnosti od povratne vrednosti biramo da li ćemo datu klasu uključiti u umetanje.
 
 1. Kreiranje `Injectable` objekata
 
-  `Injectable` objekti su wrapper klase koje pružaju olakšice kada je u pitanju rad sa informacijama o njenim poljima, metodama i konstruktorima. Naravno ovi objekti čuvaju inicijalizovanu komponentu koja će nam kasnije biti dostupna.
+  `Injectable` objekti su *wrapper* klase koje pružaju olakšice kada je u pitanju rad sa informacijama o njenim poljima, metodama i konstruktorima. Naravno ovi objekti čuvaju inicijalizovanu komponentu koja će nam kasnije biti dostupna.
 
 2. Umetanje zavisnosti koje su definisane `@Grain` metodama.
 
-  Pored klasa i metode grainova mogu biti anotirane `@Grain` anotacijom. To označava da je ta metoda zapravo *factory metoda* koja definiše novu zavisnost koju možemo umetnuti kao i bilo koju drugu klasu odnosno komponentu. Ovo je idealan način da integrišemo eksterne biblioteke u aplikacije pisane u framework-u. Naravno sve `@Grain` metode mogu kao i klase da imaju `@Condition` anotaciju čiju vrednost proveravamo takođe u ovom koraku.
+  Pored klasa, i metode zrna mogu biti anotirane `@Grain` anotacijom. To označava da je ta metoda zapravo *factory* metoda koja definiše novu zavisnost koju možemo umetnuti, kao i bilo koju drugu klasu, odnosno komponentu. Ovo je idealan način da integrišemo eksterne biblioteke u aplikacije pisane u frejmvorku. Naravno, sve `@Grain` metode mogu, kao i klase, da imaju `@Condition` anotaciju čiju vrednost proveravamo takođe u ovom koraku.
 
 3. Dodavanje `Injectable`-a u kontejner.
 
-  `DependencyContainer` je zapravio prioritetni red koje je definisan tako da prilikom iteracije kroz njega prvo vraća zavisnosti koje imaju manje direktnih drugih zavisnosti. Na ova način optimizujemo inicijalizaciju i sprečavamo backtracking u tom procesu. `Injectable` klasa razrešava svoje zavisnosti tako što od sopstvenih polja kreira `InejctableReference` objekte koje možemo da tretiramo, za sada, kao "potencijalne objekte". Njihovo razrešenje na realne instance desiće se kasnije ali za sada su nam potrebni samo da imamo informaciju o tome koliko zavisnsoti koja klasa ima.
+  `DependencyContainer` je zapravio prioritetni red (eng. *priority queue*) koji je definisan tako da prilikom iteracije kroz njega prvo vraća zavisnosti koje imaju manje direktnih drugih zavisnosti. Na ovaj način optimizujemo inicijalizaciju i sprečavamo *backtracking* u tom procesu. `Injectable` klasa razrešava svoje zavisnosti tako što od sopstvenih polja kreira `InejctableReference` objekte koje možemo da tretiramo, za sada, kao "potencijalne objekte". Njihovo razrešenje na realne instance desiće se kasnije, ali za sada su nam potrebni samo da imamo informaciju o tome koliko zavisnosti koja klasa ima.
 
 4. Provera cirkularnih zavisnosti
 
-  Pre nego što krenemo sa inicijalizacijom i umetanjem moramo da proverimo da li je neke od naših zavisnosti kreiraju zatvoreni graf. U ovom slučaju ne možemo ostvariti validnu inicijalizaciju. Rešenje ovog problema je prebacivanje neke zavisnosti iz inicijalizacije preko konstruktora u inicijalizaciju preko polja anotacijom `@Inject`. Inicijalizacija preko polja se dešava kasnije u odnosu na inicijalizaciju preko konstruktora i time se može razrešiti cirkularna zavisnost.
+  Pre nego što krenemo sa inicijalizacijom i umetanjem, moramo da proverimo da li neke od naših zavisnosti kreiraju zatvoreni graf. U slučaju da se to desi, ne možemo ostvariti validnu inicijalizaciju. Rešenje ovog problema je prebacivanje neke zavisnosti iz inicijalizacije preko konstruktora u inicijalizaciju preko polja anotacijom `@Inject`. Inicijalizacija preko polja se dešava kasnije u odnosu na inicijalizaciju preko konstruktora i time se može razrešiti cirkularna zavisnost.
 
 5. Inicijalizacija komponente
 
-  U ovom koraku se kreira instanca komponente na osnovu njenog konstruktora. Imaju prioritet zavisnsoti koje imaju manje drugih zavisnosti. 
+  U ovom koraku se kreira instanca komponente na osnovu njenog konstruktora. Zavisnosti sa najmanje drugih zavisnosti imaju prioritet.
 
-  5.1. Prvi korak je kreiranje instance ove klase. Za ovo je potrebno mapiranje parametara konstruktora na inicijalizovane objekte. Zbog inicijalne provere da li je postoje cirkularne zavisnosti - ovo mapiranje će uvek uspeti. Ukoliko je klasa interfejs kreira se proxy intanca koja ima delegate ka *default* metodama tog interfejsa. 
+  1. Prvi korak je kreiranje instance ove klase. Za ovo je potrebno mapiranje parametara konstruktora na inicijalizovane objekte. Zbog inicijalne provere da li je postoje cirkularne zavisnosti - ovo mapiranje će uvek uspeti. Ukoliko je klasa interfejs kreira se *proxy* intanca koja ima delegate ka *default* metodama tog interfejsa. 
 
-  5.2. Pozivaju se sve `@Grain` metode novonastale instance. Rezultujuci objekti se registruju u `DependencyContainer`-u.
+  2. Pozivaju se sve `@Grain` metode novonastale instance. Rezultujuci objekti se registruju u `DependencyContainer`-u.
 
-  5.3. Setuju se sva `@Inejct` polja
+  3. Setuju se sva `@Inject` polja
 
 6. Popunjavaju se sva polja anotirana sa `@Value`
 
 7. Pozivaju se metode životnog ciklusa (eng. *lifecycle*). Ovo su za sada samo metode anotirane sa `@AfterInit`. U ovim metodama svi parametri su razrešeni na komponente.
 
 
-Nakon svih ovih koraka `DependencyContainer` će imati sve inicijalizovane zavisnosti.
+Nakon svih ovih koraka sve zavisnosti u `DependencyContainer`-u će biti inicijalizovane.
 
 Primer jedne komponente je klasa koja omogućava integraciju sa Hibernate ORM:
 
@@ -1277,7 +1278,7 @@ public class HibernateConfiguration {
 }
 ```
 
-I upotreba definisane zavisnosnosti u komponenti:
+I upotreba definisane zavisnosti u komponenti:
 
 ```java
 @Grain
@@ -1291,7 +1292,7 @@ public class UserRepository extends BaseRepository<User> {
 
 U ovom slučaju `SessionFactory` je umetnut kroz konstruktor klase `MovieRepository`.
 
-Umetanje zavisnosti nije samo mehanizam koji radni okvir pruža developeru već i mehanizam koji je i u srži njega samog. Navešćemo primer autentikacionog servisa:
+Umetanje zavisnosti nije samo mehanizam koji radni okvir pruža programeru, već i mehanizam koji je i u srži samog radnog okvira. Navešćemo primer autentikacionog servisa:
 
 ```java
 @Grain
@@ -1310,35 +1311,35 @@ public class FormLoginAuthenticationEntryPoint implements AuthenticationEntryPoi
 }
 ```
 
-Ovde vidimo da `FormLoginAuthenticationEntryPoint` ima par definisanih zavisnosti koje su umetnute od strane radnog okvira. Ovo je podrazumevana implementacija `AuthenticationEntryPoint` interfejsa i može biti promenjena od strane korisnika definisanjem komponente koja implementira isti. Sistem za umetanje zavisnosti će prioritizirati komponente definisane van paketa radnog okvira. Ovo je dobar uvod naše sledeće poglavlje koje se bavi autentikacijom i autorizacijom.
+Ovde vidimo da `FormLoginAuthenticationEntryPoint` ima par definisanih zavisnosti koje su umetnute od strane radnog okvira. Ovo je podrazumevana implementacija `AuthenticationEntryPoint` interfejsa i može biti promenjena od strane korisnika definisanjem komponente koja implementira isti. Sistem za umetanje zavisnosti će prioritizirati komponente definisane van paketa radnog okvira. Ovo je dobar uvod u naše sledeće poglavlje koje se bavi autentikacijom i autorizacijom.
 
 # Autentikacija i autorizacija
 
 Jedna od često važnih funkcionalnosti koje radni okvir treba da pruža su mehanizmi za autentikaciju i autorizaciju. Kao što smo već govorili autentikacija je proces identifikacije korisnika na sistemu a autorizacija proces određivanja njegovih privilegija odnosno radnji koje može da uradi.
 
-U Grain radnom okviru autentikacija i autorizacija (zvaćemo ih na dalje objedinjenim terminom - *security*) su implementirani koristeći sesiju identifikovanu kolačićem korisnika.
+U *Grain* radnom okviru autentikacija i autorizacija (na dalje ćemo ih zvati objedinjenim terminom - *security*) su implementirani koristeći sesiju identifikovanu kolačićem korisnika.
 
 ## Autentikacija
 
-U Grain radnom okviru autentikacija je implementirana kroz `AuthenticationEntryPoint` interfejs. Ovaj interfejs ima jednu metodu `authenticate` koja prima `HttpRequest` i `HttpResponse` objekte i vraća `Authentication` objekat. Podrazumevana implementacija je `FormLoginAuthenticationEntryPoint` i kao što joj ime kaže ona prima `POST` zahtev iz HTML forme koji koristi za autentikaciju. Ovaj interfejs je korisniku izložen kroz `FormLoginAuthenticationEntryPointController` koji sadrži `/login` endpoint.
+U *Grain* radnom okviru autentikacija je implementirana kroz `AuthenticationEntryPoint` interfejs. Ovaj interfejs ima jednu metodu `authenticate` koja prima `HttpRequest` i `HttpResponse` objekte i vraća `Authentication` objekat. Podrazumevana implementacija je `FormLoginAuthenticationEntryPoint`, i kao što joj ime kaže, ona prima `POST` zahtev iz HTML forme koji koristi za autentikaciju. Ovaj interfejs je korisniku izložen kroz `FormLoginAuthenticationEntryPointController` koji sadrži `/login` endpoint.
 
 ![Sekvencijalni dijagram autentikacije](./assets/authentication.png)
 <div align="center">
   Sl. 8 - <i>Sekvencijalni dijagram autentikacije</i>
 </div>
 
-Na dijagramu je prikazan "happy path" autentikacionog procesa. Kontroler prihvata zahtev i prosleđuje parsirane `HttpRequest` i `HttpResponse` objekte ka `AutnenticationEntryPoint` objektu. On dalje ima obrađuje zahtev tako što izvlači kredencijale korisnika i proverava ih koristeći `PasswordEncoder` i `UserService`. Između ostalog osim provere kredencijala postoji provera da li je korisnički nalog isključen, da li su mu istekli kredencijali itd. Nakon uspešne provere validnosti autentikacije kreira se sesija u `SessionStore` objektu i autentikacioni objekat se vraća nazad do `AuthenticationEntryPoint`-a gde se čuva u `SecurityContextHolder`-u.
+Na dijagramu je prikazan *"happy path"* autentikacionog procesa. Kontroler prihvata zahtev i prosleđuje parsirane `HttpRequest` i `HttpResponse` objekte ka `AutnenticationEntryPoint` objektu. On dalje obrađuje zahtev tako što izvlači kredencijale korisnika i proverava ih koristeći `PasswordEncoder` i `UserService`. Između ostalog, pored provere kredencijala postoji provere: da li je korisnički nalog isključen, da li su mu istekli kredencijali itd. Nakon uspešne provere validnosti autentikacije kreira se sesija u `SessionStore` objektu i autentikacioni objekat se vraća nazad do `AuthenticationEntryPoint`-a gde se čuva u `SecurityContextHolder`-u.
 
 ### Autorizacija
 
-Proces autorizacije je malo jednostavniji od autentikacije. Prilikom svakog zahteva proverava se sesija i na osnovu nje ubacuje sačuvani autentikacioni objekat u `SecurityContextHolder`. Za ovo je zadužen `HttpRequestAuthenticationProviderStrategy` koji naravno ima podrazumevanu implementaciju koja to radi na osnovu kolačića.
+Proces autorizacije je malo jednostavniji od autentikacije. Prilikom svakog zahteva proverava se sesija i na osnovu nje se ubacuje sačuvani autentikacioni objekat u `SecurityContextHolder`. Za ovo je zadužen `HttpRequestAuthenticationProviderStrategy`, koji naravno ima podrazumevanu implementaciju koja to radi na osnovu kolačića.
 
 ![Sekvencijalni dijagram autorizacije](./assets/authorization.png)
 <div align="center">
   Sl. 9 - <i>Sekvencijalni dijagram autorizacije</i>
 </div>
 
-Kao što smo pomenuli autentikacija koja se koristi za proveru privilegija korisnika se čuva u `SecurityContextHolder` objektu. Sada ćemo objasniti šta to znači. Identifikovati korisnika na sistemu je jedan proces dok je autorizacija nešto sasvim drugo. Osnovna razlika u tome je što je autorizacije proces koji duže traje. Autorizacija korisnika na sistemu mora da bude aktivna i sve dok traje trenutni zahtev koji se obrađuje i nikako ni jedan drugi zahtev ne sme da utiče na njenu validnost. Ovaj veliki problem je rešen relativno lako po uzoru na Spring Security biblioteku. Pomenuli smo ranije da je svaki zahtev u sistemu obrađen na odvojenoj niti da bi se omogućilo obrađivanje puno zahteva odjednom. Ovo nam trenutno umnogome olakšava posao. Sve što je potrebno uraditi na početku svakog zahteva je sačuvati autentikacioni objekat u `ThreadLocal` promenljivu. `ThreadLocal` je java mehanizam koji vrednosti sačuvane u njemu čuva na nivou niti koja se trenutno izvršava. Ovo u prevodu znači da će svaki autorizovani zahtev imati jedinstveno mesto čuvanja autentikacionog objekta i neće dolaziti do potencijalnih problema sinhronizacije niti i potencijalnih bagova vezanih za iste.
+Kao što smo pomenuli, autentikacija koja se koristi za proveru privilegija korisnika se čuva u `SecurityContextHolder` objektu. Sada ćemo objasniti šta to znači. Identifikovati korisnika na sistemu je jedan proces dok je autorizacija nešto sasvim drugo. Osnovna razlika u tome je što je autorizacije proces koji duže traje. Autorizacija korisnika na sistemu mora da bude aktivna i sve dok traje trenutni zahtev koji se obrađuje i nikako ni jedan drugi zahtev ne sme da utiče na njenu validnost. Ovaj veliki problem je rešen relativno lako po uzoru na Spring Security biblioteku. Pomenuli smo ranije da je svaki zahtev u sistemu obrađen na odvojenoj niti da bi se omogućilo obrađivanje puno zahteva odjednom. Ovo nam trenutno umnogome olakšava posao. Sve što je potrebno uraditi na početku svakog zahteva je sačuvati autentikacioni objekat u `ThreadLocal` promenljivu. `ThreadLocal` je java mehanizam koji vrednosti sačuvane u njemu čuva na nivou niti koja se trenutno izvršava. Ovo u prevodu znači da će svaki autorizovani zahtev imati jedinstveno mesto čuvanja autentikacionog objekta i neće dolaziti do potencijalnih problema sinhronizacije niti i potencijalnih bagova vezanih za iste.
 
 ```java
 class ThreadLocalSecurityContextHolderStrategy implements SecurityContextHolderStrategy {
@@ -1441,9 +1442,9 @@ Pre nego što možemo da objasnimo dati kod počećemo sa jednostavnijim primeri
 
 ### Programski jezik
 
-Programski jezik možemo podeliti u sve komponente: sintaksa(forma) i semantika(značenje). Sintaksa je skup pravila po kojima se programski jezik sastoji. Semantika je skup pravila po kojima se programski jezik interpretira. Ove dve komponente su definisane specifikacijom po kojoj su kompajleri i interpreteri implementirani.
+Programski jezik možemo podeliti u sve komponente: sintaksa(forma) i semantika(značenje). Sintaksa je skup pravila po kojima se programski jezik sastoji. Semantika je skup pravila po kojima se programski jezik interpretira. Ove dve komponente su definisane specifikacijom po kojoj su kompajleri i interpretatori implementirani.
 
-Kada smo već pomenuli kompajlere i interpretere naglasićemo da se jezici dele u dve grupe na osnovu toga da li su interpretirani ili kompajlirani. Kompajlirani jezici se prevode iz jezika visokog nivoa u mašinski jezik koji se izvršava direktno na mašini na kojoj se pokreću. Interpretirani jezici se kao što im ime kaže interpretiraju, odnosno različite semantičke konstrukcije pozivaju metode interpretera koji  kasnije izvršava kod na mašini.
+Kada smo već pomenuli kompajlere i interpretatore naglasićemo da se jezici dele u dve grupe na osnovu toga da li su interpretirani ili kompajlirani. Kompajlirani jezici se prevode iz jezika visokog nivoa u mašinski jezik koji se izvršava direktno na mašini na kojoj se pokreću. Interpretirani jezici se kao što im ime kaže interpretiraju, odnosno različite semantičke konstrukcije pozivaju metode interpretatora koji  kasnije izvršava kod na mašini.
 
 Naravno jezici se mogu deliti na statički i dinamički tipizirane. Ova podela nastaje usled prisustva ili odsustva striktnih tipova kada su u pitanju promenljive. Ovaj koncept je semantički i implementiran je direktno u kompajleru ili interperteru.
 
@@ -1453,7 +1454,7 @@ Dakle možemo zaključiti da se programski jezik sastoji iz skupa pravila i prog
 
 ### Templating programski jezik
 
-Osobine koje templating programski jezik treba da ima jesu one koje mu omogućavaju da bude fleksibilan za korišćenje i jednostavan za interpretiranje. Takođe je od veoma velike pomoći da sintaksa jezika nije u preterano velikom konfliktu sa HTML kodom koji će se neminovno naći u datotekama gde će se pisati taj jezik. Najbolji primer ovoga je verovatno **Thymeleaf** koji se nesmetano piše kao deo HTML-a i potpuno je neprimetan. Kontrast toga je naravno **JSP** koji se trudi da bude što je više moguće nalik Javi. Naravno mnogo je jednostavnije implementirati interpreter koji interpretira JSP nego Thymeleaf tako da smo se mi odlučili za jezik koji ima sintaksu nalik na JSP.
+Osobine koje templating programski jezik treba da ima jesu one koje mu omogućavaju da bude fleksibilan za korišćenje i jednostavan za interpretiranje. Takođe je od veoma velike pomoći da sintaksa jezika nije u preterano velikom konfliktu sa HTML kodom koji će se neminovno naći u datotekama gde će se pisati taj jezik. Najbolji primer ovoga je verovatno **Thymeleaf** koji se nesmetano piše kao deo HTML-a i potpuno je neprimetan. Kontrast toga je naravno **JSP** koji se trudi da bude što je više moguće nalik Javi. Naravno mnogo je jednostavnije implementirati interpretator koji interpretira JSP nego Thymeleaf tako da smo se mi odlučili za jezik koji ima sintaksu nalik na JSP.
 
 ### GTL
 
@@ -1717,7 +1718,7 @@ Uspešnim parsiranjem svih tokena dobijamo AST koje može biti interpretirano od
 
 ### Interpreter
 
-Interpreter je u našem slučaju klasa koja izvršava interpretaciju AST stabla. Interpreter je implementiran kao *visitor* koji obilazi AST stablo i izvršava odgovarajuće akcije. Interpreter kao *visitor* poziva `run` metode AST čvorova i evaluira njihove vrednosti. 
+Interpretator je u našem slučaju klasa koja izvršava interpretaciju AST stabla. Interpretator je implementiran kao *visitor* koji obilazi AST stablo i izvršava odgovarajuće akcije. Interpretator kao *visitor* poziva `run` metode AST čvorova i evaluira njihove vrednosti. 
 
 Primer `run` metode `AstBooleanNode`-a:
 
@@ -1751,7 +1752,7 @@ public Object run(Interpreter interpreter) {
 }
 ```
 
-Evaluiranjem svih čvorova dobijamo vrednost koja se može koristiti u daljem toku izvršavanja programa. Interpreter u toku izvršavanja čuva informaciju o trenutnom *scope*-u izvršavanja. Kod izvršavanja `if` čvora možemo videti kako se *scope* *pop*-uje i *push*-uje na *stack*:
+Evaluiranjem svih čvorova dobijamo vrednost koja se može koristiti u daljem toku izvršavanja programa. Interpretator u toku izvršavanja čuva informaciju o trenutnom *scope*-u izvršavanja. Kod izvršavanja `if` čvora možemo videti kako se *scope* *pop*-uje i *push*-uje na *stack*:
 
 ```java
 @Override

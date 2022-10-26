@@ -1,3 +1,25 @@
+---
+title: ""
+author: ""
+date: October 22, 2022
+geometry: "left=1in,right=1in,top=1in,bottom=1in"
+output: pdf_document
+monofont: Fira Code
+toc: true
+toc-title: Sadržaj
+header-includes:
+ - \usepackage{fvextra}
+ - \usepackage{listings}
+ - \lstset{breaklines=true, breakatwhitespace=false, linewidth=\textwidth}
+ - \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,breakanywhere,breaksymbol=,breakanywheresymbolpre=,commandchars=\\\{\}}
+ - \usepackage{float}
+ - \makeatletter
+ - \def\fps@figure{H} 
+ - \makeatother
+ - \usepackage{caption}
+ - \captionsetup[figure]{ name=, labelsep=none, labelformat=empty}
+---
+
 # Uvod
 
 U ovom radu bavićemo se kreiranjem veb radnog okvira za *Java* programski jezik pod nazivom *Grain*. Pored kreiranja samog radnog okvira, cilj rada je istraživanje osnovnih i nekih od naprednijih koncepata koji čine svaki radni okvir i samim tim veb aplikacije. Istražićemo razne odluke koje nastaju prilikom dizajniranja različitih naprednih funkcionalnosti, kao što su *sistem za umetanje zavisnosti* (eng. *dependency injection*) ili *templejting jezik* (eng. *templating lanaguage*) za kreiranje dinamičkih stranica generisnanih na serveru (eng. *server-side renderer*). Sam radni okvir biće po svojoj strukturi i funkciji nalik na *Spring* radni okvir, koji mu je i bio inspiracija.
@@ -37,9 +59,6 @@ Dakle, s obzirom na to da ustanovili smo šta predstavlja radni okvir - neizosta
 U ovom delu pričaćemo o nekim od popularnijih Java biblioteka i radnih okvira i videćemo koliko se procentualno koriste na projektima gde je upravo *Java* glavna tehnologija. Referenciraćemo *Perforce*-ov *2021 Java Developer Productivity Report*, gde možemo naći pregršt različitih informacija o *Java* ekosistemu.
 
 ![Procenat zastupljenosti radnih okvira](./assets/2021_java_framework_percentage.png)
-<div align="center">
-Sl. 1 - <i>Procenat zastupljenosti radnih okvira</i>
-</div>
 
 Kao što možemo da vidimo, *Spring Boot* ubedljivo zauzima prvo mesto po popularnosti među radnim okvirima na *Java *projektima. *Spring Boot*, doduše, beleži pad sa 83% koje beleži prošle godine. Na trećem mestu sa tek 9% se nalazi *Micronaut*, koji je kao i četvrtoplasirani *Quarkus* (6%) doživeo pomak sa svojih 1% koje je imao prethodne godine (2020).
 
@@ -74,9 +93,6 @@ HTTP ili *hyper-text transfer protocol* je najkorišćeniji protokol za razmenu 
 HTTP je protokol u aplikativnom sloju i osnova komunikacije na *World Wide Web*-u. Ovaj protokol funkcioniše kao zahtev-odgovor protokol između klijenta i servera. Klijentska aplikacija kreira zahtev ka serveru. Server nakon obrade podataka vraća odgovor klijentu, koji može da sadrži različite informacije u svom zaglavlju (eng. *headers*) i zahtevani resurs u telu (eng. *body*). Komunikacija između servera i klijenta se ostvaruje pomoću TCP transportnog protokola. U osnovi TCP protokola se nalazi *three-way-handshake* koji osigurava da su podaci isporučeni (za razliku od UDP-a). 
 
 ![Dijagram TCP-a](./assets/tcp_states_connect.jpg)
-<div align="center">
-Sl. 2 - <i>Dijagram TCP-a</i>
-</div>
 
 Kao što vidimo, komunikacija se ostvaruje u tri koraka:
 
@@ -397,9 +413,6 @@ Na primer, kada korisnik pristupa nekoj stranici na sajtu on može da bude ulogo
 Konkretan primer autorizacije bi bila neka veb strana - na primer internet prodavnica. Anonimni korisnik može da gleda proizvode i isključivo to. Ulogovani korisnik pored svakog proizvoda može imati opciju da naruči taj proizvod ili isti doda u korpu. Pored svega toga, ulogovani korisnik, koji je ujedno i menadžer ili administrator te prodavnice, će pored svakog proizvoda imati dugme *izmeni* i/ili link ka administracionoj strani.
 
 ![Uloge korisnika i pristup](./assets/roles.png)
-<div align="center">
-Sl. 3 - <i>Uloge korisnika i pristup</i>
-</div>
 
 Suma sumarum, autentikacija je proces potvrđivanja identiteta korisnika na sistemu, dok je autorizacija proces određivanja nivoa pristupa korisnika na sistemu.
 
@@ -441,9 +454,6 @@ class UserService:
 U ovom slučaju klasa **UserService** zavisi od **UserRepository** i **RoleService**. Ove zavisnosti se rešavaju tako što se u konstruktoru klase **UserService** prosleđuju objekti koji implementiraju interfejse **UserRepository** i **RoleService**. Kasnije možemo koristiti klasu UserService bez prethodnog znanja o tome da li i kako možemo kreirati objekte klasa/interfejsa UserRepository i RoleService. Na ovaj način se postiže inverzija kontrole - frejmvork je umesto nas, programera, zadužen za kreiranje objekata.
 
 ![Dijagram umetanja zavisnosti](./assets/di.png)
-<div align="center">
-Sl. 4 - <i>Dijagram umetanja zavisnosti</i>
-</div>
 
 Na slici vidimo dijagram umetanja zavisnosti. Klasa **Client** ima jednu zavisnost definisanu preko interfejsa **Interface**. U sistemu prikazanom na dijagramu postioje dve klase koje implementiraju dati interfejs. **Injector** u toku izvršenja (eng. *runtime*) može da odabere koja će implementacija zapravo biti korišćena za kreiranje objekta **Client**.
 
@@ -452,9 +462,6 @@ DI umnogome rešava problem kreiranja objekata, ali pri rešavanju tog problema 
 ### Cirkularna zavisnost
 
 ![Cirkularna zavisnost](./assets/circular-di.png)
-<div align="center">
-Sl. 5 - <i>Cirkularna zavisnost</i>
-</div>
 
 U situaciji opisanoj dijagramom nastaje problem gde će *injector*, ukoliko pokuša da kreira objekat **Client 1** morati prvo da kreira objekat **Client 2**, a usled toga i **Client 3**. Kada se kreira objekat **Client 3** on će pokušati da kreira objekat **Client 1**. Ovo će se ponavljati u beskonačnost. Rešavanje ovog problema zahteva ili reorganizaciju zavisnosti ili umetanje kroz neki drugi mehanizam koji dozvoljava instanciranje objekata.
 
@@ -483,9 +490,6 @@ Za aplikaciju smo odabrali MVC arhitekturu/šablon zbog njegove popularnosti i j
 * **Controller** - predstavlja logiku aplikacije
 
 ![MVC arhitektura](./assets/mvc.jpg)
-<div align="center">
-Sl. 6 - <i>MVC arhitektura</i>
-</div>
 
 MVC arhitektura se trudi da odvoji logiku aplikacije od prikaza podataka. Ovo omogućava da se aplikacija lakše razvija i održava. Moderni MVC radni okviri prate ovaj šablon i time omogućavaju developerima da pišu čist i struktuiran kod. Ovo im pomaže da beneficiraju od svih nivoa modularnosti.
 
@@ -954,9 +958,6 @@ Po završetku ovih koraka imamo kreiran HTTP server koji je spreman da sluša za
 ### Klasni dijagram toka HTTP zahteva
 
 ![Tok HTTP zahteva](./assets/RequestHandlerRunnable.png)
-<div align="center">
-Sl. 7 - <i>Tok HTTP zahteva</i>
-</div>
 
 Na dijagramu vidimo sve klase koje su relevantne za tok jednog HTTP zahteva u Grain radnom okviru. Redom ćemo objasniti koje klase imaju koji svrhu i šta se dešava sa HTTP zahtevom kada on pristigne u aplikaciju.
 
@@ -1324,9 +1325,6 @@ U *Grain* radnom okviru autentikacija i autorizacija (na dalje ćemo ih zvati ob
 U *Grain* radnom okviru autentikacija je implementirana kroz `AuthenticationEntryPoint` interfejs. Ovaj interfejs ima jednu metodu `authenticate` koja prima `HttpRequest` i `HttpResponse` objekte i vraća `Authentication` objekat. Podrazumevana implementacija je `FormLoginAuthenticationEntryPoint`, i kao što joj ime kaže, ona prima `POST` zahtev iz HTML forme koji koristi za autentikaciju. Ovaj interfejs je korisniku izložen kroz `FormLoginAuthenticationEntryPointController` koji sadrži `/login` endpoint.
 
 ![Sekvencijalni dijagram autentikacije](./assets/authentication.png)
-<div align="center">
-  Sl. 8 - <i>Sekvencijalni dijagram autentikacije</i>
-</div>
 
 Na dijagramu je prikazan *"happy path"* autentikacionog procesa. Kontroler prihvata zahtev i prosleđuje parsirane `HttpRequest` i `HttpResponse` objekte ka `AutnenticationEntryPoint` objektu. On dalje obrađuje zahtev tako što izvlači kredencijale korisnika i proverava ih koristeći `PasswordEncoder` i `UserService`. Između ostalog, pored provere kredencijala postoji provere: da li je korisnički nalog isključen, da li su mu istekli kredencijali itd. Nakon uspešne provere validnosti autentikacije kreira se sesija u `SessionStore` objektu i autentikacioni objekat se vraća nazad do `AuthenticationEntryPoint`-a gde se čuva u `SecurityContextHolder`-u.
 
@@ -1335,9 +1333,6 @@ Na dijagramu je prikazan *"happy path"* autentikacionog procesa. Kontroler prihv
 Proces autorizacije je malo jednostavniji od autentikacije. Prilikom svakog zahteva proverava se sesija i na osnovu nje se ubacuje sačuvani autentikacioni objekat u `SecurityContextHolder`. Za ovo je zadužen `HttpRequestAuthenticationProviderStrategy`, koji naravno ima podrazumevanu implementaciju koja to radi na osnovu kolačića.
 
 ![Sekvencijalni dijagram autorizacije](./assets/authorization.png)
-<div align="center">
-  Sl. 9 - <i>Sekvencijalni dijagram autorizacije</i>
-</div>
 
 Kao što smo pomenuli, autentikacija koja se koristi za proveru privilegija korisnika se čuva u `SecurityContextHolder` objektu. Sada ćemo objasniti šta to znači. Identifikovati korisnika na sistemu je jedan proces dok je autorizacija nešto sasvim drugo. Osnovna razlika u tome je što je autorizacije proces koji duže traje. Autorizacija korisnika na sistemu mora da bude aktivna i sve dok traje trenutni zahtev koji se obrađuje i nikako ni jedan drugi zahtev ne sme da utiče na njenu validnost. Ovaj veliki problem je rešen relativno lako po uzoru na Spring Security biblioteku. Pomenuli smo ranije da je svaki zahtev u sistemu obrađen na odvojenoj niti da bi se omogućilo obrađivanje puno zahteva odjednom. Ovo nam trenutno umnogome olakšava posao. Sve što je potrebno uraditi na početku svakog zahteva je sačuvati autentikacioni objekat u `ThreadLocal` promenljivu. `ThreadLocal` je java mehanizam koji vrednosti sačuvane u njemu čuva na nivou niti koja se trenutno izvršava. Ovo u prevodu znači da će svaki autorizovani zahtev imati jedinstveno mesto čuvanja autentikacionog objekta i neće dolaziti do potencijalnih problema sinhronizacije niti i potencijalnih bagova vezanih za iste.
 
@@ -1906,9 +1901,6 @@ Aplikacija će biti dostupna na sledećem URL-u (ukoliko nije ugašen server): [
 Na početnoj strani će biti prikazani svi trenutno aktivni filmovi zajedno sa svojim projekcijama.
 
 ![Početna strana](./assets/app/index.png)
-<div align="center">
-    Sl 10. - <i>Početna strana</i>
-</div>
 
 Kao što vidimo korisnik ima listu filmova i ispod njih listu projekcija.
 
@@ -2142,9 +2134,6 @@ Na vrhu strane vidimo importovanje GTL fragmenata koje koristimo u samoj strani.
 Na strani za rezervacije vidimo interfejs gde ulogovani korisnik može da vidi zauzeta mesta, slobodna mesta i mesta koja je on rezervisao različitim bojama.
 
 ![Rezervacija](./assets/app/seats.png)
-<div align="center">
-    Sl. 11 - <i>Rezervacija</i>
-</div>
 
 Klikom na slobodno mesto, korisnik može da rezerviše mesto.
 
@@ -2279,14 +2268,8 @@ Ovde vidimo implementaciju endpoint-a koji vraća broj slobodnih mesta za datu p
 Administracija filmova omogućava dodavanje novih filmova, izmenu postojećih i brisanje filmova. Ova strana je dostupna samo administratorima odnosno korisnicima sa `ADMIN` rolom.
 
 ![Admin - Pregled filmova](./assets/app/movies.png)
-<div align="center">
-    Sl. 12 - <i>Admin - Pregled filmova</i>
-</div>
 
 ![Admin - Izmena filma](./assets/app/movie.png)
-<div align="center">
-    Sl. 12 - <i>Admin - Izmena filma</i>
-</div>
 
 Videli smo princip implementacije kontrolera i strana u Grain radnom okviru tako da nećemo ponavljati kod za svaku od strana. Doduše, ono što je sada idealan trenutak za pokazati, kada već pričamo o rolama, jeste *security* konfiguracija:
 

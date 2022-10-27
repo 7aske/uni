@@ -2346,3 +2346,7 @@ U ovom radu bavili smo se kreiranjem radnog okvira u programskom jeziku Java. Im
 9. Univerzitet Metropolitan - Fakultet Informacionih Tehnologija, *Literatura iz predmeta IT355 Veb sistemi 2*, Vladimir Milićević
 
 10. Univerzitet Metropolitan - Fakultet Informacionih Tehnologija, *Literatura iz predmeta CS103 Algoritmi i strukture podataka*, Miljan Milošević
+
+11. GitHub.com, 2022, *Grain*, Nikola Tasić [https://github.com/7aske/grain](https://github.com/7aske/grain)
+
+12. GitHub.com, 2022, *Grain Cinema*, Nikola Tasić [https://github.com/7aske/grain-cinema](https://github.com/7aske/grain-cinema)

@@ -58,29 +58,29 @@ Dakle, s obzirom na to da ustanovili smo šta predstavlja radni okvir - neizosta
 
 U ovom delu pričaćemo o nekim od popularnijih Java biblioteka i radnih okvira i videćemo koliko se procentualno koriste na projektima gde je upravo *Java* glavna tehnologija. Referenciraćemo *Perforce*-ov *2021 Java Developer Productivity Report*, gde možemo naći pregršt različitih informacija o *Java* ekosistemu.
 
-![Procenat zastupljenosti radnih okvira](./assets/2021_java_framework_percentage.png)
+![Procenat zastupljenosti radnih okvira - [Perforce - 2021 Java Developer Productivity Report](https://www.jrebel.com/resources/java-developer-productivity-report-2021)[1]](./assets/2021_java_framework_percentage.png)
 
 Kao što možemo da vidimo, *Spring Boot* ubedljivo zauzima prvo mesto po popularnosti među radnim okvirima na *Java *projektima. *Spring Boot*, doduše, beleži pad sa 83% koje beleži prošle godine. Na trećem mestu sa tek 9% se nalazi *Micronaut*, koji je kao i četvrtoplasirani *Quarkus* (6%) doživeo pomak sa svojih 1% koje je imao prethodne godine (2020).
 
 ### Vert.x
 
-*Vert.x* je *open-source*, reaktivni i poliglotski (može biti pisan u bilo kom JVM jeziku) programski *toolkit* koji nam dolazi od *Eclipse*-a. *Vert.x* je modularan, brz i lagan, a dizajniran je za korišćenje u mikroservisnim aplikacijama. Takođe, pored dizajna koji ima mikroservise na umu, *Vert.x* je pogodan za reaktivno programiranje jer se bazira na *event loop*-u poput tehnologije kao što je *Node.js*. 
+*Vert.x* je *open-source*, reaktivni i poliglotski (može biti pisan u bilo kom JVM jeziku) programski *toolkit* koji nam dolazi od *Eclipse*-a. *Vert.x* je modularan, brz i lagan, a dizajniran je za korišćenje u mikroservisnim aplikacijama. Takođe, pored dizajna koji ima mikroservise na umu, *Vert.x* je pogodan za reaktivno programiranje jer se bazira na *event loop*-u poput tehnologije kao što je *Node.js*. (preuzeto sa [https://vertx.io](https://vertx.io))
 
 ### Micronaut
 
-*Micronaut* je, kao što mu i samo ime govori, *micro-framework* koji je dizajniran tako da ne koristi *Java Reflection API* za konfiguraciju, stoga sve njegove funkcionalnosti koje bi inače bile konfigurisane u toku izvršenja se zapravo konfigurišu u toku kompajliranja. Ovo dovodi do znatnog umanjenja zahteva za radnom memorijom, a takođe i smanjuje vreme pokretanja. Ovo je, naravno, idealno za korišćenje u mikroservisnim i *cloud-native* aplikacijama. Takođe, *Micronaut* je *open-source*.
+*Micronaut* je, kao što mu i samo ime govori, *micro-framework* koji je dizajniran tako da ne koristi *Java Reflection API* za konfiguraciju, stoga sve njegove funkcionalnosti koje bi inače bile konfigurisane u toku izvršenja se zapravo konfigurišu u toku kompajliranja. Ovo dovodi do znatnog umanjenja zahteva za radnom memorijom, a takođe i smanjuje vreme pokretanja. Ovo je, naravno, idealno za korišćenje u mikroservisnim i *cloud-native* aplikacijama. Takođe, *Micronaut* je *open-source*. (preuzeto sa [https://micronaut.io](https://micronaut.io))
 
 ### Quarkus
 
-*Quarkus* je *Java* framework prilagođen za *Kubernetes* deployment. Glavne tehnologije koje omogućuju *Quarkus* su *OpenJDK HotSpot* i *GraalVM*. Ideja *Quarkus*-a je da načini *Javu* vodećom platformom u *Kubernetes* i *serverless* okruženjima dok pruža developerima jedinstven imperativni i reaktivni model za optimalno korišćenje u širokom spektru arhitektura.
+*Quarkus* je *Java* framework prilagođen za *Kubernetes* deployment. Glavne tehnologije koje omogućuju *Quarkus* su *OpenJDK HotSpot* i *GraalVM*. Ideja *Quarkus*-a je da načini *Javu* vodećom platformom u *Kubernetes* i *serverless* okruženjima dok pruža developerima jedinstven imperativni i reaktivni model za optimalno korišćenje u širokom spektru arhitektura. (preuzeto sa [https://quarkus.io](https://quarkus.io))
 
 ### DropWizard
 
-*DropWizard* je *open-source* *Java* radni okvir za razvoj visoko performantnih, *ops-friendly*, *RESTful* veb servisa. *DropWizard* sa sobom povlači stabilne i zrele *Java* biblioteke iz *Java* ekosistema u jednostavan, lak paket koji omogućava programerima da se fokusiraju na obavljanje sbog posla.
+*DropWizard* je *open-source* *Java* radni okvir za razvoj visoko performantnih, *ops-friendly*, *RESTful* veb servisa. *DropWizard* sa sobom povlači stabilne i zrele *Java* biblioteke iz *Java* ekosistema u jednostavan, lak paket koji omogućava programerima da se fokusiraju na obavljanje sbog posla. (preuzeto sa [https://www.dropwizard.io](https://www.dropwizard.io))
 
 ### Spring Boot
 
-*Spring Framework* je *open-source* radni okvir i *IoC* (inverzija kontrole - eng. *inversion of control*) kontejner za *Java* platformu. Jedna od glavnih odlika *Spring*-a je da se on može koristiti u bilo kojoj *Java* aplikaciji ali se najčešće koristi za izradu web aplikacija na *Java EE* (*Java Enterprise Edition*) platformi. *Spring*, zajedno sa *Spring Boot*-om, je *de facto* standard za izradu web aplikacija.
+*Spring Framework* je *open-source* radni okvir i *IoC* (inverzija kontrole - eng. *inversion of control*) kontejner za *Java* platformu. Jedna od glavnih odlika *Spring*-a je da se on može koristiti u bilo kojoj *Java* aplikaciji ali se najčešće koristi za izradu web aplikacija na *Java EE* (*Java Enterprise Edition*) platformi. *Spring*, zajedno sa *Spring Boot*-om, je *de facto* standard za izradu web aplikacija. (preuzeto sa [https://spring.io](https://spring.io))
 
 # Teorijska postavka
 
@@ -92,7 +92,7 @@ HTTP ili *hyper-text transfer protocol* je najkorišćeniji protokol za razmenu 
 
 HTTP je protokol u aplikativnom sloju i osnova komunikacije na *World Wide Web*-u. Ovaj protokol funkcioniše kao zahtev-odgovor protokol između klijenta i servera. Klijentska aplikacija kreira zahtev ka serveru. Server nakon obrade podataka vraća odgovor klijentu, koji može da sadrži različite informacije u svom zaglavlju (eng. *headers*) i zahtevani resurs u telu (eng. *body*). Komunikacija između servera i klijenta se ostvaruje pomoću TCP transportnog protokola. U osnovi TCP protokola se nalazi *three-way-handshake* koji osigurava da su podaci isporučeni (za razliku od UDP-a). 
 
-![Dijagram TCP-a](./assets/tcp_states_connect.jpg)
+![Dijagram TCP-a - [blog.confirm.ch/tcp-connection-states](https://blog.confirm.ch/tcp-connection-states) ](./assets/tcp_states_connect.jpg)
 
 Kao što vidimo, komunikacija se ostvaruje u tri koraka:
 
@@ -412,7 +412,7 @@ Na primer, kada korisnik pristupa nekoj stranici na sajtu on može da bude ulogo
 
 Konkretan primer autorizacije bi bila neka veb strana - na primer internet prodavnica. Anonimni korisnik može da gleda proizvode i isključivo to. Ulogovani korisnik pored svakog proizvoda može imati opciju da naruči taj proizvod ili isti doda u korpu. Pored svega toga, ulogovani korisnik, koji je ujedno i menadžer ili administrator te prodavnice, će pored svakog proizvoda imati dugme *izmeni* i/ili link ka administracionoj strani.
 
-![Uloge korisnika i pristup](./assets/roles.png)
+![Uloge korisnika i pristup - [www.toptal.com/firebase/role-based-firebase-authentication](https://www.toptal.com/firebase/role-based-firebase-authentication)](./assets/roles.png)
 
 Suma sumarum, autentikacija je proces potvrđivanja identiteta korisnika na sistemu, dok je autorizacija proces određivanja nivoa pristupa korisnika na sistemu.
 
@@ -489,7 +489,7 @@ Za aplikaciju smo odabrali MVC arhitekturu/šablon zbog njegove popularnosti i j
 
 * **Controller** - predstavlja logiku aplikacije
 
-![MVC arhitektura](./assets/mvc.jpg)
+![MVC arhitektura - [Abhay Redkar - What is MVC architecture?](https://www.youtube.com/watch?v=mtZdybMV4Bw)](./assets/mvc.jpg)
 
 MVC arhitektura se trudi da odvoji logiku aplikacije od prikaza podataka. Ovo omogućava da se aplikacija lakše razvija i održava. Moderni MVC radni okviri prate ovaj šablon i time omogućavaju developerima da pišu čist i struktuiran kod. Ovo im pomaže da beneficiraju od svih nivoa modularnosti.
 

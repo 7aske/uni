@@ -12,3 +12,8 @@ doc: body.md
 		-o body.pdf \
 		body.md
 	pdftk first.pdf body.pdf cat output $(out)
+
+presentation: presentation.md
+	pandoc -t beamer presentation.md -o presentation.pdf
+	pandoc -t beamer presentation.md -w pptx -o presentation.pptx
+

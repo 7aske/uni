@@ -105,4 +105,8 @@ Repository with home assignments, projects and other university related stuff.
   * [evaluation](https://github.com/7aske/uni/tree/master/se490/se490-evaluacija_performanse_studenta-nikola_tasic_3698.pdf)
   * [journal](https://github.com/7aske/uni/tree/master/se490/se490-dnevnik_strucne_prakse-nikola_tasic_3698.pdf)
 - [SE495](https://github.com/7aske/uni/tree/master/se495) - Thesis
-  * [P11 F01](https://github.com/7aske/uni/tree/master/se495/P11_F01-Izrada-zavrsnog-rada-OAS-NikolaTasic_3698_SI.pdf)
+  * [subject](https://github.com/7aske/uni/tree/master/se495/P11_F01-Izrada-zavrsnog-rada-OAS-NikolaTasic_3698_SI.pdf)
+  * [thesis](https://github.com/7aske/uni/blob/master/se495/se495-zavrsni_rad-nikola_tasic_3698.pdf)
+  * [pres](https://github.com/7aske/uni/blob/master/se495/presentation.pdf)
+  * [project](https://github.com/7aske/grain)
+  * [demo](https://github.com/7aske/grain-cinema)
